@@ -1,0 +1,52 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum Role {
+  super_admin
+  pengguna
+  admin_petugas_layanan
+  kepala_balai
+  unit_teknis
+  petugas_pengaduan
+}
+
+enum StatusAkun {
+  active
+  inactive
+  suspended
+}
+
+model User {
+  id             Int         @id @default(autoincrement())
+  email          String?     @unique
+  password       String
+  nama           String
+  nip            String?     @unique
+  no_hp          String?
+  role           Role        @default(pengguna)
+  status_akun    StatusAkun  @default(active)
+  must_change_password Boolean @default(true)
+  unit_teknis_id Int?
+  unit_teknis    UnitTeknis? @relation(fields: [unit_teknis_id], references: [id])
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@map("users")
+}
+
+model UnitTeknis {
+  id        Int      @id @default(autoincrement())
+  nama      String
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("unit_teknis")
+}
