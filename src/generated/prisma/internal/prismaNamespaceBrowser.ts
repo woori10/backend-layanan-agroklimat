@@ -52,7 +52,15 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  UnitTeknis: 'UnitTeknis'
+  UnitTeknis: 'UnitTeknis',
+  Layanan: 'Layanan',
+  Tiket: 'Tiket',
+  Dokumen: 'Dokumen',
+  Tagihan: 'Tagihan',
+  Notifikasi: 'Notifikasi',
+  SKM: 'SKM',
+  Pengaduan: 'Pengaduan',
+  AuditLog: 'AuditLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -99,12 +107,136 @@ export const UnitTeknisScalarFieldEnum = {
 export type UnitTeknisScalarFieldEnum = (typeof UnitTeknisScalarFieldEnum)[keyof typeof UnitTeknisScalarFieldEnum]
 
 
+export const LayananScalarFieldEnum = {
+  id: 'id',
+  nama_layanan: 'nama_layanan',
+  kategori: 'kategori',
+  biaya: 'biaya',
+  sla_hari: 'sla_hari',
+  dasar_hukum: 'dasar_hukum',
+  form_schema: 'form_schema',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LayananScalarFieldEnum = (typeof LayananScalarFieldEnum)[keyof typeof LayananScalarFieldEnum]
+
+
+export const TiketScalarFieldEnum = {
+  id: 'id',
+  no_tiket: 'no_tiket',
+  user_id: 'user_id',
+  layanan_id: 'layanan_id',
+  jawaban_form: 'jawaban_form',
+  status: 'status',
+  tanggal_submit: 'tanggal_submit',
+  tanggal_sla: 'tanggal_sla',
+  unit_teknis_id: 'unit_teknis_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TiketScalarFieldEnum = (typeof TiketScalarFieldEnum)[keyof typeof TiketScalarFieldEnum]
+
+
+export const DokumenScalarFieldEnum = {
+  id: 'id',
+  tiket_id: 'tiket_id',
+  nama_file: 'nama_file',
+  tipe: 'tipe',
+  url_storage: 'url_storage',
+  tanggal_upload: 'tanggal_upload'
+} as const
+
+export type DokumenScalarFieldEnum = (typeof DokumenScalarFieldEnum)[keyof typeof DokumenScalarFieldEnum]
+
+
+export const TagihanScalarFieldEnum = {
+  id: 'id',
+  tiket_id: 'tiket_id',
+  jumlah: 'jumlah',
+  status_bayar: 'status_bayar',
+  bukti_bayar: 'bukti_bayar',
+  tanggal_lunas: 'tanggal_lunas',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TagihanScalarFieldEnum = (typeof TagihanScalarFieldEnum)[keyof typeof TagihanScalarFieldEnum]
+
+
+export const NotifikasiScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  tiket_id: 'tiket_id',
+  kanal: 'kanal',
+  pesan: 'pesan',
+  status_kirim: 'status_kirim',
+  timestamp: 'timestamp'
+} as const
+
+export type NotifikasiScalarFieldEnum = (typeof NotifikasiScalarFieldEnum)[keyof typeof NotifikasiScalarFieldEnum]
+
+
+export const SKMScalarFieldEnum = {
+  id: 'id',
+  tiket_id: 'tiket_id',
+  skor: 'skor',
+  komentar: 'komentar',
+  tanggal_isi: 'tanggal_isi'
+} as const
+
+export type SKMScalarFieldEnum = (typeof SKMScalarFieldEnum)[keyof typeof SKMScalarFieldEnum]
+
+
+export const PengaduanScalarFieldEnum = {
+  id: 'id',
+  pelapor_id: 'pelapor_id',
+  tiket_id: 'tiket_id',
+  kanal: 'kanal',
+  isi_pengaduan: 'isi_pengaduan',
+  status: 'status',
+  petugas_id: 'petugas_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PengaduanScalarFieldEnum = (typeof PengaduanScalarFieldEnum)[keyof typeof PengaduanScalarFieldEnum]
+
+
+export const AuditLogScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  tiket_id: 'tiket_id',
+  aksi: 'aksi',
+  detail_perubahan: 'detail_perubahan',
+  timestamp: 'timestamp'
+} as const
+
+export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const NullsOrder = {
@@ -131,4 +263,82 @@ export const UnitTeknisOrderByRelevanceFieldEnum = {
 } as const
 
 export type UnitTeknisOrderByRelevanceFieldEnum = (typeof UnitTeknisOrderByRelevanceFieldEnum)[keyof typeof UnitTeknisOrderByRelevanceFieldEnum]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const LayananOrderByRelevanceFieldEnum = {
+  nama_layanan: 'nama_layanan',
+  kategori: 'kategori',
+  dasar_hukum: 'dasar_hukum'
+} as const
+
+export type LayananOrderByRelevanceFieldEnum = (typeof LayananOrderByRelevanceFieldEnum)[keyof typeof LayananOrderByRelevanceFieldEnum]
+
+
+export const TiketOrderByRelevanceFieldEnum = {
+  no_tiket: 'no_tiket'
+} as const
+
+export type TiketOrderByRelevanceFieldEnum = (typeof TiketOrderByRelevanceFieldEnum)[keyof typeof TiketOrderByRelevanceFieldEnum]
+
+
+export const DokumenOrderByRelevanceFieldEnum = {
+  nama_file: 'nama_file',
+  tipe: 'tipe',
+  url_storage: 'url_storage'
+} as const
+
+export type DokumenOrderByRelevanceFieldEnum = (typeof DokumenOrderByRelevanceFieldEnum)[keyof typeof DokumenOrderByRelevanceFieldEnum]
+
+
+export const TagihanOrderByRelevanceFieldEnum = {
+  bukti_bayar: 'bukti_bayar'
+} as const
+
+export type TagihanOrderByRelevanceFieldEnum = (typeof TagihanOrderByRelevanceFieldEnum)[keyof typeof TagihanOrderByRelevanceFieldEnum]
+
+
+export const NotifikasiOrderByRelevanceFieldEnum = {
+  pesan: 'pesan'
+} as const
+
+export type NotifikasiOrderByRelevanceFieldEnum = (typeof NotifikasiOrderByRelevanceFieldEnum)[keyof typeof NotifikasiOrderByRelevanceFieldEnum]
+
+
+export const SKMOrderByRelevanceFieldEnum = {
+  komentar: 'komentar'
+} as const
+
+export type SKMOrderByRelevanceFieldEnum = (typeof SKMOrderByRelevanceFieldEnum)[keyof typeof SKMOrderByRelevanceFieldEnum]
+
+
+export const PengaduanOrderByRelevanceFieldEnum = {
+  isi_pengaduan: 'isi_pengaduan'
+} as const
+
+export type PengaduanOrderByRelevanceFieldEnum = (typeof PengaduanOrderByRelevanceFieldEnum)[keyof typeof PengaduanOrderByRelevanceFieldEnum]
+
+
+export const AuditLogOrderByRelevanceFieldEnum = {
+  aksi: 'aksi',
+  detail_perubahan: 'detail_perubahan'
+} as const
+
+export type AuditLogOrderByRelevanceFieldEnum = (typeof AuditLogOrderByRelevanceFieldEnum)[keyof typeof AuditLogOrderByRelevanceFieldEnum]
 

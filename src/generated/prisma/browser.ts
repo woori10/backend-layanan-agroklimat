@@ -27,3 +27,43 @@ export type User = Prisma.UserModel
  * 
  */
 export type UnitTeknis = Prisma.UnitTeknisModel
+/**
+ * Model Layanan
+ * 
+ */
+export type Layanan = Prisma.LayananModel
+/**
+ * Model Tiket
+ * 
+ */
+export type Tiket = Prisma.TiketModel
+/**
+ * Model Dokumen
+ * 
+ */
+export type Dokumen = Prisma.DokumenModel
+/**
+ * Model Tagihan
+ * 
+ */
+export type Tagihan = Prisma.TagihanModel
+/**
+ * Model Notifikasi
+ * 
+ */
+export type Notifikasi = Prisma.NotifikasiModel
+/**
+ * Model SKM
+ * 
+ */
+export type SKM = Prisma.SKMModel
+/**
+ * Model Pengaduan
+ * 
+ */
+export type Pengaduan = Prisma.PengaduanModel
+/**
+ * Model AuditLog
+ * 
+ */
+export type AuditLog = Prisma.AuditLogModel

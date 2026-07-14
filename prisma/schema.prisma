@@ -23,6 +23,43 @@ enum StatusAkun {
   suspended
 }
 
+enum StatusTiket {
+  diajukan
+  menunggu_revisi
+  perlu_direvisi
+  diproses
+  menunggu_pembayaran
+  dibatalkan
+  selesai_diproses
+  menunggu_konfirmasi
+  selesai
+}
+
+enum StatusBayar {
+  menunggu 
+  lunas
+  batal
+}
+
+enum KanalNotifikasi{
+  dashboard
+  email
+  wa
+}
+
+enum KanalPengaduan{
+  website
+  email
+  whatsapp
+}
+
+enum StatusPengaduan {
+  baru
+  diproses
+  selesai
+  ditolak
+}
+
 model User {
   id             Int         @id @default(autoincrement())
   email          String?     @unique
@@ -38,6 +75,12 @@ model User {
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
 
+  tikets            Tiket[]
+  notifikasis       Notifikasi[]
+  pengaduanPelapor  Pengaduan[]  @relation("PengaduanPelapor")
+  pengaduanPetugas  Pengaduan[]  @relation("PengaduanPetugas")
+  auditLogs         AuditLog[]
+
   @@map("users")
 }
 
@@ -47,6 +90,132 @@ model UnitTeknis {
   users     User[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  tikets    Tiket[]
 
   @@map("unit_teknis")
+}
+
+model Layanan {
+  id            Int      @id @default(autoincrement())
+  nama_layanan  String
+  kategori      String
+  biaya         Json
+  sla_hari      Int?
+  dasar_hukum   String
+  form_schema   Json
+  tikets        Tiket[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("layanan")
+}
+
+model Tiket {
+  id             Int          @id @default(autoincrement())
+  no_tiket       String       @unique
+  user_id        Int
+  user           User         @relation(fields: [user_id], references: [id])
+  layanan_id     Int
+  layanan        Layanan      @relation(fields: [layanan_id], references: [id])
+  jawaban_form   Json?
+  status         StatusTiket  @default(diajukan)
+  tanggal_submit DateTime     @default(now())
+  tanggal_sla    DateTime?
+  unit_teknis_id Int?
+  unit_teknis    UnitTeknis?  @relation(fields: [unit_teknis_id], references: [id])
+
+  dokumen    Dokumen[]
+  tagihan    Tagihan?
+  notifikasi Notifikasi[]
+  skm        SKM?
+  pengaduan  Pengaduan[]
+  auditLog   AuditLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("tiket")
+}
+
+model Dokumen {
+   id             Int      @id @default(autoincrement())
+  tiket_id       Int
+  tiket          Tiket    @relation(fields: [tiket_id], references: [id])
+  nama_file      String
+  tipe           String
+  url_storage    String
+  tanggal_upload DateTime @default(now())
+
+  @@map("dokumen")
+}
+
+model Tagihan {
+  id            Int         @id @default(autoincrement())
+  tiket_id      Int         @unique
+  tiket         Tiket       @relation(fields: [tiket_id], references: [id])
+  jumlah        Int
+  status_bayar  StatusBayar @default(menunggu)
+  bukti_bayar   String?
+  tanggal_lunas DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("tagihan")
+}
+
+model Notifikasi {
+  id           Int              @id @default(autoincrement())
+  user_id      Int
+  user         User             @relation(fields: [user_id], references: [id])
+  tiket_id     Int?
+  tiket        Tiket?           @relation(fields: [tiket_id], references: [id])
+  kanal        KanalNotifikasi
+  pesan        String           @db.Text
+  status_kirim Boolean          @default(false)
+  timestamp    DateTime         @default(now())
+
+  @@map("notifikasi")
+}
+
+model SKM {
+  id         Int      @id @default(autoincrement())
+  tiket_id   Int      @unique
+  tiket      Tiket    @relation(fields: [tiket_id], references: [id])
+  skor       Int
+  komentar   String?  @db.Text
+  tanggal_isi DateTime @default(now())
+
+  @@map("skm")
+}
+
+model Pengaduan {
+  id            Int             @id @default(autoincrement())
+  pelapor_id    Int
+  pelapor       User            @relation("PengaduanPelapor", fields: [pelapor_id], references: [id])
+  tiket_id      Int?
+  tiket         Tiket?          @relation(fields: [tiket_id], references: [id])
+  kanal         KanalPengaduan
+  isi_pengaduan String          @db.Text
+  status        StatusPengaduan @default(baru)
+  petugas_id    Int?
+  petugas       User?           @relation("PengaduanPetugas", fields: [petugas_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("pengaduan")
+}
+
+model AuditLog {
+  id                Int      @id @default(autoincrement())
+  user_id           Int?
+  user              User?    @relation(fields: [user_id], references: [id])
+  tiket_id          Int?
+  tiket             Tiket?   @relation(fields: [tiket_id], references: [id])
+  aksi              String
+  detail_perubahan  String?  @db.Text
+  timestamp         DateTime @default(now())
+
+  @@map("audit_log")
 }

@@ -28,3 +28,55 @@ export const StatusAkun = {
 } as const
 
 export type StatusAkun = (typeof StatusAkun)[keyof typeof StatusAkun]
+
+
+export const StatusTiket = {
+  diajukan: 'diajukan',
+  menunggu_revisi: 'menunggu_revisi',
+  perlu_direvisi: 'perlu_direvisi',
+  diproses: 'diproses',
+  menunggu_pembayaran: 'menunggu_pembayaran',
+  dibatalkan: 'dibatalkan',
+  selesai_diproses: 'selesai_diproses',
+  menunggu_konfirmasi: 'menunggu_konfirmasi',
+  selesai: 'selesai'
+} as const
+
+export type StatusTiket = (typeof StatusTiket)[keyof typeof StatusTiket]
+
+
+export const StatusBayar = {
+  menunggu: 'menunggu',
+  lunas: 'lunas',
+  batal: 'batal'
+} as const
+
+export type StatusBayar = (typeof StatusBayar)[keyof typeof StatusBayar]
+
+
+export const KanalNotifikasi = {
+  dashboard: 'dashboard',
+  email: 'email',
+  wa: 'wa'
+} as const
+
+export type KanalNotifikasi = (typeof KanalNotifikasi)[keyof typeof KanalNotifikasi]
+
+
+export const KanalPengaduan = {
+  website: 'website',
+  email: 'email',
+  whatsapp: 'whatsapp'
+} as const
+
+export type KanalPengaduan = (typeof KanalPengaduan)[keyof typeof KanalPengaduan]
+
+
+export const StatusPengaduan = {
+  baru: 'baru',
+  diproses: 'diproses',
+  selesai: 'selesai',
+  ditolak: 'ditolak'
+} as const
+
+export type StatusPengaduan = (typeof StatusPengaduan)[keyof typeof StatusPengaduan]

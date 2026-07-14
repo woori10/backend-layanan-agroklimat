@@ -209,6 +209,7 @@ export type UnitTeknisWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"UnitTeknis"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UnitTeknis"> | Date | string
   users?: Prisma.UserListRelationFilter
+  tikets?: Prisma.TiketListRelationFilter
 }
 
 export type UnitTeknisOrderByWithRelationInput = {
@@ -217,6 +218,7 @@ export type UnitTeknisOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   users?: Prisma.UserOrderByRelationAggregateInput
+  tikets?: Prisma.TiketOrderByRelationAggregateInput
   _relevance?: Prisma.UnitTeknisOrderByRelevanceInput
 }
 
@@ -229,6 +231,7 @@ export type UnitTeknisWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"UnitTeknis"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UnitTeknis"> | Date | string
   users?: Prisma.UserListRelationFilter
+  tikets?: Prisma.TiketListRelationFilter
 }, "id">
 
 export type UnitTeknisOrderByWithAggregationInput = {
@@ -258,6 +261,7 @@ export type UnitTeknisCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutUnit_teknisInput
+  tikets?: Prisma.TiketCreateNestedManyWithoutUnit_teknisInput
 }
 
 export type UnitTeknisUncheckedCreateInput = {
@@ -266,6 +270,7 @@ export type UnitTeknisUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutUnit_teknisInput
+  tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutUnit_teknisInput
 }
 
 export type UnitTeknisUpdateInput = {
@@ -273,6 +278,7 @@ export type UnitTeknisUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutUnit_teknisNestedInput
+  tikets?: Prisma.TiketUpdateManyWithoutUnit_teknisNestedInput
 }
 
 export type UnitTeknisUncheckedUpdateInput = {
@@ -281,6 +287,7 @@ export type UnitTeknisUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutUnit_teknisNestedInput
+  tikets?: Prisma.TiketUncheckedUpdateManyWithoutUnit_teknisNestedInput
 }
 
 export type UnitTeknisCreateManyInput = {
@@ -359,10 +366,27 @@ export type UnitTeknisUpdateOneWithoutUsersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UnitTeknisUpdateToOneWithWhereWithoutUsersInput, Prisma.UnitTeknisUpdateWithoutUsersInput>, Prisma.UnitTeknisUncheckedUpdateWithoutUsersInput>
 }
 
+export type UnitTeknisCreateNestedOneWithoutTiketsInput = {
+  create?: Prisma.XOR<Prisma.UnitTeknisCreateWithoutTiketsInput, Prisma.UnitTeknisUncheckedCreateWithoutTiketsInput>
+  connectOrCreate?: Prisma.UnitTeknisCreateOrConnectWithoutTiketsInput
+  connect?: Prisma.UnitTeknisWhereUniqueInput
+}
+
+export type UnitTeknisUpdateOneWithoutTiketsNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitTeknisCreateWithoutTiketsInput, Prisma.UnitTeknisUncheckedCreateWithoutTiketsInput>
+  connectOrCreate?: Prisma.UnitTeknisCreateOrConnectWithoutTiketsInput
+  upsert?: Prisma.UnitTeknisUpsertWithoutTiketsInput
+  disconnect?: Prisma.UnitTeknisWhereInput | boolean
+  delete?: Prisma.UnitTeknisWhereInput | boolean
+  connect?: Prisma.UnitTeknisWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UnitTeknisUpdateToOneWithWhereWithoutTiketsInput, Prisma.UnitTeknisUpdateWithoutTiketsInput>, Prisma.UnitTeknisUncheckedUpdateWithoutTiketsInput>
+}
+
 export type UnitTeknisCreateWithoutUsersInput = {
   nama: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  tikets?: Prisma.TiketCreateNestedManyWithoutUnit_teknisInput
 }
 
 export type UnitTeknisUncheckedCreateWithoutUsersInput = {
@@ -370,6 +394,7 @@ export type UnitTeknisUncheckedCreateWithoutUsersInput = {
   nama: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutUnit_teknisInput
 }
 
 export type UnitTeknisCreateOrConnectWithoutUsersInput = {
@@ -392,6 +417,7 @@ export type UnitTeknisUpdateWithoutUsersInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tikets?: Prisma.TiketUpdateManyWithoutUnit_teknisNestedInput
 }
 
 export type UnitTeknisUncheckedUpdateWithoutUsersInput = {
@@ -399,6 +425,53 @@ export type UnitTeknisUncheckedUpdateWithoutUsersInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tikets?: Prisma.TiketUncheckedUpdateManyWithoutUnit_teknisNestedInput
+}
+
+export type UnitTeknisCreateWithoutTiketsInput = {
+  nama: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutUnit_teknisInput
+}
+
+export type UnitTeknisUncheckedCreateWithoutTiketsInput = {
+  id?: number
+  nama: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutUnit_teknisInput
+}
+
+export type UnitTeknisCreateOrConnectWithoutTiketsInput = {
+  where: Prisma.UnitTeknisWhereUniqueInput
+  create: Prisma.XOR<Prisma.UnitTeknisCreateWithoutTiketsInput, Prisma.UnitTeknisUncheckedCreateWithoutTiketsInput>
+}
+
+export type UnitTeknisUpsertWithoutTiketsInput = {
+  update: Prisma.XOR<Prisma.UnitTeknisUpdateWithoutTiketsInput, Prisma.UnitTeknisUncheckedUpdateWithoutTiketsInput>
+  create: Prisma.XOR<Prisma.UnitTeknisCreateWithoutTiketsInput, Prisma.UnitTeknisUncheckedCreateWithoutTiketsInput>
+  where?: Prisma.UnitTeknisWhereInput
+}
+
+export type UnitTeknisUpdateToOneWithWhereWithoutTiketsInput = {
+  where?: Prisma.UnitTeknisWhereInput
+  data: Prisma.XOR<Prisma.UnitTeknisUpdateWithoutTiketsInput, Prisma.UnitTeknisUncheckedUpdateWithoutTiketsInput>
+}
+
+export type UnitTeknisUpdateWithoutTiketsInput = {
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutUnit_teknisNestedInput
+}
+
+export type UnitTeknisUncheckedUpdateWithoutTiketsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutUnit_teknisNestedInput
 }
 
 
@@ -408,10 +481,12 @@ export type UnitTeknisUncheckedUpdateWithoutUsersInput = {
 
 export type UnitTeknisCountOutputType = {
   users: number
+  tikets: number
 }
 
 export type UnitTeknisCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | UnitTeknisCountOutputTypeCountUsersArgs
+  tikets?: boolean | UnitTeknisCountOutputTypeCountTiketsArgs
 }
 
 /**
@@ -431,6 +506,13 @@ export type UnitTeknisCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Type
   where?: Prisma.UserWhereInput
 }
 
+/**
+ * UnitTeknisCountOutputType without action
+ */
+export type UnitTeknisCountOutputTypeCountTiketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TiketWhereInput
+}
+
 
 export type UnitTeknisSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -438,6 +520,7 @@ export type UnitTeknisSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   createdAt?: boolean
   updatedAt?: boolean
   users?: boolean | Prisma.UnitTeknis$usersArgs<ExtArgs>
+  tikets?: boolean | Prisma.UnitTeknis$tiketsArgs<ExtArgs>
   _count?: boolean | Prisma.UnitTeknisCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["unitTeknis"]>
 
@@ -453,6 +536,7 @@ export type UnitTeknisSelectScalar = {
 export type UnitTeknisOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "createdAt" | "updatedAt", ExtArgs["result"]["unitTeknis"]>
 export type UnitTeknisInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.UnitTeknis$usersArgs<ExtArgs>
+  tikets?: boolean | Prisma.UnitTeknis$tiketsArgs<ExtArgs>
   _count?: boolean | Prisma.UnitTeknisCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -460,6 +544,7 @@ export type $UnitTeknisPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "UnitTeknis"
   objects: {
     users: Prisma.$UserPayload<ExtArgs>[]
+    tikets: Prisma.$TiketPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -807,6 +892,7 @@ readonly fields: UnitTeknisFieldRefs;
 export interface Prisma__UnitTeknisClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   users<T extends Prisma.UnitTeknis$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitTeknis$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tikets<T extends Prisma.UnitTeknis$tiketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitTeknis$tiketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TiketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1209,6 +1295,30 @@ export type UnitTeknis$usersArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
+}
+
+/**
+ * UnitTeknis.tikets
+ */
+export type UnitTeknis$tiketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Tiket
+   */
+  select?: Prisma.TiketSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Tiket
+   */
+  omit?: Prisma.TiketOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TiketInclude<ExtArgs> | null
+  where?: Prisma.TiketWhereInput
+  orderBy?: Prisma.TiketOrderByWithRelationInput | Prisma.TiketOrderByWithRelationInput[]
+  cursor?: Prisma.TiketWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TiketScalarFieldEnum | Prisma.TiketScalarFieldEnum[]
 }
 
 /**
