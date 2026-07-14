@@ -7,13 +7,14 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { LayananModule } from './layanan/layanan.module';
 import { TiketModule } from './tiket/tiket.module';
+import { DokumenModule } from './dokumen/dokumen.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    AuthModule, PrismaModule, UsersModule, LayananModule, TiketModule],
+    AuthModule, PrismaModule, UsersModule, LayananModule, TiketModule, DokumenModule],
   controllers: [AppController],
   providers: [AppService],
 })
