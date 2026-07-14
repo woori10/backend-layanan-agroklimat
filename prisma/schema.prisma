@@ -30,6 +30,7 @@ enum StatusTiket {
   diproses
   menunggu_pembayaran
   dibatalkan
+  ditolak
   selesai_diproses
   menunggu_konfirmasi
   selesai

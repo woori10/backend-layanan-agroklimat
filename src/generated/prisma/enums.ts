@@ -37,6 +37,7 @@ export const StatusTiket = {
   diproses: 'diproses',
   menunggu_pembayaran: 'menunggu_pembayaran',
   dibatalkan: 'dibatalkan',
+  ditolak: 'ditolak',
   selesai_diproses: 'selesai_diproses',
   menunggu_konfirmasi: 'menunggu_konfirmasi',
   selesai: 'selesai'
