@@ -511,6 +511,10 @@ export type EnumKanalNotifikasiFieldUpdateOperationsInput = {
   set?: $Enums.KanalNotifikasi
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type NotifikasiCreateWithoutUserInput = {
   kanal: $Enums.KanalNotifikasi
   pesan: string

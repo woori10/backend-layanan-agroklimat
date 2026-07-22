@@ -391,8 +391,6 @@ export const ModelName = {
   Dokumen: 'Dokumen',
   Tagihan: 'Tagihan',
   Notifikasi: 'Notifikasi',
-  SKM: 'SKM',
-  Pengaduan: 'Pengaduan',
   AuditLog: 'AuditLog'
 } as const
 
@@ -409,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "unitTeknis" | "layanan" | "tiket" | "dokumen" | "tagihan" | "notifikasi" | "sKM" | "pengaduan" | "auditLog"
+    modelProps: "user" | "unitTeknis" | "layanan" | "tiket" | "dokumen" | "tagihan" | "notifikasi" | "auditLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -875,138 +873,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    SKM: {
-      payload: Prisma.$SKMPayload<ExtArgs>
-      fields: Prisma.SKMFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.SKMFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SKMPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.SKMFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SKMPayload>
-        }
-        findFirst: {
-          args: Prisma.SKMFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SKMPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.SKMFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SKMPayload>
-        }
-        findMany: {
-          args: Prisma.SKMFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SKMPayload>[]
-        }
-        create: {
-          args: Prisma.SKMCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SKMPayload>
-        }
-        createMany: {
-          args: Prisma.SKMCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        delete: {
-          args: Prisma.SKMDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SKMPayload>
-        }
-        update: {
-          args: Prisma.SKMUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SKMPayload>
-        }
-        deleteMany: {
-          args: Prisma.SKMDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.SKMUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        upsert: {
-          args: Prisma.SKMUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SKMPayload>
-        }
-        aggregate: {
-          args: Prisma.SKMAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateSKM>
-        }
-        groupBy: {
-          args: Prisma.SKMGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.SKMGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.SKMCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.SKMCountAggregateOutputType> | number
-        }
-      }
-    }
-    Pengaduan: {
-      payload: Prisma.$PengaduanPayload<ExtArgs>
-      fields: Prisma.PengaduanFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.PengaduanFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaduanPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.PengaduanFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaduanPayload>
-        }
-        findFirst: {
-          args: Prisma.PengaduanFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaduanPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.PengaduanFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaduanPayload>
-        }
-        findMany: {
-          args: Prisma.PengaduanFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaduanPayload>[]
-        }
-        create: {
-          args: Prisma.PengaduanCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaduanPayload>
-        }
-        createMany: {
-          args: Prisma.PengaduanCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        delete: {
-          args: Prisma.PengaduanDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaduanPayload>
-        }
-        update: {
-          args: Prisma.PengaduanUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaduanPayload>
-        }
-        deleteMany: {
-          args: Prisma.PengaduanDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.PengaduanUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        upsert: {
-          args: Prisma.PengaduanUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaduanPayload>
-        }
-        aggregate: {
-          args: Prisma.PengaduanAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregatePengaduan>
-        }
-        groupBy: {
-          args: Prisma.PengaduanGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PengaduanGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.PengaduanCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PengaduanCountAggregateOutputType> | number
-        }
-      }
-    }
     AuditLog: {
       payload: Prisma.$AuditLogPayload<ExtArgs>
       fields: Prisma.AuditLogFieldRefs
@@ -1121,7 +987,6 @@ export const UserScalarFieldEnum = {
   no_hp: 'no_hp',
   role: 'role',
   status_akun: 'status_akun',
-  must_change_password: 'must_change_password',
   unit_teknis_id: 'unit_teknis_id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1143,10 +1008,8 @@ export type UnitTeknisScalarFieldEnum = (typeof UnitTeknisScalarFieldEnum)[keyof
 export const LayananScalarFieldEnum = {
   id: 'id',
   nama_layanan: 'nama_layanan',
-  kategori: 'kategori',
   biaya: 'biaya',
   sla_hari: 'sla_hari',
-  dasar_hukum: 'dasar_hukum',
   form_schema: 'form_schema',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1209,32 +1072,6 @@ export const NotifikasiScalarFieldEnum = {
 } as const
 
 export type NotifikasiScalarFieldEnum = (typeof NotifikasiScalarFieldEnum)[keyof typeof NotifikasiScalarFieldEnum]
-
-
-export const SKMScalarFieldEnum = {
-  id: 'id',
-  tiket_id: 'tiket_id',
-  skor: 'skor',
-  komentar: 'komentar',
-  tanggal_isi: 'tanggal_isi'
-} as const
-
-export type SKMScalarFieldEnum = (typeof SKMScalarFieldEnum)[keyof typeof SKMScalarFieldEnum]
-
-
-export const PengaduanScalarFieldEnum = {
-  id: 'id',
-  pelapor_id: 'pelapor_id',
-  tiket_id: 'tiket_id',
-  kanal: 'kanal',
-  isi_pengaduan: 'isi_pengaduan',
-  status: 'status',
-  petugas_id: 'petugas_id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type PengaduanScalarFieldEnum = (typeof PengaduanScalarFieldEnum)[keyof typeof PengaduanScalarFieldEnum]
 
 
 export const AuditLogScalarFieldEnum = {
@@ -1316,9 +1153,7 @@ export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
 export const LayananOrderByRelevanceFieldEnum = {
-  nama_layanan: 'nama_layanan',
-  kategori: 'kategori',
-  dasar_hukum: 'dasar_hukum'
+  nama_layanan: 'nama_layanan'
 } as const
 
 export type LayananOrderByRelevanceFieldEnum = (typeof LayananOrderByRelevanceFieldEnum)[keyof typeof LayananOrderByRelevanceFieldEnum]
@@ -1352,20 +1187,6 @@ export const NotifikasiOrderByRelevanceFieldEnum = {
 } as const
 
 export type NotifikasiOrderByRelevanceFieldEnum = (typeof NotifikasiOrderByRelevanceFieldEnum)[keyof typeof NotifikasiOrderByRelevanceFieldEnum]
-
-
-export const SKMOrderByRelevanceFieldEnum = {
-  komentar: 'komentar'
-} as const
-
-export type SKMOrderByRelevanceFieldEnum = (typeof SKMOrderByRelevanceFieldEnum)[keyof typeof SKMOrderByRelevanceFieldEnum]
-
-
-export const PengaduanOrderByRelevanceFieldEnum = {
-  isi_pengaduan: 'isi_pengaduan'
-} as const
-
-export type PengaduanOrderByRelevanceFieldEnum = (typeof PengaduanOrderByRelevanceFieldEnum)[keyof typeof PengaduanOrderByRelevanceFieldEnum]
 
 
 export const AuditLogOrderByRelevanceFieldEnum = {
@@ -1407,13 +1228,6 @@ export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'StatusAkun'
  */
 export type EnumStatusAkunFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusAkun'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1460,16 +1274,9 @@ export type EnumKanalNotifikasiFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
- * Reference to a field of type 'KanalPengaduan'
+ * Reference to a field of type 'Boolean'
  */
-export type EnumKanalPengaduanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KanalPengaduan'>
-    
-
-
-/**
- * Reference to a field of type 'StatusPengaduan'
- */
-export type EnumStatusPengaduanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusPengaduan'>
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1596,8 +1403,6 @@ export type GlobalOmitConfig = {
   dokumen?: Prisma.DokumenOmit
   tagihan?: Prisma.TagihanOmit
   notifikasi?: Prisma.NotifikasiOmit
-  sKM?: Prisma.SKMOmit
-  pengaduan?: Prisma.PengaduanOmit
   auditLog?: Prisma.AuditLogOmit
 }
 

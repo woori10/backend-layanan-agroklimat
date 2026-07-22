@@ -15,8 +15,8 @@ export class UsersService {
         });
         if (existingNip) throw new ConflictException('NIP sudah terdaftar');
 
-        if ((dto.role === 'admin_petugas_layanan' || dto.role === 'unit_teknis') && !dto.unit_teknis_id) {
-            throw new BadRequestException('Unit teknis wajib diisi untuk role admin/pegawai');
+        if ((dto.role === 'pegawai') && !dto.unit_teknis_id) {
+            throw new BadRequestException('Unit teknis wajib diisi untuk role pegawai');
         }
 
         if (dto.unit_teknis_id) {
@@ -26,7 +26,7 @@ export class UsersService {
             if (!unitTeknis) throw new NotFoundException('Unit teknis tidak ditemukan');
         }
 
-        const plainPassword = generatePasswordFromName(dto.nama);
+        const plainPassword = dto.nip;
         const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
         const user = await this.prisma.user.create({
@@ -36,8 +36,7 @@ export class UsersService {
                 role: dto.role,
                 password: hashedPassword,
                 unit_teknis_id:
-                    dto.role === 'admin_petugas_layanan' || dto.role === 'unit_teknis' ? dto.unit_teknis_id : null,
-                must_change_password: true,
+                    dto.role === 'pegawai' ? dto.unit_teknis_id : null,
             },
         });
 
@@ -56,6 +55,7 @@ export class UsersService {
                 nama: true,
                 nip: true,
                 email: true,
+                no_hp: true,
                 role: true,
                 status_akun: true,
                 unit_teknis: true,

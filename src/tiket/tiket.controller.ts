@@ -9,6 +9,7 @@ import { SubmitUlangTiketDto } from './dto/submit-ulang-tiket.dto';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { RoleGuard } from '../auth/guard/role.guard';
 import { Roles } from '../auth/decorators/role.decorators';
+import { ProsesTiketDto } from './dto/proses-tiket.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('tiket')
@@ -55,5 +56,23 @@ export class TiketController {
         @Body() dto: SubmitUlangTiketDto,
     ) {
         return this.tiketService.submitUlang(req.user.userId, id, dto);
+    }
+
+    @UseGuards(RoleGuard)
+    @Roles('admin_petugas_layanan')
+    @Patch(':id/proses')
+    mulaiProses(
+        @Request() req,
+        @Param('id', ParseIntPipe) id: number,
+        @Body() dto: ProsesTiketDto,
+    ) {
+        return this.tiketService.mulaiProses(req.user.userId, id, dto);
+    }
+
+    @UseGuards(RoleGuard)
+    @Roles('admin_petugas_layanan')
+    @Patch(':id/selesai')
+    selesaiProses(@Request() req, @Param('id', ParseIntPipe) id: number) {
+        return this.tiketService.selesaiProses(req.user.userId, id);
     }
 }

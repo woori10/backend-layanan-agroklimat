@@ -39,9 +39,7 @@ export type LayananSumAggregateOutputType = {
 export type LayananMinAggregateOutputType = {
   id: number | null
   nama_layanan: string | null
-  kategori: string | null
   sla_hari: number | null
-  dasar_hukum: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -49,9 +47,7 @@ export type LayananMinAggregateOutputType = {
 export type LayananMaxAggregateOutputType = {
   id: number | null
   nama_layanan: string | null
-  kategori: string | null
   sla_hari: number | null
-  dasar_hukum: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -59,10 +55,8 @@ export type LayananMaxAggregateOutputType = {
 export type LayananCountAggregateOutputType = {
   id: number
   nama_layanan: number
-  kategori: number
   biaya: number
   sla_hari: number
-  dasar_hukum: number
   form_schema: number
   createdAt: number
   updatedAt: number
@@ -83,9 +77,7 @@ export type LayananSumAggregateInputType = {
 export type LayananMinAggregateInputType = {
   id?: true
   nama_layanan?: true
-  kategori?: true
   sla_hari?: true
-  dasar_hukum?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -93,9 +85,7 @@ export type LayananMinAggregateInputType = {
 export type LayananMaxAggregateInputType = {
   id?: true
   nama_layanan?: true
-  kategori?: true
   sla_hari?: true
-  dasar_hukum?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -103,10 +93,8 @@ export type LayananMaxAggregateInputType = {
 export type LayananCountAggregateInputType = {
   id?: true
   nama_layanan?: true
-  kategori?: true
   biaya?: true
   sla_hari?: true
-  dasar_hukum?: true
   form_schema?: true
   createdAt?: true
   updatedAt?: true
@@ -202,10 +190,8 @@ export type LayananGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type LayananGroupByOutputType = {
   id: number
   nama_layanan: string
-  kategori: string
   biaya: runtime.JsonValue
   sla_hari: number | null
-  dasar_hukum: string
   form_schema: runtime.JsonValue
   createdAt: Date
   updatedAt: Date
@@ -237,10 +223,8 @@ export type LayananWhereInput = {
   NOT?: Prisma.LayananWhereInput | Prisma.LayananWhereInput[]
   id?: Prisma.IntFilter<"Layanan"> | number
   nama_layanan?: Prisma.StringFilter<"Layanan"> | string
-  kategori?: Prisma.StringFilter<"Layanan"> | string
   biaya?: Prisma.JsonFilter<"Layanan">
   sla_hari?: Prisma.IntNullableFilter<"Layanan"> | number | null
-  dasar_hukum?: Prisma.StringFilter<"Layanan"> | string
   form_schema?: Prisma.JsonFilter<"Layanan">
   createdAt?: Prisma.DateTimeFilter<"Layanan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Layanan"> | Date | string
@@ -250,10 +234,8 @@ export type LayananWhereInput = {
 export type LayananOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   nama_layanan?: Prisma.SortOrder
-  kategori?: Prisma.SortOrder
   biaya?: Prisma.SortOrder
   sla_hari?: Prisma.SortOrderInput | Prisma.SortOrder
-  dasar_hukum?: Prisma.SortOrder
   form_schema?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -267,10 +249,8 @@ export type LayananWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.LayananWhereInput[]
   NOT?: Prisma.LayananWhereInput | Prisma.LayananWhereInput[]
   nama_layanan?: Prisma.StringFilter<"Layanan"> | string
-  kategori?: Prisma.StringFilter<"Layanan"> | string
   biaya?: Prisma.JsonFilter<"Layanan">
   sla_hari?: Prisma.IntNullableFilter<"Layanan"> | number | null
-  dasar_hukum?: Prisma.StringFilter<"Layanan"> | string
   form_schema?: Prisma.JsonFilter<"Layanan">
   createdAt?: Prisma.DateTimeFilter<"Layanan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Layanan"> | Date | string
@@ -280,10 +260,8 @@ export type LayananWhereUniqueInput = Prisma.AtLeast<{
 export type LayananOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   nama_layanan?: Prisma.SortOrder
-  kategori?: Prisma.SortOrder
   biaya?: Prisma.SortOrder
   sla_hari?: Prisma.SortOrderInput | Prisma.SortOrder
-  dasar_hukum?: Prisma.SortOrder
   form_schema?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -300,10 +278,8 @@ export type LayananScalarWhereWithAggregatesInput = {
   NOT?: Prisma.LayananScalarWhereWithAggregatesInput | Prisma.LayananScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Layanan"> | number
   nama_layanan?: Prisma.StringWithAggregatesFilter<"Layanan"> | string
-  kategori?: Prisma.StringWithAggregatesFilter<"Layanan"> | string
   biaya?: Prisma.JsonWithAggregatesFilter<"Layanan">
   sla_hari?: Prisma.IntNullableWithAggregatesFilter<"Layanan"> | number | null
-  dasar_hukum?: Prisma.StringWithAggregatesFilter<"Layanan"> | string
   form_schema?: Prisma.JsonWithAggregatesFilter<"Layanan">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Layanan"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Layanan"> | Date | string
@@ -311,10 +287,8 @@ export type LayananScalarWhereWithAggregatesInput = {
 
 export type LayananCreateInput = {
   nama_layanan: string
-  kategori: string
   biaya: Prisma.JsonNullValueInput | runtime.InputJsonValue
   sla_hari?: number | null
-  dasar_hukum: string
   form_schema: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -324,10 +298,8 @@ export type LayananCreateInput = {
 export type LayananUncheckedCreateInput = {
   id?: number
   nama_layanan: string
-  kategori: string
   biaya: Prisma.JsonNullValueInput | runtime.InputJsonValue
   sla_hari?: number | null
-  dasar_hukum: string
   form_schema: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -336,10 +308,8 @@ export type LayananUncheckedCreateInput = {
 
 export type LayananUpdateInput = {
   nama_layanan?: Prisma.StringFieldUpdateOperationsInput | string
-  kategori?: Prisma.StringFieldUpdateOperationsInput | string
   biaya?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   sla_hari?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dasar_hukum?: Prisma.StringFieldUpdateOperationsInput | string
   form_schema?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -349,10 +319,8 @@ export type LayananUpdateInput = {
 export type LayananUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nama_layanan?: Prisma.StringFieldUpdateOperationsInput | string
-  kategori?: Prisma.StringFieldUpdateOperationsInput | string
   biaya?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   sla_hari?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dasar_hukum?: Prisma.StringFieldUpdateOperationsInput | string
   form_schema?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -362,10 +330,8 @@ export type LayananUncheckedUpdateInput = {
 export type LayananCreateManyInput = {
   id?: number
   nama_layanan: string
-  kategori: string
   biaya: Prisma.JsonNullValueInput | runtime.InputJsonValue
   sla_hari?: number | null
-  dasar_hukum: string
   form_schema: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -373,10 +339,8 @@ export type LayananCreateManyInput = {
 
 export type LayananUpdateManyMutationInput = {
   nama_layanan?: Prisma.StringFieldUpdateOperationsInput | string
-  kategori?: Prisma.StringFieldUpdateOperationsInput | string
   biaya?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   sla_hari?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dasar_hukum?: Prisma.StringFieldUpdateOperationsInput | string
   form_schema?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -385,10 +349,8 @@ export type LayananUpdateManyMutationInput = {
 export type LayananUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nama_layanan?: Prisma.StringFieldUpdateOperationsInput | string
-  kategori?: Prisma.StringFieldUpdateOperationsInput | string
   biaya?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   sla_hari?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dasar_hukum?: Prisma.StringFieldUpdateOperationsInput | string
   form_schema?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -403,10 +365,8 @@ export type LayananOrderByRelevanceInput = {
 export type LayananCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nama_layanan?: Prisma.SortOrder
-  kategori?: Prisma.SortOrder
   biaya?: Prisma.SortOrder
   sla_hari?: Prisma.SortOrder
-  dasar_hukum?: Prisma.SortOrder
   form_schema?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -420,9 +380,7 @@ export type LayananAvgOrderByAggregateInput = {
 export type LayananMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nama_layanan?: Prisma.SortOrder
-  kategori?: Prisma.SortOrder
   sla_hari?: Prisma.SortOrder
-  dasar_hukum?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -430,9 +388,7 @@ export type LayananMaxOrderByAggregateInput = {
 export type LayananMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nama_layanan?: Prisma.SortOrder
-  kategori?: Prisma.SortOrder
   sla_hari?: Prisma.SortOrder
-  dasar_hukum?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -463,10 +419,8 @@ export type LayananUpdateOneRequiredWithoutTiketsNestedInput = {
 
 export type LayananCreateWithoutTiketsInput = {
   nama_layanan: string
-  kategori: string
   biaya: Prisma.JsonNullValueInput | runtime.InputJsonValue
   sla_hari?: number | null
-  dasar_hukum: string
   form_schema: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -475,10 +429,8 @@ export type LayananCreateWithoutTiketsInput = {
 export type LayananUncheckedCreateWithoutTiketsInput = {
   id?: number
   nama_layanan: string
-  kategori: string
   biaya: Prisma.JsonNullValueInput | runtime.InputJsonValue
   sla_hari?: number | null
-  dasar_hukum: string
   form_schema: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -502,10 +454,8 @@ export type LayananUpdateToOneWithWhereWithoutTiketsInput = {
 
 export type LayananUpdateWithoutTiketsInput = {
   nama_layanan?: Prisma.StringFieldUpdateOperationsInput | string
-  kategori?: Prisma.StringFieldUpdateOperationsInput | string
   biaya?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   sla_hari?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dasar_hukum?: Prisma.StringFieldUpdateOperationsInput | string
   form_schema?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -514,10 +464,8 @@ export type LayananUpdateWithoutTiketsInput = {
 export type LayananUncheckedUpdateWithoutTiketsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nama_layanan?: Prisma.StringFieldUpdateOperationsInput | string
-  kategori?: Prisma.StringFieldUpdateOperationsInput | string
   biaya?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   sla_hari?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dasar_hukum?: Prisma.StringFieldUpdateOperationsInput | string
   form_schema?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -557,10 +505,8 @@ export type LayananCountOutputTypeCountTiketsArgs<ExtArgs extends runtime.Types.
 export type LayananSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   nama_layanan?: boolean
-  kategori?: boolean
   biaya?: boolean
   sla_hari?: boolean
-  dasar_hukum?: boolean
   form_schema?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -573,16 +519,14 @@ export type LayananSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type LayananSelectScalar = {
   id?: boolean
   nama_layanan?: boolean
-  kategori?: boolean
   biaya?: boolean
   sla_hari?: boolean
-  dasar_hukum?: boolean
   form_schema?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type LayananOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama_layanan" | "kategori" | "biaya" | "sla_hari" | "dasar_hukum" | "form_schema" | "createdAt" | "updatedAt", ExtArgs["result"]["layanan"]>
+export type LayananOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama_layanan" | "biaya" | "sla_hari" | "form_schema" | "createdAt" | "updatedAt", ExtArgs["result"]["layanan"]>
 export type LayananInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tikets?: boolean | Prisma.Layanan$tiketsArgs<ExtArgs>
   _count?: boolean | Prisma.LayananCountOutputTypeDefaultArgs<ExtArgs>
@@ -596,10 +540,8 @@ export type $LayananPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     nama_layanan: string
-    kategori: string
     biaya: runtime.JsonValue
     sla_hari: number | null
-    dasar_hukum: string
     form_schema: runtime.JsonValue
     createdAt: Date
     updatedAt: Date
@@ -975,10 +917,8 @@ export interface Prisma__LayananClient<T, Null = never, ExtArgs extends runtime.
 export interface LayananFieldRefs {
   readonly id: Prisma.FieldRef<"Layanan", 'Int'>
   readonly nama_layanan: Prisma.FieldRef<"Layanan", 'String'>
-  readonly kategori: Prisma.FieldRef<"Layanan", 'String'>
   readonly biaya: Prisma.FieldRef<"Layanan", 'Json'>
   readonly sla_hari: Prisma.FieldRef<"Layanan", 'Int'>
-  readonly dasar_hukum: Prisma.FieldRef<"Layanan", 'String'>
   readonly form_schema: Prisma.FieldRef<"Layanan", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Layanan", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Layanan", 'DateTime'>

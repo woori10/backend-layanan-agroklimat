@@ -45,7 +45,6 @@ export type UserMinAggregateOutputType = {
   no_hp: string | null
   role: $Enums.Role | null
   status_akun: $Enums.StatusAkun | null
-  must_change_password: boolean | null
   unit_teknis_id: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -60,7 +59,6 @@ export type UserMaxAggregateOutputType = {
   no_hp: string | null
   role: $Enums.Role | null
   status_akun: $Enums.StatusAkun | null
-  must_change_password: boolean | null
   unit_teknis_id: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -75,7 +73,6 @@ export type UserCountAggregateOutputType = {
   no_hp: number
   role: number
   status_akun: number
-  must_change_password: number
   unit_teknis_id: number
   createdAt: number
   updatedAt: number
@@ -102,7 +99,6 @@ export type UserMinAggregateInputType = {
   no_hp?: true
   role?: true
   status_akun?: true
-  must_change_password?: true
   unit_teknis_id?: true
   createdAt?: true
   updatedAt?: true
@@ -117,7 +113,6 @@ export type UserMaxAggregateInputType = {
   no_hp?: true
   role?: true
   status_akun?: true
-  must_change_password?: true
   unit_teknis_id?: true
   createdAt?: true
   updatedAt?: true
@@ -132,7 +127,6 @@ export type UserCountAggregateInputType = {
   no_hp?: true
   role?: true
   status_akun?: true
-  must_change_password?: true
   unit_teknis_id?: true
   createdAt?: true
   updatedAt?: true
@@ -234,7 +228,6 @@ export type UserGroupByOutputType = {
   no_hp: string | null
   role: $Enums.Role
   status_akun: $Enums.StatusAkun
-  must_change_password: boolean
   unit_teknis_id: number | null
   createdAt: Date
   updatedAt: Date
@@ -272,15 +265,12 @@ export type UserWhereInput = {
   no_hp?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFilter<"User"> | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFilter<"User"> | boolean
   unit_teknis_id?: Prisma.IntNullableFilter<"User"> | number | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   unit_teknis?: Prisma.XOR<Prisma.UnitTeknisNullableScalarRelationFilter, Prisma.UnitTeknisWhereInput> | null
   tikets?: Prisma.TiketListRelationFilter
   notifikasis?: Prisma.NotifikasiListRelationFilter
-  pengaduanPelapor?: Prisma.PengaduanListRelationFilter
-  pengaduanPetugas?: Prisma.PengaduanListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
 }
 
@@ -293,15 +283,12 @@ export type UserOrderByWithRelationInput = {
   no_hp?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status_akun?: Prisma.SortOrder
-  must_change_password?: Prisma.SortOrder
   unit_teknis_id?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   unit_teknis?: Prisma.UnitTeknisOrderByWithRelationInput
   tikets?: Prisma.TiketOrderByRelationAggregateInput
   notifikasis?: Prisma.NotifikasiOrderByRelationAggregateInput
-  pengaduanPelapor?: Prisma.PengaduanOrderByRelationAggregateInput
-  pengaduanPetugas?: Prisma.PengaduanOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   _relevance?: Prisma.UserOrderByRelevanceInput
 }
@@ -318,15 +305,12 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   no_hp?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFilter<"User"> | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFilter<"User"> | boolean
   unit_teknis_id?: Prisma.IntNullableFilter<"User"> | number | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   unit_teknis?: Prisma.XOR<Prisma.UnitTeknisNullableScalarRelationFilter, Prisma.UnitTeknisWhereInput> | null
   tikets?: Prisma.TiketListRelationFilter
   notifikasis?: Prisma.NotifikasiListRelationFilter
-  pengaduanPelapor?: Prisma.PengaduanListRelationFilter
-  pengaduanPetugas?: Prisma.PengaduanListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
 }, "id" | "email" | "nip">
 
@@ -339,7 +323,6 @@ export type UserOrderByWithAggregationInput = {
   no_hp?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status_akun?: Prisma.SortOrder
-  must_change_password?: Prisma.SortOrder
   unit_teknis_id?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -362,7 +345,6 @@ export type UserScalarWhereWithAggregatesInput = {
   no_hp?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunWithAggregatesFilter<"User"> | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   unit_teknis_id?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -376,14 +358,11 @@ export type UserCreateInput = {
   no_hp?: string | null
   role?: $Enums.Role
   status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit_teknis?: Prisma.UnitTeknisCreateNestedOneWithoutUsersInput
   tikets?: Prisma.TiketCreateNestedManyWithoutUserInput
   notifikasis?: Prisma.NotifikasiCreateNestedManyWithoutUserInput
-  pengaduanPelapor?: Prisma.PengaduanCreateNestedManyWithoutPelaporInput
-  pengaduanPetugas?: Prisma.PengaduanCreateNestedManyWithoutPetugasInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
@@ -396,14 +375,11 @@ export type UserUncheckedCreateInput = {
   no_hp?: string | null
   role?: $Enums.Role
   status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
   unit_teknis_id?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutUserInput
   notifikasis?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutUserInput
-  pengaduanPelapor?: Prisma.PengaduanUncheckedCreateNestedManyWithoutPelaporInput
-  pengaduanPetugas?: Prisma.PengaduanUncheckedCreateNestedManyWithoutPetugasInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -415,14 +391,11 @@ export type UserUpdateInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit_teknis?: Prisma.UnitTeknisUpdateOneWithoutUsersNestedInput
   tikets?: Prisma.TiketUpdateManyWithoutUserNestedInput
   notifikasis?: Prisma.NotifikasiUpdateManyWithoutUserNestedInput
-  pengaduanPelapor?: Prisma.PengaduanUpdateManyWithoutPelaporNestedInput
-  pengaduanPetugas?: Prisma.PengaduanUpdateManyWithoutPetugasNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
@@ -435,14 +408,11 @@ export type UserUncheckedUpdateInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   unit_teknis_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tikets?: Prisma.TiketUncheckedUpdateManyWithoutUserNestedInput
   notifikasis?: Prisma.NotifikasiUncheckedUpdateManyWithoutUserNestedInput
-  pengaduanPelapor?: Prisma.PengaduanUncheckedUpdateManyWithoutPelaporNestedInput
-  pengaduanPetugas?: Prisma.PengaduanUncheckedUpdateManyWithoutPetugasNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -455,7 +425,6 @@ export type UserCreateManyInput = {
   no_hp?: string | null
   role?: $Enums.Role
   status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
   unit_teknis_id?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -469,7 +438,6 @@ export type UserUpdateManyMutationInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -483,7 +451,6 @@ export type UserUncheckedUpdateManyInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   unit_teknis_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -504,7 +471,6 @@ export type UserCountOrderByAggregateInput = {
   no_hp?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status_akun?: Prisma.SortOrder
-  must_change_password?: Prisma.SortOrder
   unit_teknis_id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -524,7 +490,6 @@ export type UserMaxOrderByAggregateInput = {
   no_hp?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status_akun?: Prisma.SortOrder
-  must_change_password?: Prisma.SortOrder
   unit_teknis_id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -539,7 +504,6 @@ export type UserMinOrderByAggregateInput = {
   no_hp?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status_akun?: Prisma.SortOrder
-  must_change_password?: Prisma.SortOrder
   unit_teknis_id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -584,10 +548,6 @@ export type EnumRoleFieldUpdateOperationsInput = {
 
 export type EnumStatusAkunFieldUpdateOperationsInput = {
   set?: $Enums.StatusAkun
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -680,36 +640,6 @@ export type UserUpdateOneRequiredWithoutNotifikasisNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotifikasisInput, Prisma.UserUpdateWithoutNotifikasisInput>, Prisma.UserUncheckedUpdateWithoutNotifikasisInput>
 }
 
-export type UserCreateNestedOneWithoutPengaduanPelaporInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPengaduanPelaporInput, Prisma.UserUncheckedCreateWithoutPengaduanPelaporInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPengaduanPelaporInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserCreateNestedOneWithoutPengaduanPetugasInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPengaduanPetugasInput, Prisma.UserUncheckedCreateWithoutPengaduanPetugasInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPengaduanPetugasInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutPengaduanPelaporNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPengaduanPelaporInput, Prisma.UserUncheckedCreateWithoutPengaduanPelaporInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPengaduanPelaporInput
-  upsert?: Prisma.UserUpsertWithoutPengaduanPelaporInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPengaduanPelaporInput, Prisma.UserUpdateWithoutPengaduanPelaporInput>, Prisma.UserUncheckedUpdateWithoutPengaduanPelaporInput>
-}
-
-export type UserUpdateOneWithoutPengaduanPetugasNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPengaduanPetugasInput, Prisma.UserUncheckedCreateWithoutPengaduanPetugasInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPengaduanPetugasInput
-  upsert?: Prisma.UserUpsertWithoutPengaduanPetugasInput
-  disconnect?: Prisma.UserWhereInput | boolean
-  delete?: Prisma.UserWhereInput | boolean
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPengaduanPetugasInput, Prisma.UserUpdateWithoutPengaduanPetugasInput>, Prisma.UserUncheckedUpdateWithoutPengaduanPetugasInput>
-}
-
 export type UserCreateNestedOneWithoutAuditLogsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsInput, Prisma.UserUncheckedCreateWithoutAuditLogsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuditLogsInput
@@ -734,13 +664,10 @@ export type UserCreateWithoutUnit_teknisInput = {
   no_hp?: string | null
   role?: $Enums.Role
   status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   tikets?: Prisma.TiketCreateNestedManyWithoutUserInput
   notifikasis?: Prisma.NotifikasiCreateNestedManyWithoutUserInput
-  pengaduanPelapor?: Prisma.PengaduanCreateNestedManyWithoutPelaporInput
-  pengaduanPetugas?: Prisma.PengaduanCreateNestedManyWithoutPetugasInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
@@ -753,13 +680,10 @@ export type UserUncheckedCreateWithoutUnit_teknisInput = {
   no_hp?: string | null
   role?: $Enums.Role
   status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutUserInput
   notifikasis?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutUserInput
-  pengaduanPelapor?: Prisma.PengaduanUncheckedCreateNestedManyWithoutPelaporInput
-  pengaduanPetugas?: Prisma.PengaduanUncheckedCreateNestedManyWithoutPetugasInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -801,7 +725,6 @@ export type UserScalarWhereInput = {
   no_hp?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFilter<"User"> | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFilter<"User"> | boolean
   unit_teknis_id?: Prisma.IntNullableFilter<"User"> | number | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -815,13 +738,10 @@ export type UserCreateWithoutTiketsInput = {
   no_hp?: string | null
   role?: $Enums.Role
   status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit_teknis?: Prisma.UnitTeknisCreateNestedOneWithoutUsersInput
   notifikasis?: Prisma.NotifikasiCreateNestedManyWithoutUserInput
-  pengaduanPelapor?: Prisma.PengaduanCreateNestedManyWithoutPelaporInput
-  pengaduanPetugas?: Prisma.PengaduanCreateNestedManyWithoutPetugasInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
@@ -834,13 +754,10 @@ export type UserUncheckedCreateWithoutTiketsInput = {
   no_hp?: string | null
   role?: $Enums.Role
   status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
   unit_teknis_id?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   notifikasis?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutUserInput
-  pengaduanPelapor?: Prisma.PengaduanUncheckedCreateNestedManyWithoutPelaporInput
-  pengaduanPetugas?: Prisma.PengaduanUncheckedCreateNestedManyWithoutPetugasInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -868,13 +785,10 @@ export type UserUpdateWithoutTiketsInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit_teknis?: Prisma.UnitTeknisUpdateOneWithoutUsersNestedInput
   notifikasis?: Prisma.NotifikasiUpdateManyWithoutUserNestedInput
-  pengaduanPelapor?: Prisma.PengaduanUpdateManyWithoutPelaporNestedInput
-  pengaduanPetugas?: Prisma.PengaduanUpdateManyWithoutPetugasNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
@@ -887,13 +801,10 @@ export type UserUncheckedUpdateWithoutTiketsInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   unit_teknis_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifikasis?: Prisma.NotifikasiUncheckedUpdateManyWithoutUserNestedInput
-  pengaduanPelapor?: Prisma.PengaduanUncheckedUpdateManyWithoutPelaporNestedInput
-  pengaduanPetugas?: Prisma.PengaduanUncheckedUpdateManyWithoutPetugasNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -905,13 +816,10 @@ export type UserCreateWithoutNotifikasisInput = {
   no_hp?: string | null
   role?: $Enums.Role
   status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit_teknis?: Prisma.UnitTeknisCreateNestedOneWithoutUsersInput
   tikets?: Prisma.TiketCreateNestedManyWithoutUserInput
-  pengaduanPelapor?: Prisma.PengaduanCreateNestedManyWithoutPelaporInput
-  pengaduanPetugas?: Prisma.PengaduanCreateNestedManyWithoutPetugasInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
@@ -924,13 +832,10 @@ export type UserUncheckedCreateWithoutNotifikasisInput = {
   no_hp?: string | null
   role?: $Enums.Role
   status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
   unit_teknis_id?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutUserInput
-  pengaduanPelapor?: Prisma.PengaduanUncheckedCreateNestedManyWithoutPelaporInput
-  pengaduanPetugas?: Prisma.PengaduanUncheckedCreateNestedManyWithoutPetugasInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -958,13 +863,10 @@ export type UserUpdateWithoutNotifikasisInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit_teknis?: Prisma.UnitTeknisUpdateOneWithoutUsersNestedInput
   tikets?: Prisma.TiketUpdateManyWithoutUserNestedInput
-  pengaduanPelapor?: Prisma.PengaduanUpdateManyWithoutPelaporNestedInput
-  pengaduanPetugas?: Prisma.PengaduanUpdateManyWithoutPetugasNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
@@ -977,193 +879,10 @@ export type UserUncheckedUpdateWithoutNotifikasisInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   unit_teknis_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tikets?: Prisma.TiketUncheckedUpdateManyWithoutUserNestedInput
-  pengaduanPelapor?: Prisma.PengaduanUncheckedUpdateManyWithoutPelaporNestedInput
-  pengaduanPetugas?: Prisma.PengaduanUncheckedUpdateManyWithoutPetugasNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutPengaduanPelaporInput = {
-  email?: string | null
-  password: string
-  nama: string
-  nip?: string | null
-  no_hp?: string | null
-  role?: $Enums.Role
-  status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  unit_teknis?: Prisma.UnitTeknisCreateNestedOneWithoutUsersInput
-  tikets?: Prisma.TiketCreateNestedManyWithoutUserInput
-  notifikasis?: Prisma.NotifikasiCreateNestedManyWithoutUserInput
-  pengaduanPetugas?: Prisma.PengaduanCreateNestedManyWithoutPetugasInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutPengaduanPelaporInput = {
-  id?: number
-  email?: string | null
-  password: string
-  nama: string
-  nip?: string | null
-  no_hp?: string | null
-  role?: $Enums.Role
-  status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
-  unit_teknis_id?: number | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutUserInput
-  notifikasis?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutUserInput
-  pengaduanPetugas?: Prisma.PengaduanUncheckedCreateNestedManyWithoutPetugasInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutPengaduanPelaporInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutPengaduanPelaporInput, Prisma.UserUncheckedCreateWithoutPengaduanPelaporInput>
-}
-
-export type UserCreateWithoutPengaduanPetugasInput = {
-  email?: string | null
-  password: string
-  nama: string
-  nip?: string | null
-  no_hp?: string | null
-  role?: $Enums.Role
-  status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  unit_teknis?: Prisma.UnitTeknisCreateNestedOneWithoutUsersInput
-  tikets?: Prisma.TiketCreateNestedManyWithoutUserInput
-  notifikasis?: Prisma.NotifikasiCreateNestedManyWithoutUserInput
-  pengaduanPelapor?: Prisma.PengaduanCreateNestedManyWithoutPelaporInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutPengaduanPetugasInput = {
-  id?: number
-  email?: string | null
-  password: string
-  nama: string
-  nip?: string | null
-  no_hp?: string | null
-  role?: $Enums.Role
-  status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
-  unit_teknis_id?: number | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutUserInput
-  notifikasis?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutUserInput
-  pengaduanPelapor?: Prisma.PengaduanUncheckedCreateNestedManyWithoutPelaporInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutPengaduanPetugasInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutPengaduanPetugasInput, Prisma.UserUncheckedCreateWithoutPengaduanPetugasInput>
-}
-
-export type UserUpsertWithoutPengaduanPelaporInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutPengaduanPelaporInput, Prisma.UserUncheckedUpdateWithoutPengaduanPelaporInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutPengaduanPelaporInput, Prisma.UserUncheckedCreateWithoutPengaduanPelaporInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutPengaduanPelaporInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutPengaduanPelaporInput, Prisma.UserUncheckedUpdateWithoutPengaduanPelaporInput>
-}
-
-export type UserUpdateWithoutPengaduanPelaporInput = {
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  nama?: Prisma.StringFieldUpdateOperationsInput | string
-  nip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  unit_teknis?: Prisma.UnitTeknisUpdateOneWithoutUsersNestedInput
-  tikets?: Prisma.TiketUpdateManyWithoutUserNestedInput
-  notifikasis?: Prisma.NotifikasiUpdateManyWithoutUserNestedInput
-  pengaduanPetugas?: Prisma.PengaduanUpdateManyWithoutPetugasNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutPengaduanPelaporInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  nama?: Prisma.StringFieldUpdateOperationsInput | string
-  nip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  unit_teknis_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tikets?: Prisma.TiketUncheckedUpdateManyWithoutUserNestedInput
-  notifikasis?: Prisma.NotifikasiUncheckedUpdateManyWithoutUserNestedInput
-  pengaduanPetugas?: Prisma.PengaduanUncheckedUpdateManyWithoutPetugasNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserUpsertWithoutPengaduanPetugasInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutPengaduanPetugasInput, Prisma.UserUncheckedUpdateWithoutPengaduanPetugasInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutPengaduanPetugasInput, Prisma.UserUncheckedCreateWithoutPengaduanPetugasInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutPengaduanPetugasInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutPengaduanPetugasInput, Prisma.UserUncheckedUpdateWithoutPengaduanPetugasInput>
-}
-
-export type UserUpdateWithoutPengaduanPetugasInput = {
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  nama?: Prisma.StringFieldUpdateOperationsInput | string
-  nip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  unit_teknis?: Prisma.UnitTeknisUpdateOneWithoutUsersNestedInput
-  tikets?: Prisma.TiketUpdateManyWithoutUserNestedInput
-  notifikasis?: Prisma.NotifikasiUpdateManyWithoutUserNestedInput
-  pengaduanPelapor?: Prisma.PengaduanUpdateManyWithoutPelaporNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutPengaduanPetugasInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  nama?: Prisma.StringFieldUpdateOperationsInput | string
-  nip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  unit_teknis_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tikets?: Prisma.TiketUncheckedUpdateManyWithoutUserNestedInput
-  notifikasis?: Prisma.NotifikasiUncheckedUpdateManyWithoutUserNestedInput
-  pengaduanPelapor?: Prisma.PengaduanUncheckedUpdateManyWithoutPelaporNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1175,14 +894,11 @@ export type UserCreateWithoutAuditLogsInput = {
   no_hp?: string | null
   role?: $Enums.Role
   status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit_teknis?: Prisma.UnitTeknisCreateNestedOneWithoutUsersInput
   tikets?: Prisma.TiketCreateNestedManyWithoutUserInput
   notifikasis?: Prisma.NotifikasiCreateNestedManyWithoutUserInput
-  pengaduanPelapor?: Prisma.PengaduanCreateNestedManyWithoutPelaporInput
-  pengaduanPetugas?: Prisma.PengaduanCreateNestedManyWithoutPetugasInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -1194,14 +910,11 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   no_hp?: string | null
   role?: $Enums.Role
   status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
   unit_teknis_id?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutUserInput
   notifikasis?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutUserInput
-  pengaduanPelapor?: Prisma.PengaduanUncheckedCreateNestedManyWithoutPelaporInput
-  pengaduanPetugas?: Prisma.PengaduanUncheckedCreateNestedManyWithoutPetugasInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -1228,14 +941,11 @@ export type UserUpdateWithoutAuditLogsInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit_teknis?: Prisma.UnitTeknisUpdateOneWithoutUsersNestedInput
   tikets?: Prisma.TiketUpdateManyWithoutUserNestedInput
   notifikasis?: Prisma.NotifikasiUpdateManyWithoutUserNestedInput
-  pengaduanPelapor?: Prisma.PengaduanUpdateManyWithoutPelaporNestedInput
-  pengaduanPetugas?: Prisma.PengaduanUpdateManyWithoutPetugasNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -1247,14 +957,11 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   unit_teknis_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tikets?: Prisma.TiketUncheckedUpdateManyWithoutUserNestedInput
   notifikasis?: Prisma.NotifikasiUncheckedUpdateManyWithoutUserNestedInput
-  pengaduanPelapor?: Prisma.PengaduanUncheckedUpdateManyWithoutPelaporNestedInput
-  pengaduanPetugas?: Prisma.PengaduanUncheckedUpdateManyWithoutPetugasNestedInput
 }
 
 export type UserCreateManyUnit_teknisInput = {
@@ -1266,7 +973,6 @@ export type UserCreateManyUnit_teknisInput = {
   no_hp?: string | null
   role?: $Enums.Role
   status_akun?: $Enums.StatusAkun
-  must_change_password?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1279,13 +985,10 @@ export type UserUpdateWithoutUnit_teknisInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tikets?: Prisma.TiketUpdateManyWithoutUserNestedInput
   notifikasis?: Prisma.NotifikasiUpdateManyWithoutUserNestedInput
-  pengaduanPelapor?: Prisma.PengaduanUpdateManyWithoutPelaporNestedInput
-  pengaduanPetugas?: Prisma.PengaduanUpdateManyWithoutPetugasNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
@@ -1298,13 +1001,10 @@ export type UserUncheckedUpdateWithoutUnit_teknisInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tikets?: Prisma.TiketUncheckedUpdateManyWithoutUserNestedInput
   notifikasis?: Prisma.NotifikasiUncheckedUpdateManyWithoutUserNestedInput
-  pengaduanPelapor?: Prisma.PengaduanUncheckedUpdateManyWithoutPelaporNestedInput
-  pengaduanPetugas?: Prisma.PengaduanUncheckedUpdateManyWithoutPetugasNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1317,7 +1017,6 @@ export type UserUncheckedUpdateManyWithoutUnit_teknisInput = {
   no_hp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status_akun?: Prisma.EnumStatusAkunFieldUpdateOperationsInput | $Enums.StatusAkun
-  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1330,16 +1029,12 @@ export type UserUncheckedUpdateManyWithoutUnit_teknisInput = {
 export type UserCountOutputType = {
   tikets: number
   notifikasis: number
-  pengaduanPelapor: number
-  pengaduanPetugas: number
   auditLogs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tikets?: boolean | UserCountOutputTypeCountTiketsArgs
   notifikasis?: boolean | UserCountOutputTypeCountNotifikasisArgs
-  pengaduanPelapor?: boolean | UserCountOutputTypeCountPengaduanPelaporArgs
-  pengaduanPetugas?: boolean | UserCountOutputTypeCountPengaduanPetugasArgs
   auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
 }
 
@@ -1370,20 +1065,6 @@ export type UserCountOutputTypeCountNotifikasisArgs<ExtArgs extends runtime.Type
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountPengaduanPelaporArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PengaduanWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountPengaduanPetugasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PengaduanWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AuditLogWhereInput
 }
@@ -1398,15 +1079,12 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   no_hp?: boolean
   role?: boolean
   status_akun?: boolean
-  must_change_password?: boolean
   unit_teknis_id?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   unit_teknis?: boolean | Prisma.User$unit_teknisArgs<ExtArgs>
   tikets?: boolean | Prisma.User$tiketsArgs<ExtArgs>
   notifikasis?: boolean | Prisma.User$notifikasisArgs<ExtArgs>
-  pengaduanPelapor?: boolean | Prisma.User$pengaduanPelaporArgs<ExtArgs>
-  pengaduanPetugas?: boolean | Prisma.User$pengaduanPetugasArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -1422,19 +1100,16 @@ export type UserSelectScalar = {
   no_hp?: boolean
   role?: boolean
   status_akun?: boolean
-  must_change_password?: boolean
   unit_teknis_id?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "nama" | "nip" | "no_hp" | "role" | "status_akun" | "must_change_password" | "unit_teknis_id" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "nama" | "nip" | "no_hp" | "role" | "status_akun" | "unit_teknis_id" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   unit_teknis?: boolean | Prisma.User$unit_teknisArgs<ExtArgs>
   tikets?: boolean | Prisma.User$tiketsArgs<ExtArgs>
   notifikasis?: boolean | Prisma.User$notifikasisArgs<ExtArgs>
-  pengaduanPelapor?: boolean | Prisma.User$pengaduanPelaporArgs<ExtArgs>
-  pengaduanPetugas?: boolean | Prisma.User$pengaduanPetugasArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1445,8 +1120,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     unit_teknis: Prisma.$UnitTeknisPayload<ExtArgs> | null
     tikets: Prisma.$TiketPayload<ExtArgs>[]
     notifikasis: Prisma.$NotifikasiPayload<ExtArgs>[]
-    pengaduanPelapor: Prisma.$PengaduanPayload<ExtArgs>[]
-    pengaduanPetugas: Prisma.$PengaduanPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1458,7 +1131,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     no_hp: string | null
     role: $Enums.Role
     status_akun: $Enums.StatusAkun
-    must_change_password: boolean
     unit_teknis_id: number | null
     createdAt: Date
     updatedAt: Date
@@ -1805,8 +1477,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   unit_teknis<T extends Prisma.User$unit_teknisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$unit_teknisArgs<ExtArgs>>): Prisma.Prisma__UnitTeknisClient<runtime.Types.Result.GetResult<Prisma.$UnitTeknisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tikets<T extends Prisma.User$tiketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tiketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TiketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifikasis<T extends Prisma.User$notifikasisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notifikasisArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotifikasiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  pengaduanPelapor<T extends Prisma.User$pengaduanPelaporArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$pengaduanPelaporArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PengaduanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  pengaduanPetugas<T extends Prisma.User$pengaduanPetugasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$pengaduanPetugasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PengaduanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1845,7 +1515,6 @@ export interface UserFieldRefs {
   readonly no_hp: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly status_akun: Prisma.FieldRef<"User", 'StatusAkun'>
-  readonly must_change_password: Prisma.FieldRef<"User", 'Boolean'>
   readonly unit_teknis_id: Prisma.FieldRef<"User", 'Int'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
@@ -2261,54 +1930,6 @@ export type User$notifikasisArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.NotifikasiScalarFieldEnum | Prisma.NotifikasiScalarFieldEnum[]
-}
-
-/**
- * User.pengaduanPelapor
- */
-export type User$pengaduanPelaporArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Pengaduan
-   */
-  select?: Prisma.PengaduanSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Pengaduan
-   */
-  omit?: Prisma.PengaduanOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PengaduanInclude<ExtArgs> | null
-  where?: Prisma.PengaduanWhereInput
-  orderBy?: Prisma.PengaduanOrderByWithRelationInput | Prisma.PengaduanOrderByWithRelationInput[]
-  cursor?: Prisma.PengaduanWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PengaduanScalarFieldEnum | Prisma.PengaduanScalarFieldEnum[]
-}
-
-/**
- * User.pengaduanPetugas
- */
-export type User$pengaduanPetugasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Pengaduan
-   */
-  select?: Prisma.PengaduanSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Pengaduan
-   */
-  omit?: Prisma.PengaduanOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PengaduanInclude<ExtArgs> | null
-  where?: Prisma.PengaduanWhereInput
-  orderBy?: Prisma.PengaduanOrderByWithRelationInput | Prisma.PengaduanOrderByWithRelationInput[]
-  cursor?: Prisma.PengaduanWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PengaduanScalarFieldEnum | Prisma.PengaduanScalarFieldEnum[]
 }
 
 /**

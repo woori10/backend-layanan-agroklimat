@@ -20,28 +20,57 @@ const adapter = new PrismaMariaDb({
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+    await seedUnitTeknis();
     await seedLayanan();
+
     const existingSuperAdmin = await prisma.user.findUnique({
         where: { email: 'superadmin@agroklimat.go.id' },
     });
 
     if (!existingSuperAdmin) {
-        const hashedPassword = await bcrypt.hash('GantiPasswordIni123!', 10);
+        const hashedPassword = await bcrypt.hash('SuperAdmin123', 10);
 
         await prisma.user.create({
             data: {
                 email: 'superadmin@agroklimat.go.id',
+                nip: '199603082005031008',
                 password: hashedPassword,
                 nama: 'Super Admin',
-                no_hp: '000000000000',
+                no_hp: '08123456789',
                 role: 'super_admin',
-                must_change_password: false,
             },
         });
 
         console.log('Super admin berhasil dibuat');
     } else {
-        console.log('Super admin sudah ada, dilewati');
+        await prisma.user.update({
+            where: { email: 'superadmin@agroklimat.go.id' },
+            data: {
+                nip: '199603082005031008',
+            },
+        });
+        console.log('Super admin sudah ada, NIP diperbarui');
+    }
+}
+
+async function seedUnitTeknis() {
+    const unitTeknisList = [
+        'Tim Teknis Agroklimat / Hidrologi',
+        'Koordinator Laboratorium',
+        'Tim Kerja Layanan dan Pendayagunaan Hasil',
+        'Tim Siap Tanam',
+        'Petugas Mess',
+    ];
+
+    for (const nama of unitTeknisList) {
+        const existing = await prisma.unitTeknis.findFirst({ where: { nama } });
+
+        if (!existing) {
+            await prisma.unitTeknis.create({ data: { nama } });
+            console.log(`Unit Teknis "${nama}" berhasil dibuat`);
+        } else {
+            console.log(`Unit Teknis "${nama}" sudah ada, dilewati`);
+        }
     }
 }
 
@@ -49,74 +78,56 @@ async function seedLayanan() {
     const layananList = [
         {
             nama_layanan: 'Rekomendasi Kalender Tanam',
-            kategori: 'Lampiran I',
             biaya: { tipe: 'gratis' },
             sla_hari: 5,
-            dasar_hukum: 'Menyusul',
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
             nama_layanan: 'Rekomendasi & Penilaian Kesesuaian Agroklimat/Hidrologi (SNI)',
-            kategori: 'Lampiran II',
             biaya: { tipe: 'gratis' },
             sla_hari: 5,
-            dasar_hukum: 'Menyusul',
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
             nama_layanan: 'Permohonan Data / Peminjaman Alat (Lab. Agrohidromet)',
-            kategori: 'Lampiran III.1',
             biaya: { tipe: 'tetap', catatan: 'Tarif PNBP, nominal menyusul' },
             sla_hari: 5,
-            dasar_hukum: 'Menyusul',
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
             nama_layanan: 'Konsultasi Rekomendasi & Penilaian Kesesuaian',
-            kategori: 'Lampiran III.2',
             biaya: { tipe: 'gratis' },
             sla_hari: 5,
-            dasar_hukum: 'Menyusul',
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
             nama_layanan: 'Bimbingan Teknis & Narasumber',
-            kategori: 'Lampiran III.3',
             biaya: { tipe: 'gratis' },
             sla_hari: null,
-            dasar_hukum: 'Menyusul',
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
             nama_layanan: 'Magang Teknis / PKL',
-            kategori: 'Lampiran III.4',
             biaya: { tipe: 'gratis' },
             sla_hari: null,
-            dasar_hukum: 'Menyusul',
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
             nama_layanan: 'Layanan Perpustakaan',
-            kategori: 'Lampiran III.5',
             biaya: { tipe: 'gratis' },
             sla_hari: null,
-            dasar_hukum: 'Menyusul',
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
             nama_layanan: 'Agroedukasi / Kunjungan Edukasi',
-            kategori: 'Lampiran IV.1',
             biaya: { tipe: 'gratis' },
             sla_hari: 5,
-            dasar_hukum: 'Menyusul',
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
             nama_layanan: 'Layanan Mess',
-            kategori: 'Lampiran IV.2',
             biaya: { tipe: 'per_satuan', nominal: 100000, satuan: 'kamar/malam' },
             sla_hari: 1,
-            dasar_hukum: 'Menyusul',
             form_schema: { fields: [], dokumen_wajib: [] },
         },
     ];

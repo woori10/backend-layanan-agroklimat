@@ -11,7 +11,7 @@ export class CreateUserDto {
     @IsEnum(Role)
     role: Role;
 
-    @ValidateIf((o) => o.role === 'admin' || o.role === 'pegawai')
+    @ValidateIf((o) => o.role === 'pegawai')
     @IsInt()
     unit_teknis_id?: number;
 }

@@ -11,11 +11,10 @@
 
 export const Role = {
   super_admin: 'super_admin',
-  pengguna: 'pengguna',
-  admin_petugas_layanan: 'admin_petugas_layanan',
-  kepala_balai: 'kepala_balai',
-  unit_teknis: 'unit_teknis',
-  petugas_pengaduan: 'petugas_pengaduan'
+  publik: 'publik',
+  admin: 'admin',
+  pegawai: 'pegawai',
+  kepala_balai: 'kepala_balai'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
@@ -23,8 +22,7 @@ export type Role = (typeof Role)[keyof typeof Role]
 
 export const StatusAkun = {
   active: 'active',
-  inactive: 'inactive',
-  suspended: 'suspended'
+  inactive: 'inactive'
 } as const
 
 export type StatusAkun = (typeof StatusAkun)[keyof typeof StatusAkun]
@@ -32,8 +30,8 @@ export type StatusAkun = (typeof StatusAkun)[keyof typeof StatusAkun]
 
 export const StatusTiket = {
   diajukan: 'diajukan',
-  menunggu_revisi: 'menunggu_revisi',
-  perlu_direvisi: 'perlu_direvisi',
+  menunggu_verifikasi: 'menunggu_verifikasi',
+  perlu_revisi: 'perlu_revisi',
   diproses: 'diproses',
   menunggu_pembayaran: 'menunggu_pembayaran',
   dibatalkan: 'dibatalkan',
@@ -57,27 +55,7 @@ export type StatusBayar = (typeof StatusBayar)[keyof typeof StatusBayar]
 
 export const KanalNotifikasi = {
   dashboard: 'dashboard',
-  email: 'email',
-  wa: 'wa'
+  email: 'email'
 } as const
 
 export type KanalNotifikasi = (typeof KanalNotifikasi)[keyof typeof KanalNotifikasi]
-
-
-export const KanalPengaduan = {
-  website: 'website',
-  email: 'email',
-  whatsapp: 'whatsapp'
-} as const
-
-export type KanalPengaduan = (typeof KanalPengaduan)[keyof typeof KanalPengaduan]
-
-
-export const StatusPengaduan = {
-  baru: 'baru',
-  diproses: 'diproses',
-  selesai: 'selesai',
-  ditolak: 'ditolak'
-} as const
-
-export type StatusPengaduan = (typeof StatusPengaduan)[keyof typeof StatusPengaduan]

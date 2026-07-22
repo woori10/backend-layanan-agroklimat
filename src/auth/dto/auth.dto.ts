@@ -34,9 +34,3 @@ export class LoginPegawaiDto {
     @IsString()
     password: string;
 }
-
-export class ChangePasswordDto {
-    @IsString()
-    @MinLength(6)
-    new_password: string;
-}

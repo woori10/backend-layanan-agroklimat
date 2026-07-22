@@ -278,8 +278,6 @@ export type TiketWhereInput = {
   dokumen?: Prisma.DokumenListRelationFilter
   tagihan?: Prisma.XOR<Prisma.TagihanNullableScalarRelationFilter, Prisma.TagihanWhereInput> | null
   notifikasi?: Prisma.NotifikasiListRelationFilter
-  skm?: Prisma.XOR<Prisma.SKMNullableScalarRelationFilter, Prisma.SKMWhereInput> | null
-  pengaduan?: Prisma.PengaduanListRelationFilter
   auditLog?: Prisma.AuditLogListRelationFilter
 }
 
@@ -301,8 +299,6 @@ export type TiketOrderByWithRelationInput = {
   dokumen?: Prisma.DokumenOrderByRelationAggregateInput
   tagihan?: Prisma.TagihanOrderByWithRelationInput
   notifikasi?: Prisma.NotifikasiOrderByRelationAggregateInput
-  skm?: Prisma.SKMOrderByWithRelationInput
-  pengaduan?: Prisma.PengaduanOrderByRelationAggregateInput
   auditLog?: Prisma.AuditLogOrderByRelationAggregateInput
   _relevance?: Prisma.TiketOrderByRelevanceInput
 }
@@ -328,8 +324,6 @@ export type TiketWhereUniqueInput = Prisma.AtLeast<{
   dokumen?: Prisma.DokumenListRelationFilter
   tagihan?: Prisma.XOR<Prisma.TagihanNullableScalarRelationFilter, Prisma.TagihanWhereInput> | null
   notifikasi?: Prisma.NotifikasiListRelationFilter
-  skm?: Prisma.XOR<Prisma.SKMNullableScalarRelationFilter, Prisma.SKMWhereInput> | null
-  pengaduan?: Prisma.PengaduanListRelationFilter
   auditLog?: Prisma.AuditLogListRelationFilter
 }, "id" | "no_tiket">
 
@@ -383,8 +377,6 @@ export type TiketCreateInput = {
   dokumen?: Prisma.DokumenCreateNestedManyWithoutTiketInput
   tagihan?: Prisma.TagihanCreateNestedOneWithoutTiketInput
   notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogCreateNestedManyWithoutTiketInput
 }
 
@@ -403,8 +395,6 @@ export type TiketUncheckedCreateInput = {
   dokumen?: Prisma.DokumenUncheckedCreateNestedManyWithoutTiketInput
   tagihan?: Prisma.TagihanUncheckedCreateNestedOneWithoutTiketInput
   notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMUncheckedCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanUncheckedCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTiketInput
 }
 
@@ -422,8 +412,6 @@ export type TiketUpdateInput = {
   dokumen?: Prisma.DokumenUpdateManyWithoutTiketNestedInput
   tagihan?: Prisma.TagihanUpdateOneWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUpdateManyWithoutTiketNestedInput
 }
 
@@ -442,8 +430,6 @@ export type TiketUncheckedUpdateInput = {
   dokumen?: Prisma.DokumenUncheckedUpdateManyWithoutTiketNestedInput
   tagihan?: Prisma.TagihanUncheckedUpdateOneWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUncheckedUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUncheckedUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutTiketNestedInput
 }
 
@@ -743,36 +729,6 @@ export type TiketUpdateOneWithoutNotifikasiNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TiketUpdateToOneWithWhereWithoutNotifikasiInput, Prisma.TiketUpdateWithoutNotifikasiInput>, Prisma.TiketUncheckedUpdateWithoutNotifikasiInput>
 }
 
-export type TiketCreateNestedOneWithoutSkmInput = {
-  create?: Prisma.XOR<Prisma.TiketCreateWithoutSkmInput, Prisma.TiketUncheckedCreateWithoutSkmInput>
-  connectOrCreate?: Prisma.TiketCreateOrConnectWithoutSkmInput
-  connect?: Prisma.TiketWhereUniqueInput
-}
-
-export type TiketUpdateOneRequiredWithoutSkmNestedInput = {
-  create?: Prisma.XOR<Prisma.TiketCreateWithoutSkmInput, Prisma.TiketUncheckedCreateWithoutSkmInput>
-  connectOrCreate?: Prisma.TiketCreateOrConnectWithoutSkmInput
-  upsert?: Prisma.TiketUpsertWithoutSkmInput
-  connect?: Prisma.TiketWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TiketUpdateToOneWithWhereWithoutSkmInput, Prisma.TiketUpdateWithoutSkmInput>, Prisma.TiketUncheckedUpdateWithoutSkmInput>
-}
-
-export type TiketCreateNestedOneWithoutPengaduanInput = {
-  create?: Prisma.XOR<Prisma.TiketCreateWithoutPengaduanInput, Prisma.TiketUncheckedCreateWithoutPengaduanInput>
-  connectOrCreate?: Prisma.TiketCreateOrConnectWithoutPengaduanInput
-  connect?: Prisma.TiketWhereUniqueInput
-}
-
-export type TiketUpdateOneWithoutPengaduanNestedInput = {
-  create?: Prisma.XOR<Prisma.TiketCreateWithoutPengaduanInput, Prisma.TiketUncheckedCreateWithoutPengaduanInput>
-  connectOrCreate?: Prisma.TiketCreateOrConnectWithoutPengaduanInput
-  upsert?: Prisma.TiketUpsertWithoutPengaduanInput
-  disconnect?: Prisma.TiketWhereInput | boolean
-  delete?: Prisma.TiketWhereInput | boolean
-  connect?: Prisma.TiketWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TiketUpdateToOneWithWhereWithoutPengaduanInput, Prisma.TiketUpdateWithoutPengaduanInput>, Prisma.TiketUncheckedUpdateWithoutPengaduanInput>
-}
-
 export type TiketCreateNestedOneWithoutAuditLogInput = {
   create?: Prisma.XOR<Prisma.TiketCreateWithoutAuditLogInput, Prisma.TiketUncheckedCreateWithoutAuditLogInput>
   connectOrCreate?: Prisma.TiketCreateOrConnectWithoutAuditLogInput
@@ -802,8 +758,6 @@ export type TiketCreateWithoutUserInput = {
   dokumen?: Prisma.DokumenCreateNestedManyWithoutTiketInput
   tagihan?: Prisma.TagihanCreateNestedOneWithoutTiketInput
   notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogCreateNestedManyWithoutTiketInput
 }
 
@@ -821,8 +775,6 @@ export type TiketUncheckedCreateWithoutUserInput = {
   dokumen?: Prisma.DokumenUncheckedCreateNestedManyWithoutTiketInput
   tagihan?: Prisma.TagihanUncheckedCreateNestedOneWithoutTiketInput
   notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMUncheckedCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanUncheckedCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTiketInput
 }
 
@@ -882,8 +834,6 @@ export type TiketCreateWithoutUnit_teknisInput = {
   dokumen?: Prisma.DokumenCreateNestedManyWithoutTiketInput
   tagihan?: Prisma.TagihanCreateNestedOneWithoutTiketInput
   notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogCreateNestedManyWithoutTiketInput
 }
 
@@ -901,8 +851,6 @@ export type TiketUncheckedCreateWithoutUnit_teknisInput = {
   dokumen?: Prisma.DokumenUncheckedCreateNestedManyWithoutTiketInput
   tagihan?: Prisma.TagihanUncheckedCreateNestedOneWithoutTiketInput
   notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMUncheckedCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanUncheckedCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTiketInput
 }
 
@@ -945,8 +893,6 @@ export type TiketCreateWithoutLayananInput = {
   dokumen?: Prisma.DokumenCreateNestedManyWithoutTiketInput
   tagihan?: Prisma.TagihanCreateNestedOneWithoutTiketInput
   notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogCreateNestedManyWithoutTiketInput
 }
 
@@ -964,8 +910,6 @@ export type TiketUncheckedCreateWithoutLayananInput = {
   dokumen?: Prisma.DokumenUncheckedCreateNestedManyWithoutTiketInput
   tagihan?: Prisma.TagihanUncheckedCreateNestedOneWithoutTiketInput
   notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMUncheckedCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanUncheckedCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTiketInput
 }
 
@@ -1008,8 +952,6 @@ export type TiketCreateWithoutDokumenInput = {
   unit_teknis?: Prisma.UnitTeknisCreateNestedOneWithoutTiketsInput
   tagihan?: Prisma.TagihanCreateNestedOneWithoutTiketInput
   notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogCreateNestedManyWithoutTiketInput
 }
 
@@ -1027,8 +969,6 @@ export type TiketUncheckedCreateWithoutDokumenInput = {
   updatedAt?: Date | string
   tagihan?: Prisma.TagihanUncheckedCreateNestedOneWithoutTiketInput
   notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMUncheckedCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanUncheckedCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTiketInput
 }
 
@@ -1061,8 +1001,6 @@ export type TiketUpdateWithoutDokumenInput = {
   unit_teknis?: Prisma.UnitTeknisUpdateOneWithoutTiketsNestedInput
   tagihan?: Prisma.TagihanUpdateOneWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUpdateManyWithoutTiketNestedInput
 }
 
@@ -1080,8 +1018,6 @@ export type TiketUncheckedUpdateWithoutDokumenInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tagihan?: Prisma.TagihanUncheckedUpdateOneWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUncheckedUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUncheckedUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutTiketNestedInput
 }
 
@@ -1098,8 +1034,6 @@ export type TiketCreateWithoutTagihanInput = {
   unit_teknis?: Prisma.UnitTeknisCreateNestedOneWithoutTiketsInput
   dokumen?: Prisma.DokumenCreateNestedManyWithoutTiketInput
   notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogCreateNestedManyWithoutTiketInput
 }
 
@@ -1117,8 +1051,6 @@ export type TiketUncheckedCreateWithoutTagihanInput = {
   updatedAt?: Date | string
   dokumen?: Prisma.DokumenUncheckedCreateNestedManyWithoutTiketInput
   notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMUncheckedCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanUncheckedCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTiketInput
 }
 
@@ -1151,8 +1083,6 @@ export type TiketUpdateWithoutTagihanInput = {
   unit_teknis?: Prisma.UnitTeknisUpdateOneWithoutTiketsNestedInput
   dokumen?: Prisma.DokumenUpdateManyWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUpdateManyWithoutTiketNestedInput
 }
 
@@ -1170,8 +1100,6 @@ export type TiketUncheckedUpdateWithoutTagihanInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dokumen?: Prisma.DokumenUncheckedUpdateManyWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUncheckedUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUncheckedUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutTiketNestedInput
 }
 
@@ -1188,8 +1116,6 @@ export type TiketCreateWithoutNotifikasiInput = {
   unit_teknis?: Prisma.UnitTeknisCreateNestedOneWithoutTiketsInput
   dokumen?: Prisma.DokumenCreateNestedManyWithoutTiketInput
   tagihan?: Prisma.TagihanCreateNestedOneWithoutTiketInput
-  skm?: Prisma.SKMCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogCreateNestedManyWithoutTiketInput
 }
 
@@ -1207,8 +1133,6 @@ export type TiketUncheckedCreateWithoutNotifikasiInput = {
   updatedAt?: Date | string
   dokumen?: Prisma.DokumenUncheckedCreateNestedManyWithoutTiketInput
   tagihan?: Prisma.TagihanUncheckedCreateNestedOneWithoutTiketInput
-  skm?: Prisma.SKMUncheckedCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanUncheckedCreateNestedManyWithoutTiketInput
   auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTiketInput
 }
 
@@ -1241,8 +1165,6 @@ export type TiketUpdateWithoutNotifikasiInput = {
   unit_teknis?: Prisma.UnitTeknisUpdateOneWithoutTiketsNestedInput
   dokumen?: Prisma.DokumenUpdateManyWithoutTiketNestedInput
   tagihan?: Prisma.TagihanUpdateOneWithoutTiketNestedInput
-  skm?: Prisma.SKMUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUpdateManyWithoutTiketNestedInput
 }
 
@@ -1260,188 +1182,6 @@ export type TiketUncheckedUpdateWithoutNotifikasiInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dokumen?: Prisma.DokumenUncheckedUpdateManyWithoutTiketNestedInput
   tagihan?: Prisma.TagihanUncheckedUpdateOneWithoutTiketNestedInput
-  skm?: Prisma.SKMUncheckedUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUncheckedUpdateManyWithoutTiketNestedInput
-  auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutTiketNestedInput
-}
-
-export type TiketCreateWithoutSkmInput = {
-  no_tiket: string
-  jawaban_form?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  status?: $Enums.StatusTiket
-  tanggal_submit?: Date | string
-  tanggal_sla?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTiketsInput
-  layanan: Prisma.LayananCreateNestedOneWithoutTiketsInput
-  unit_teknis?: Prisma.UnitTeknisCreateNestedOneWithoutTiketsInput
-  dokumen?: Prisma.DokumenCreateNestedManyWithoutTiketInput
-  tagihan?: Prisma.TagihanCreateNestedOneWithoutTiketInput
-  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutTiketInput
-  pengaduan?: Prisma.PengaduanCreateNestedManyWithoutTiketInput
-  auditLog?: Prisma.AuditLogCreateNestedManyWithoutTiketInput
-}
-
-export type TiketUncheckedCreateWithoutSkmInput = {
-  id?: number
-  no_tiket: string
-  user_id: number
-  layanan_id: number
-  jawaban_form?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  status?: $Enums.StatusTiket
-  tanggal_submit?: Date | string
-  tanggal_sla?: Date | string | null
-  unit_teknis_id?: number | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  dokumen?: Prisma.DokumenUncheckedCreateNestedManyWithoutTiketInput
-  tagihan?: Prisma.TagihanUncheckedCreateNestedOneWithoutTiketInput
-  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutTiketInput
-  pengaduan?: Prisma.PengaduanUncheckedCreateNestedManyWithoutTiketInput
-  auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTiketInput
-}
-
-export type TiketCreateOrConnectWithoutSkmInput = {
-  where: Prisma.TiketWhereUniqueInput
-  create: Prisma.XOR<Prisma.TiketCreateWithoutSkmInput, Prisma.TiketUncheckedCreateWithoutSkmInput>
-}
-
-export type TiketUpsertWithoutSkmInput = {
-  update: Prisma.XOR<Prisma.TiketUpdateWithoutSkmInput, Prisma.TiketUncheckedUpdateWithoutSkmInput>
-  create: Prisma.XOR<Prisma.TiketCreateWithoutSkmInput, Prisma.TiketUncheckedCreateWithoutSkmInput>
-  where?: Prisma.TiketWhereInput
-}
-
-export type TiketUpdateToOneWithWhereWithoutSkmInput = {
-  where?: Prisma.TiketWhereInput
-  data: Prisma.XOR<Prisma.TiketUpdateWithoutSkmInput, Prisma.TiketUncheckedUpdateWithoutSkmInput>
-}
-
-export type TiketUpdateWithoutSkmInput = {
-  no_tiket?: Prisma.StringFieldUpdateOperationsInput | string
-  jawaban_form?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  status?: Prisma.EnumStatusTiketFieldUpdateOperationsInput | $Enums.StatusTiket
-  tanggal_submit?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tanggal_sla?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTiketsNestedInput
-  layanan?: Prisma.LayananUpdateOneRequiredWithoutTiketsNestedInput
-  unit_teknis?: Prisma.UnitTeknisUpdateOneWithoutTiketsNestedInput
-  dokumen?: Prisma.DokumenUpdateManyWithoutTiketNestedInput
-  tagihan?: Prisma.TagihanUpdateOneWithoutTiketNestedInput
-  notifikasi?: Prisma.NotifikasiUpdateManyWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUpdateManyWithoutTiketNestedInput
-  auditLog?: Prisma.AuditLogUpdateManyWithoutTiketNestedInput
-}
-
-export type TiketUncheckedUpdateWithoutSkmInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  no_tiket?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.IntFieldUpdateOperationsInput | number
-  layanan_id?: Prisma.IntFieldUpdateOperationsInput | number
-  jawaban_form?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  status?: Prisma.EnumStatusTiketFieldUpdateOperationsInput | $Enums.StatusTiket
-  tanggal_submit?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tanggal_sla?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  unit_teknis_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dokumen?: Prisma.DokumenUncheckedUpdateManyWithoutTiketNestedInput
-  tagihan?: Prisma.TagihanUncheckedUpdateOneWithoutTiketNestedInput
-  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUncheckedUpdateManyWithoutTiketNestedInput
-  auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutTiketNestedInput
-}
-
-export type TiketCreateWithoutPengaduanInput = {
-  no_tiket: string
-  jawaban_form?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  status?: $Enums.StatusTiket
-  tanggal_submit?: Date | string
-  tanggal_sla?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTiketsInput
-  layanan: Prisma.LayananCreateNestedOneWithoutTiketsInput
-  unit_teknis?: Prisma.UnitTeknisCreateNestedOneWithoutTiketsInput
-  dokumen?: Prisma.DokumenCreateNestedManyWithoutTiketInput
-  tagihan?: Prisma.TagihanCreateNestedOneWithoutTiketInput
-  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMCreateNestedOneWithoutTiketInput
-  auditLog?: Prisma.AuditLogCreateNestedManyWithoutTiketInput
-}
-
-export type TiketUncheckedCreateWithoutPengaduanInput = {
-  id?: number
-  no_tiket: string
-  user_id: number
-  layanan_id: number
-  jawaban_form?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  status?: $Enums.StatusTiket
-  tanggal_submit?: Date | string
-  tanggal_sla?: Date | string | null
-  unit_teknis_id?: number | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  dokumen?: Prisma.DokumenUncheckedCreateNestedManyWithoutTiketInput
-  tagihan?: Prisma.TagihanUncheckedCreateNestedOneWithoutTiketInput
-  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMUncheckedCreateNestedOneWithoutTiketInput
-  auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTiketInput
-}
-
-export type TiketCreateOrConnectWithoutPengaduanInput = {
-  where: Prisma.TiketWhereUniqueInput
-  create: Prisma.XOR<Prisma.TiketCreateWithoutPengaduanInput, Prisma.TiketUncheckedCreateWithoutPengaduanInput>
-}
-
-export type TiketUpsertWithoutPengaduanInput = {
-  update: Prisma.XOR<Prisma.TiketUpdateWithoutPengaduanInput, Prisma.TiketUncheckedUpdateWithoutPengaduanInput>
-  create: Prisma.XOR<Prisma.TiketCreateWithoutPengaduanInput, Prisma.TiketUncheckedCreateWithoutPengaduanInput>
-  where?: Prisma.TiketWhereInput
-}
-
-export type TiketUpdateToOneWithWhereWithoutPengaduanInput = {
-  where?: Prisma.TiketWhereInput
-  data: Prisma.XOR<Prisma.TiketUpdateWithoutPengaduanInput, Prisma.TiketUncheckedUpdateWithoutPengaduanInput>
-}
-
-export type TiketUpdateWithoutPengaduanInput = {
-  no_tiket?: Prisma.StringFieldUpdateOperationsInput | string
-  jawaban_form?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  status?: Prisma.EnumStatusTiketFieldUpdateOperationsInput | $Enums.StatusTiket
-  tanggal_submit?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tanggal_sla?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTiketsNestedInput
-  layanan?: Prisma.LayananUpdateOneRequiredWithoutTiketsNestedInput
-  unit_teknis?: Prisma.UnitTeknisUpdateOneWithoutTiketsNestedInput
-  dokumen?: Prisma.DokumenUpdateManyWithoutTiketNestedInput
-  tagihan?: Prisma.TagihanUpdateOneWithoutTiketNestedInput
-  notifikasi?: Prisma.NotifikasiUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUpdateOneWithoutTiketNestedInput
-  auditLog?: Prisma.AuditLogUpdateManyWithoutTiketNestedInput
-}
-
-export type TiketUncheckedUpdateWithoutPengaduanInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  no_tiket?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.IntFieldUpdateOperationsInput | number
-  layanan_id?: Prisma.IntFieldUpdateOperationsInput | number
-  jawaban_form?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  status?: Prisma.EnumStatusTiketFieldUpdateOperationsInput | $Enums.StatusTiket
-  tanggal_submit?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tanggal_sla?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  unit_teknis_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dokumen?: Prisma.DokumenUncheckedUpdateManyWithoutTiketNestedInput
-  tagihan?: Prisma.TagihanUncheckedUpdateOneWithoutTiketNestedInput
-  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUncheckedUpdateOneWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutTiketNestedInput
 }
 
@@ -1459,8 +1199,6 @@ export type TiketCreateWithoutAuditLogInput = {
   dokumen?: Prisma.DokumenCreateNestedManyWithoutTiketInput
   tagihan?: Prisma.TagihanCreateNestedOneWithoutTiketInput
   notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanCreateNestedManyWithoutTiketInput
 }
 
 export type TiketUncheckedCreateWithoutAuditLogInput = {
@@ -1478,8 +1216,6 @@ export type TiketUncheckedCreateWithoutAuditLogInput = {
   dokumen?: Prisma.DokumenUncheckedCreateNestedManyWithoutTiketInput
   tagihan?: Prisma.TagihanUncheckedCreateNestedOneWithoutTiketInput
   notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutTiketInput
-  skm?: Prisma.SKMUncheckedCreateNestedOneWithoutTiketInput
-  pengaduan?: Prisma.PengaduanUncheckedCreateNestedManyWithoutTiketInput
 }
 
 export type TiketCreateOrConnectWithoutAuditLogInput = {
@@ -1512,8 +1248,6 @@ export type TiketUpdateWithoutAuditLogInput = {
   dokumen?: Prisma.DokumenUpdateManyWithoutTiketNestedInput
   tagihan?: Prisma.TagihanUpdateOneWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUpdateManyWithoutTiketNestedInput
 }
 
 export type TiketUncheckedUpdateWithoutAuditLogInput = {
@@ -1531,8 +1265,6 @@ export type TiketUncheckedUpdateWithoutAuditLogInput = {
   dokumen?: Prisma.DokumenUncheckedUpdateManyWithoutTiketNestedInput
   tagihan?: Prisma.TagihanUncheckedUpdateOneWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUncheckedUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUncheckedUpdateManyWithoutTiketNestedInput
 }
 
 export type TiketCreateManyUserInput = {
@@ -1561,8 +1293,6 @@ export type TiketUpdateWithoutUserInput = {
   dokumen?: Prisma.DokumenUpdateManyWithoutTiketNestedInput
   tagihan?: Prisma.TagihanUpdateOneWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUpdateManyWithoutTiketNestedInput
 }
 
@@ -1580,8 +1310,6 @@ export type TiketUncheckedUpdateWithoutUserInput = {
   dokumen?: Prisma.DokumenUncheckedUpdateManyWithoutTiketNestedInput
   tagihan?: Prisma.TagihanUncheckedUpdateOneWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUncheckedUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUncheckedUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutTiketNestedInput
 }
 
@@ -1624,8 +1352,6 @@ export type TiketUpdateWithoutUnit_teknisInput = {
   dokumen?: Prisma.DokumenUpdateManyWithoutTiketNestedInput
   tagihan?: Prisma.TagihanUpdateOneWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUpdateManyWithoutTiketNestedInput
 }
 
@@ -1643,8 +1369,6 @@ export type TiketUncheckedUpdateWithoutUnit_teknisInput = {
   dokumen?: Prisma.DokumenUncheckedUpdateManyWithoutTiketNestedInput
   tagihan?: Prisma.TagihanUncheckedUpdateOneWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUncheckedUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUncheckedUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutTiketNestedInput
 }
 
@@ -1687,8 +1411,6 @@ export type TiketUpdateWithoutLayananInput = {
   dokumen?: Prisma.DokumenUpdateManyWithoutTiketNestedInput
   tagihan?: Prisma.TagihanUpdateOneWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUpdateManyWithoutTiketNestedInput
 }
 
@@ -1706,8 +1428,6 @@ export type TiketUncheckedUpdateWithoutLayananInput = {
   dokumen?: Prisma.DokumenUncheckedUpdateManyWithoutTiketNestedInput
   tagihan?: Prisma.TagihanUncheckedUpdateOneWithoutTiketNestedInput
   notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutTiketNestedInput
-  skm?: Prisma.SKMUncheckedUpdateOneWithoutTiketNestedInput
-  pengaduan?: Prisma.PengaduanUncheckedUpdateManyWithoutTiketNestedInput
   auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutTiketNestedInput
 }
 
@@ -1732,14 +1452,12 @@ export type TiketUncheckedUpdateManyWithoutLayananInput = {
 export type TiketCountOutputType = {
   dokumen: number
   notifikasi: number
-  pengaduan: number
   auditLog: number
 }
 
 export type TiketCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   dokumen?: boolean | TiketCountOutputTypeCountDokumenArgs
   notifikasi?: boolean | TiketCountOutputTypeCountNotifikasiArgs
-  pengaduan?: boolean | TiketCountOutputTypeCountPengaduanArgs
   auditLog?: boolean | TiketCountOutputTypeCountAuditLogArgs
 }
 
@@ -1770,13 +1488,6 @@ export type TiketCountOutputTypeCountNotifikasiArgs<ExtArgs extends runtime.Type
 /**
  * TiketCountOutputType without action
  */
-export type TiketCountOutputTypeCountPengaduanArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PengaduanWhereInput
-}
-
-/**
- * TiketCountOutputType without action
- */
 export type TiketCountOutputTypeCountAuditLogArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AuditLogWhereInput
 }
@@ -1800,8 +1511,6 @@ export type TiketSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   dokumen?: boolean | Prisma.Tiket$dokumenArgs<ExtArgs>
   tagihan?: boolean | Prisma.Tiket$tagihanArgs<ExtArgs>
   notifikasi?: boolean | Prisma.Tiket$notifikasiArgs<ExtArgs>
-  skm?: boolean | Prisma.Tiket$skmArgs<ExtArgs>
-  pengaduan?: boolean | Prisma.Tiket$pengaduanArgs<ExtArgs>
   auditLog?: boolean | Prisma.Tiket$auditLogArgs<ExtArgs>
   _count?: boolean | Prisma.TiketCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tiket"]>
@@ -1830,8 +1539,6 @@ export type TiketInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   dokumen?: boolean | Prisma.Tiket$dokumenArgs<ExtArgs>
   tagihan?: boolean | Prisma.Tiket$tagihanArgs<ExtArgs>
   notifikasi?: boolean | Prisma.Tiket$notifikasiArgs<ExtArgs>
-  skm?: boolean | Prisma.Tiket$skmArgs<ExtArgs>
-  pengaduan?: boolean | Prisma.Tiket$pengaduanArgs<ExtArgs>
   auditLog?: boolean | Prisma.Tiket$auditLogArgs<ExtArgs>
   _count?: boolean | Prisma.TiketCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1845,8 +1552,6 @@ export type $TiketPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     dokumen: Prisma.$DokumenPayload<ExtArgs>[]
     tagihan: Prisma.$TagihanPayload<ExtArgs> | null
     notifikasi: Prisma.$NotifikasiPayload<ExtArgs>[]
-    skm: Prisma.$SKMPayload<ExtArgs> | null
-    pengaduan: Prisma.$PengaduanPayload<ExtArgs>[]
     auditLog: Prisma.$AuditLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -2207,8 +1912,6 @@ export interface Prisma__TiketClient<T, Null = never, ExtArgs extends runtime.Ty
   dokumen<T extends Prisma.Tiket$dokumenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tiket$dokumenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DokumenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tagihan<T extends Prisma.Tiket$tagihanArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tiket$tagihanArgs<ExtArgs>>): Prisma.Prisma__TagihanClient<runtime.Types.Result.GetResult<Prisma.$TagihanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   notifikasi<T extends Prisma.Tiket$notifikasiArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tiket$notifikasiArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotifikasiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  skm<T extends Prisma.Tiket$skmArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tiket$skmArgs<ExtArgs>>): Prisma.Prisma__SKMClient<runtime.Types.Result.GetResult<Prisma.$SKMPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  pengaduan<T extends Prisma.Tiket$pengaduanArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tiket$pengaduanArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PengaduanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLog<T extends Prisma.Tiket$auditLogArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tiket$auditLogArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2681,49 +2384,6 @@ export type Tiket$notifikasiArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.NotifikasiScalarFieldEnum | Prisma.NotifikasiScalarFieldEnum[]
-}
-
-/**
- * Tiket.skm
- */
-export type Tiket$skmArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SKM
-   */
-  select?: Prisma.SKMSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the SKM
-   */
-  omit?: Prisma.SKMOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SKMInclude<ExtArgs> | null
-  where?: Prisma.SKMWhereInput
-}
-
-/**
- * Tiket.pengaduan
- */
-export type Tiket$pengaduanArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Pengaduan
-   */
-  select?: Prisma.PengaduanSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Pengaduan
-   */
-  omit?: Prisma.PengaduanOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PengaduanInclude<ExtArgs> | null
-  where?: Prisma.PengaduanWhereInput
-  orderBy?: Prisma.PengaduanOrderByWithRelationInput | Prisma.PengaduanOrderByWithRelationInput[]
-  cursor?: Prisma.PengaduanWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PengaduanScalarFieldEnum | Prisma.PengaduanScalarFieldEnum[]
 }
 
 /**

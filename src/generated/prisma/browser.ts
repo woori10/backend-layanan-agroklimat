@@ -53,16 +53,6 @@ export type Tagihan = Prisma.TagihanModel
  */
 export type Notifikasi = Prisma.NotifikasiModel
 /**
- * Model SKM
- * 
- */
-export type SKM = Prisma.SKMModel
-/**
- * Model Pengaduan
- * 
- */
-export type Pengaduan = Prisma.PengaduanModel
-/**
  * Model AuditLog
  * 
  */

@@ -32,9 +32,8 @@ export class AuthService {
         password: hashedPassword,
         nama: dto.nama,
         no_hp: dto.no_hp,
-        role: 'pengguna',
+        role: 'publik',
         unit_teknis_id: dto.unit_teknis_id ?? null,
-        must_change_password: false, // user daftar sendiri, password udah dia pilih sendiri
       },
     });
 
@@ -69,12 +68,18 @@ export class AuthService {
     id: number;
     email: string | null;
     role: string;
-    must_change_password: boolean;
+    nama: string;
+    unit_teknis_id?: number | null;
   }) {
-    const payload = { sub: user.id, email: user.email, role: user.role };
+    const payload = { 
+      sub: user.id, 
+      email: user.email, 
+      role: user.role, 
+      nama: user.nama,
+      unit_teknis_id: user.unit_teknis_id
+    };
     return {
       access_token: this.jwtService.sign(payload),
-      must_change_password: user.must_change_password,
     };
   }
 
@@ -89,7 +94,6 @@ export class AuthService {
       where: { id: userId },
       data: {
         password: hashedPassword,
-        must_change_password: false,
       },
     });
 

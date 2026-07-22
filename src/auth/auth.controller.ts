@@ -1,7 +1,6 @@
 import { Body, Controller, Post, UseGuards, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RegisterDto, LoginDto, LoginPegawaiDto, ChangePasswordDto } from './dto/auth.dto';
-import { JwtAuthGuard } from './guard/jwt-auth.guard';
+import { RegisterDto, LoginDto, LoginPegawaiDto } from './dto/auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -25,11 +24,5 @@ export class AuthController {
     @Post('logout')
     logout() {
         return this.authService.logout();
-    }
-
-    @UseGuards(JwtAuthGuard)
-    @Post('change-password')
-    changePassword(@Request() req, @Body() dto: ChangePasswordDto) {
-        return this.authService.changePassword(req.user.userId, dto.new_password);
     }
 }

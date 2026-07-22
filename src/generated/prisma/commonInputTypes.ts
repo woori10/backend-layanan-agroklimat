@@ -69,11 +69,6 @@ export type EnumStatusAkunFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumStatusAkunFilter<$PrismaModel> | $Enums.StatusAkun
 }
 
-export type BoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
 export type IntNullableFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
   in?: number[] | null
@@ -171,14 +166,6 @@ export type EnumStatusAkunWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumStatusAkunFilter<$PrismaModel>
   _max?: Prisma.NestedEnumStatusAkunFilter<$PrismaModel>
-}
-
-export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedBoolFilter<$PrismaModel>
-  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -379,6 +366,11 @@ export type EnumKanalNotifikasiFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumKanalNotifikasiFilter<$PrismaModel> | $Enums.KanalNotifikasi
 }
 
+export type BoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
 export type EnumKanalNotifikasiWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.KanalNotifikasi | Prisma.EnumKanalNotifikasiFieldRefInput<$PrismaModel>
   in?: $Enums.KanalNotifikasi[]
@@ -389,38 +381,12 @@ export type EnumKanalNotifikasiWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumKanalNotifikasiFilter<$PrismaModel>
 }
 
-export type EnumKanalPengaduanFilter<$PrismaModel = never> = {
-  equals?: $Enums.KanalPengaduan | Prisma.EnumKanalPengaduanFieldRefInput<$PrismaModel>
-  in?: $Enums.KanalPengaduan[]
-  notIn?: $Enums.KanalPengaduan[]
-  not?: Prisma.NestedEnumKanalPengaduanFilter<$PrismaModel> | $Enums.KanalPengaduan
-}
-
-export type EnumStatusPengaduanFilter<$PrismaModel = never> = {
-  equals?: $Enums.StatusPengaduan | Prisma.EnumStatusPengaduanFieldRefInput<$PrismaModel>
-  in?: $Enums.StatusPengaduan[]
-  notIn?: $Enums.StatusPengaduan[]
-  not?: Prisma.NestedEnumStatusPengaduanFilter<$PrismaModel> | $Enums.StatusPengaduan
-}
-
-export type EnumKanalPengaduanWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.KanalPengaduan | Prisma.EnumKanalPengaduanFieldRefInput<$PrismaModel>
-  in?: $Enums.KanalPengaduan[]
-  notIn?: $Enums.KanalPengaduan[]
-  not?: Prisma.NestedEnumKanalPengaduanWithAggregatesFilter<$PrismaModel> | $Enums.KanalPengaduan
+export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
   _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumKanalPengaduanFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumKanalPengaduanFilter<$PrismaModel>
-}
-
-export type EnumStatusPengaduanWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.StatusPengaduan | Prisma.EnumStatusPengaduanFieldRefInput<$PrismaModel>
-  in?: $Enums.StatusPengaduan[]
-  notIn?: $Enums.StatusPengaduan[]
-  not?: Prisma.NestedEnumStatusPengaduanWithAggregatesFilter<$PrismaModel> | $Enums.StatusPengaduan
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumStatusPengaduanFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumStatusPengaduanFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type NestedIntFilter<$PrismaModel = never> = {
@@ -476,11 +442,6 @@ export type NestedEnumStatusAkunFilter<$PrismaModel = never> = {
   in?: $Enums.StatusAkun[]
   notIn?: $Enums.StatusAkun[]
   not?: Prisma.NestedEnumStatusAkunFilter<$PrismaModel> | $Enums.StatusAkun
-}
-
-export type NestedBoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
 }
 
 export type NestedIntNullableFilter<$PrismaModel = never> = {
@@ -586,14 +547,6 @@ export type NestedEnumStatusAkunWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumStatusAkunFilter<$PrismaModel>
   _max?: Prisma.NestedEnumStatusAkunFilter<$PrismaModel>
-}
-
-export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedBoolFilter<$PrismaModel>
-  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -751,6 +704,11 @@ export type NestedEnumKanalNotifikasiFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumKanalNotifikasiFilter<$PrismaModel> | $Enums.KanalNotifikasi
 }
 
+export type NestedBoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
 export type NestedEnumKanalNotifikasiWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.KanalNotifikasi | Prisma.EnumKanalNotifikasiFieldRefInput<$PrismaModel>
   in?: $Enums.KanalNotifikasi[]
@@ -761,38 +719,12 @@ export type NestedEnumKanalNotifikasiWithAggregatesFilter<$PrismaModel = never> 
   _max?: Prisma.NestedEnumKanalNotifikasiFilter<$PrismaModel>
 }
 
-export type NestedEnumKanalPengaduanFilter<$PrismaModel = never> = {
-  equals?: $Enums.KanalPengaduan | Prisma.EnumKanalPengaduanFieldRefInput<$PrismaModel>
-  in?: $Enums.KanalPengaduan[]
-  notIn?: $Enums.KanalPengaduan[]
-  not?: Prisma.NestedEnumKanalPengaduanFilter<$PrismaModel> | $Enums.KanalPengaduan
-}
-
-export type NestedEnumStatusPengaduanFilter<$PrismaModel = never> = {
-  equals?: $Enums.StatusPengaduan | Prisma.EnumStatusPengaduanFieldRefInput<$PrismaModel>
-  in?: $Enums.StatusPengaduan[]
-  notIn?: $Enums.StatusPengaduan[]
-  not?: Prisma.NestedEnumStatusPengaduanFilter<$PrismaModel> | $Enums.StatusPengaduan
-}
-
-export type NestedEnumKanalPengaduanWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.KanalPengaduan | Prisma.EnumKanalPengaduanFieldRefInput<$PrismaModel>
-  in?: $Enums.KanalPengaduan[]
-  notIn?: $Enums.KanalPengaduan[]
-  not?: Prisma.NestedEnumKanalPengaduanWithAggregatesFilter<$PrismaModel> | $Enums.KanalPengaduan
+export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
   _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumKanalPengaduanFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumKanalPengaduanFilter<$PrismaModel>
-}
-
-export type NestedEnumStatusPengaduanWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.StatusPengaduan | Prisma.EnumStatusPengaduanFieldRefInput<$PrismaModel>
-  in?: $Enums.StatusPengaduan[]
-  notIn?: $Enums.StatusPengaduan[]
-  not?: Prisma.NestedEnumStatusPengaduanWithAggregatesFilter<$PrismaModel> | $Enums.StatusPengaduan
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumStatusPengaduanFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumStatusPengaduanFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 

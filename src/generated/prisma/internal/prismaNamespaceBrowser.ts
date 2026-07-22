@@ -58,8 +58,6 @@ export const ModelName = {
   Dokumen: 'Dokumen',
   Tagihan: 'Tagihan',
   Notifikasi: 'Notifikasi',
-  SKM: 'SKM',
-  Pengaduan: 'Pengaduan',
   AuditLog: 'AuditLog'
 } as const
 
@@ -88,7 +86,6 @@ export const UserScalarFieldEnum = {
   no_hp: 'no_hp',
   role: 'role',
   status_akun: 'status_akun',
-  must_change_password: 'must_change_password',
   unit_teknis_id: 'unit_teknis_id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -110,10 +107,8 @@ export type UnitTeknisScalarFieldEnum = (typeof UnitTeknisScalarFieldEnum)[keyof
 export const LayananScalarFieldEnum = {
   id: 'id',
   nama_layanan: 'nama_layanan',
-  kategori: 'kategori',
   biaya: 'biaya',
   sla_hari: 'sla_hari',
-  dasar_hukum: 'dasar_hukum',
   form_schema: 'form_schema',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -176,32 +171,6 @@ export const NotifikasiScalarFieldEnum = {
 } as const
 
 export type NotifikasiScalarFieldEnum = (typeof NotifikasiScalarFieldEnum)[keyof typeof NotifikasiScalarFieldEnum]
-
-
-export const SKMScalarFieldEnum = {
-  id: 'id',
-  tiket_id: 'tiket_id',
-  skor: 'skor',
-  komentar: 'komentar',
-  tanggal_isi: 'tanggal_isi'
-} as const
-
-export type SKMScalarFieldEnum = (typeof SKMScalarFieldEnum)[keyof typeof SKMScalarFieldEnum]
-
-
-export const PengaduanScalarFieldEnum = {
-  id: 'id',
-  pelapor_id: 'pelapor_id',
-  tiket_id: 'tiket_id',
-  kanal: 'kanal',
-  isi_pengaduan: 'isi_pengaduan',
-  status: 'status',
-  petugas_id: 'petugas_id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type PengaduanScalarFieldEnum = (typeof PengaduanScalarFieldEnum)[keyof typeof PengaduanScalarFieldEnum]
 
 
 export const AuditLogScalarFieldEnum = {
@@ -283,9 +252,7 @@ export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
 export const LayananOrderByRelevanceFieldEnum = {
-  nama_layanan: 'nama_layanan',
-  kategori: 'kategori',
-  dasar_hukum: 'dasar_hukum'
+  nama_layanan: 'nama_layanan'
 } as const
 
 export type LayananOrderByRelevanceFieldEnum = (typeof LayananOrderByRelevanceFieldEnum)[keyof typeof LayananOrderByRelevanceFieldEnum]
@@ -319,20 +286,6 @@ export const NotifikasiOrderByRelevanceFieldEnum = {
 } as const
 
 export type NotifikasiOrderByRelevanceFieldEnum = (typeof NotifikasiOrderByRelevanceFieldEnum)[keyof typeof NotifikasiOrderByRelevanceFieldEnum]
-
-
-export const SKMOrderByRelevanceFieldEnum = {
-  komentar: 'komentar'
-} as const
-
-export type SKMOrderByRelevanceFieldEnum = (typeof SKMOrderByRelevanceFieldEnum)[keyof typeof SKMOrderByRelevanceFieldEnum]
-
-
-export const PengaduanOrderByRelevanceFieldEnum = {
-  isi_pengaduan: 'isi_pengaduan'
-} as const
-
-export type PengaduanOrderByRelevanceFieldEnum = (typeof PengaduanOrderByRelevanceFieldEnum)[keyof typeof PengaduanOrderByRelevanceFieldEnum]
 
 
 export const AuditLogOrderByRelevanceFieldEnum = {
