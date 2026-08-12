@@ -31,14 +31,15 @@ export type StatusAkun = (typeof StatusAkun)[keyof typeof StatusAkun]
 export const StatusTiket = {
   diajukan: 'diajukan',
   menunggu_verifikasi: 'menunggu_verifikasi',
+  menunggu_persetujuan_kepala_balai: 'menunggu_persetujuan_kepala_balai',
   perlu_revisi: 'perlu_revisi',
-  diproses: 'diproses',
   menunggu_pembayaran: 'menunggu_pembayaran',
-  dibatalkan: 'dibatalkan',
-  ditolak: 'ditolak',
+  diproses: 'diproses',
   selesai_diproses: 'selesai_diproses',
   menunggu_konfirmasi: 'menunggu_konfirmasi',
-  selesai: 'selesai'
+  selesai: 'selesai',
+  ditolak: 'ditolak',
+  dibatalkan: 'dibatalkan'
 } as const
 
 export type StatusTiket = (typeof StatusTiket)[keyof typeof StatusTiket]

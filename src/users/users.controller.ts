@@ -22,6 +22,11 @@ export class UsersController {
         return this.usersService.findAll();
     }
 
+    @Get('unit-teknis/list')
+    getUnitTeknis() {
+        return this.usersService.getUnitTeknis();
+    }
+
     @Get(':id')
     findOne(@Param('id', ParseIntPipe) id: number) {
         return this.usersService.findOne(id);

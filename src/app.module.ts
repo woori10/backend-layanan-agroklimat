@@ -8,13 +8,15 @@ import { UsersModule } from './users/users.module';
 import { LayananModule } from './layanan/layanan.module';
 import { TiketModule } from './tiket/tiket.module';
 import { DokumenModule } from './dokumen/dokumen.module';
+import { PengaduanModule } from './pengaduan/pengaduan.module';
+import { AlatModule } from './alat/alat.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    AuthModule, PrismaModule, UsersModule, LayananModule, TiketModule, DokumenModule],
+    AuthModule, PrismaModule, UsersModule, LayananModule, TiketModule, DokumenModule, PengaduanModule, AlatModule],
   controllers: [AppController],
   providers: [AppService],
 })

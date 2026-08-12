@@ -71,10 +71,10 @@ export class AuthService {
     nama: string;
     unit_teknis_id?: number | null;
   }) {
-    const payload = { 
-      sub: user.id, 
-      email: user.email, 
-      role: user.role, 
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role,
       nama: user.nama,
       unit_teknis_id: user.unit_teknis_id
     };

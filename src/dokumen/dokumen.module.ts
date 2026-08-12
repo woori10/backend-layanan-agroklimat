@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { DokumenService } from './dokumen.service';
 import { DokumenController } from './dokumen.controller';
-import { PrismaModule } from 'src/prisma/prisma.module';
-import { CloudinaryProvider } from 'src/common/config/cloudinary.config';
-import { CloudinaryUploadService } from 'src/common/services/cloudinary-upload.service';
+import { PrismaModule } from '../prisma/prisma.module';
+import { GoogleDriveUploadService } from '../common/services/google-drive-upload.service';
 
 @Module({
   imports: [PrismaModule],
-  providers: [DokumenService, CloudinaryProvider, CloudinaryUploadService],
-  controllers: [DokumenController]
+  controllers: [DokumenController],
+  providers: [DokumenService, GoogleDriveUploadService],
 })
 export class DokumenModule { }

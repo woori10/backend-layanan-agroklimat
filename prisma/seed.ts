@@ -22,13 +22,14 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
     await seedUnitTeknis();
     await seedLayanan();
+    await seedAlat();
 
     const existingSuperAdmin = await prisma.user.findUnique({
         where: { email: 'superadmin@agroklimat.go.id' },
     });
 
     if (!existingSuperAdmin) {
-        const hashedPassword = await bcrypt.hash('SuperAdmin123', 10);
+        const hashedPassword = await bcrypt.hash('199603082005031008', 10);
 
         await prisma.user.create({
             data: {
@@ -77,25 +78,19 @@ async function seedUnitTeknis() {
 async function seedLayanan() {
     const layananList = [
         {
-            nama_layanan: 'Rekomendasi Kalender Tanam',
-            biaya: { tipe: 'gratis' },
-            sla_hari: 5,
-            form_schema: { fields: [], dokumen_wajib: [] },
-        },
-        {
             nama_layanan: 'Rekomendasi & Penilaian Kesesuaian Agroklimat/Hidrologi (SNI)',
             biaya: { tipe: 'gratis' },
             sla_hari: 5,
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
-            nama_layanan: 'Permohonan Data / Peminjaman Alat (Lab. Agrohidromet)',
-            biaya: { tipe: 'tetap', catatan: 'Tarif PNBP, nominal menyusul' },
+            nama_layanan: 'Konsultasi Rekomendasi & Penilaian Kesesuaian',
+            biaya: { tipe: 'gratis' },
             sla_hari: 5,
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
-            nama_layanan: 'Konsultasi Rekomendasi & Penilaian Kesesuaian',
+            nama_layanan: 'Rekomendasi Siap Tanam',
             biaya: { tipe: 'gratis' },
             sla_hari: 5,
             form_schema: { fields: [], dokumen_wajib: [] },
@@ -107,13 +102,19 @@ async function seedLayanan() {
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
-            nama_layanan: 'Magang Teknis / PKL',
-            biaya: { tipe: 'gratis' },
-            sla_hari: null,
+            nama_layanan: 'Permohonan Data',
+            biaya: { tipe: 'tetap', catatan: 'Tarif PNBP, nominal menyusul' },
+            sla_hari: 5,
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
-            nama_layanan: 'Layanan Perpustakaan',
+            nama_layanan: 'Peminjaman Alat',
+            biaya: { tipe: 'tetap', catatan: 'Tarif PNBP, nominal menyusul' },
+            sla_hari: 5,
+            form_schema: { fields: [], dokumen_wajib: [] },
+        },
+        {
+            nama_layanan: 'Magang Teknis / PKL',
             biaya: { tipe: 'gratis' },
             sla_hari: null,
             form_schema: { fields: [], dokumen_wajib: [] },
@@ -125,9 +126,16 @@ async function seedLayanan() {
             form_schema: { fields: [], dokumen_wajib: [] },
         },
         {
+            nama_layanan: 'Layanan Perpustakaan',
+            biaya: { tipe: 'gratis' },
+            sla_hari: null,
+            form_schema: { fields: [], dokumen_wajib: [] },
+        },
+
+        {
             nama_layanan: 'Layanan Mess',
-            biaya: { tipe: 'per_satuan', nominal: 100000, satuan: 'kamar/malam' },
-            sla_hari: 1,
+            biaya: { tipe: '100.000 / per kamar / malam' },
+            sla_hari: null,
             form_schema: { fields: [], dokumen_wajib: [] },
         },
     ];
@@ -142,6 +150,29 @@ async function seedLayanan() {
             console.log(`Layanan "${layanan.nama_layanan}" berhasil dibuat`);
         } else {
             console.log(`Layanan "${layanan.nama_layanan}" sudah ada, dilewati`);
+        }
+    }
+}
+
+async function seedAlat() {
+    const alatList = [
+        { nama_alat: "Automatic Weather Station (AWS)", harga_peminjaman: 500000, is_active: true },
+        { nama_alat: "Anemometer Digital", harga_peminjaman: 150000, is_active: true },
+        { nama_alat: "Barometer Analog", harga_peminjaman: 100000, is_active: false },
+        { nama_alat: "Solarimeter (Pyranometer)", harga_peminjaman: 250000, is_active: true },
+        { nama_alat: "Ombrometer (Penakar Hujan)", harga_peminjaman: 75000, is_active: true },
+    ];
+
+    for (const alat of alatList) {
+        const existing = await prisma.alat.findFirst({
+            where: { nama_alat: alat.nama_alat },
+        });
+
+        if (!existing) {
+            await prisma.alat.create({ data: alat });
+            console.log(`Alat "${alat.nama_alat}" berhasil dibuat`);
+        } else {
+            console.log(`Alat "${alat.nama_alat}" sudah ada, dilewati`);
         }
     }
 }

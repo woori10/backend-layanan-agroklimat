@@ -28,13 +28,47 @@ export class TiketController {
 
     @UseGuards(RoleGuard)
     @Roles('admin_petugas_layanan')
+    @Get('unit-teknis/me')
+    findAllForUnitTeknis(@Request() req, @Query('status') status?: string) {
+        return this.tiketService.findAllForUnitTeknis(req.user.userId, status);
+    }
+
+    @UseGuards(RoleGuard)
+    @Roles('kepala_balai')
+    @Get('kepala-balai')
+    findAllForKepalaBalai(@Query('status') status?: string) {
+        return this.tiketService.findAllForKepalaBalai(status);
+    }
+
+    @UseGuards(RoleGuard)
+    @Roles('admin_petugas_layanan')
     @Get('admin_petugas_layanan')
     findAllForAdmin(@Query('status') status?: string) {
         return this.tiketService.findAllForAdmin(status);
     }
 
+    @UseGuards(RoleGuard)
+    @Roles('admin', 'kepala_balai')
+    @Get('admin')
+    findAllForAdminRole(
+        @Query('status') status?: string,
+        @Query('layanan_id') layananId?: string,
+    ) {
+        return this.tiketService.findAllForAdmin(
+            status,
+            layananId ? parseInt(layananId, 10) : undefined,
+        );
+    }
+
+    @UseGuards(RoleGuard)
+    @Roles('admin_petugas_layanan', 'kepala_balai')
+    @Get('admin/:id')
+    findOneForAdmin(@Param('id', ParseIntPipe) id: number) {
+        return this.tiketService.findOneForAdmin(id);
+    }
+
     @Get(':id')
-    findOne(@Request() req, @Param('id', ParseIntPipe) id: number) {
+    findOne(@Request() req, @Param('id') id: string) {
         return this.tiketService.findOneByUser(req.user.userId, id);
     }
 
@@ -75,4 +109,19 @@ export class TiketController {
     selesaiProses(@Request() req, @Param('id', ParseIntPipe) id: number) {
         return this.tiketService.selesaiProses(req.user.userId, id);
     }
+
+    @UseGuards(RoleGuard)
+    @Roles('admin')
+    @Patch(':id/konfirmasi-pembayaran')
+    konfirmasiPembayaran(@Request() req, @Param('id', ParseIntPipe) id: number) {
+        return this.tiketService.konfirmasiPembayaran(req.user.userId, id);
+    }
+
+    @Patch(':id/setujui-kepala')
+    @UseGuards(RoleGuard)
+    @Roles('kepala_balai')
+    async setujuiKepala(@Param('id', ParseIntPipe) id: number, @Request() req) {
+        return this.tiketService.setujuiOlehKepalaBalai(id, req.user.userId);
+    }
+
 }

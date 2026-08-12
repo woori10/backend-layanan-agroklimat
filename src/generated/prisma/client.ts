@@ -79,3 +79,13 @@ export type Notifikasi = Prisma.NotifikasiModel
  * 
  */
 export type AuditLog = Prisma.AuditLogModel
+/**
+ * Model Pengaduan
+ * 
+ */
+export type Pengaduan = Prisma.PengaduanModel
+/**
+ * Model Alat
+ * 
+ */
+export type Alat = Prisma.AlatModel

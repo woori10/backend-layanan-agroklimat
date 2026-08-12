@@ -28,8 +28,19 @@ export class DokumenController {
         @Param('tiketId', ParseIntPipe) tiketId: number,
         @UploadedFile() file: Express.Multer.File,
         @Body('tipe') tipe: string,
+        @Body('bank_pengirim') bankPengirim?: string,
+        @Body('nama_pengirim') namaPengirim?: string,
+        @Body('tanggal_transfer') tanggalTransfer?: string,
     ) {
-        return this.dokumenService.uploadDokumen(req.user.userId, tiketId, file, tipe);
+        return this.dokumenService.uploadDokumen(
+            req.user.userId,
+            tiketId,
+            file,
+            tipe,
+            bankPengirim,
+            namaPengirim,
+            tanggalTransfer,
+        );
     }
 
     @Get()

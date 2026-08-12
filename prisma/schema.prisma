@@ -24,6 +24,7 @@ enum StatusAkun {
 enum StatusTiket {
   diajukan
   menunggu_verifikasi
+  menunggu_persetujuan_kepala_balai
   perlu_revisi
   menunggu_pembayaran
   diproses
@@ -84,6 +85,7 @@ model Layanan {
   sla_hari     Int?
   form_schema  Json
   tikets       Tiket[]
+  pengaduans   Pengaduan[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -128,13 +130,16 @@ model Dokumen {
 }
 
 model Tagihan {
-  id            Int         @id @default(autoincrement())
-  tiket_id      Int         @unique
-  tiket         Tiket       @relation(fields: [tiket_id], references: [id])
-  jumlah        Int
-  status_bayar  StatusBayar @default(menunggu)
-  bukti_bayar   String?
-  tanggal_lunas DateTime?
+  id               Int         @id @default(autoincrement())
+  tiket_id         Int         @unique
+  tiket            Tiket       @relation(fields: [tiket_id], references: [id])
+  jumlah           Int
+  status_bayar     StatusBayar @default(menunggu)
+  bukti_bayar      String?
+  tanggal_lunas    DateTime?
+  bank_pengirim    String?
+  nama_pengirim    String?
+  tanggal_transfer DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -167,4 +172,36 @@ model AuditLog {
   timestamp        DateTime @default(now())
 
   @@map("audit_log")
+}
+
+model Pengaduan {
+  id               Int      @id @default(autoincrement())
+  nama_pelapor     String
+  no_hp            String
+  status_pelapor   String
+  layanan_id       Int
+  layanan          Layanan  @relation(fields: [layanan_id], references: [id])
+  tanggal_kejadian DateTime
+  waktu            String
+  detail_kejadian  String   @db.Text
+  dampak           String   @db.Text
+  harapan          String   @db.Text
+  bersedia_dihubungi Boolean
+  bukti_pendukung  String?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("pengaduan")
+}
+
+model Alat {
+  id               Int      @id @default(autoincrement())
+  nama_alat        String
+  harga_peminjaman Int
+  is_active        Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("alat")
 }

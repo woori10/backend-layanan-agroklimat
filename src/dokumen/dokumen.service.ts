@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CloudinaryUploadService } from '../common/services/cloudinary-upload.service';
+import { GoogleDriveUploadService } from '../common/services/google-drive-upload.service';
 
 @Injectable()
 export class DokumenService {
     constructor(
         private prisma: PrismaService,
-        private cloudinaryUpload: CloudinaryUploadService,
+        private googleDriveUpload: GoogleDriveUploadService,
     ) { }
 
     async uploadDokumen(
@@ -14,6 +14,9 @@ export class DokumenService {
         tiketId: number,
         file: Express.Multer.File,
         tipe: string,
+        bankPengirim?: string,
+        namaPengirim?: string,
+        tanggalTransfer?: string,
     ) {
         if (!file) throw new BadRequestException('File tidak ditemukan');
 
@@ -26,7 +29,19 @@ export class DokumenService {
         if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
         if (tiket.user_id !== userId) throw new ForbiddenException('Bukan tiket milik Anda');
 
-        const url = await this.cloudinaryUpload.uploadFile(file, 'agroklimat/dokumen');
+        const url = await this.googleDriveUpload.uploadFile(file);
+
+        if (tipe === 'Bukti Pembayaran') {
+            await this.prisma.tagihan.updateMany({
+                where: { tiket_id: tiketId },
+                data: {
+                    bukti_bayar: url,
+                    bank_pengirim: bankPengirim || null,
+                    nama_pengirim: namaPengirim || null,
+                    tanggal_transfer: tanggalTransfer ? new Date(tanggalTransfer) : null,
+                },
+            });
+        }
 
         return this.prisma.dokumen.create({
             data: {
@@ -66,7 +81,7 @@ export class DokumenService {
             throw new ForbiddenException('Tiket ini bukan milik unit teknis Anda');
         }
 
-        const url = await this.cloudinaryUpload.uploadFile(file, 'agroklimat/laporan');
+        const url = await this.googleDriveUpload.uploadFile(file);
 
         return this.prisma.dokumen.create({
             data: {

@@ -229,6 +229,7 @@ export type LayananWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Layanan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Layanan"> | Date | string
   tikets?: Prisma.TiketListRelationFilter
+  pengaduans?: Prisma.PengaduanListRelationFilter
 }
 
 export type LayananOrderByWithRelationInput = {
@@ -240,6 +241,7 @@ export type LayananOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   tikets?: Prisma.TiketOrderByRelationAggregateInput
+  pengaduans?: Prisma.PengaduanOrderByRelationAggregateInput
   _relevance?: Prisma.LayananOrderByRelevanceInput
 }
 
@@ -255,6 +257,7 @@ export type LayananWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Layanan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Layanan"> | Date | string
   tikets?: Prisma.TiketListRelationFilter
+  pengaduans?: Prisma.PengaduanListRelationFilter
 }, "id">
 
 export type LayananOrderByWithAggregationInput = {
@@ -293,6 +296,7 @@ export type LayananCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tikets?: Prisma.TiketCreateNestedManyWithoutLayananInput
+  pengaduans?: Prisma.PengaduanCreateNestedManyWithoutLayananInput
 }
 
 export type LayananUncheckedCreateInput = {
@@ -304,6 +308,7 @@ export type LayananUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutLayananInput
+  pengaduans?: Prisma.PengaduanUncheckedCreateNestedManyWithoutLayananInput
 }
 
 export type LayananUpdateInput = {
@@ -314,6 +319,7 @@ export type LayananUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tikets?: Prisma.TiketUpdateManyWithoutLayananNestedInput
+  pengaduans?: Prisma.PengaduanUpdateManyWithoutLayananNestedInput
 }
 
 export type LayananUncheckedUpdateInput = {
@@ -325,6 +331,7 @@ export type LayananUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tikets?: Prisma.TiketUncheckedUpdateManyWithoutLayananNestedInput
+  pengaduans?: Prisma.PengaduanUncheckedUpdateManyWithoutLayananNestedInput
 }
 
 export type LayananCreateManyInput = {
@@ -417,6 +424,20 @@ export type LayananUpdateOneRequiredWithoutTiketsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.LayananUpdateToOneWithWhereWithoutTiketsInput, Prisma.LayananUpdateWithoutTiketsInput>, Prisma.LayananUncheckedUpdateWithoutTiketsInput>
 }
 
+export type LayananCreateNestedOneWithoutPengaduansInput = {
+  create?: Prisma.XOR<Prisma.LayananCreateWithoutPengaduansInput, Prisma.LayananUncheckedCreateWithoutPengaduansInput>
+  connectOrCreate?: Prisma.LayananCreateOrConnectWithoutPengaduansInput
+  connect?: Prisma.LayananWhereUniqueInput
+}
+
+export type LayananUpdateOneRequiredWithoutPengaduansNestedInput = {
+  create?: Prisma.XOR<Prisma.LayananCreateWithoutPengaduansInput, Prisma.LayananUncheckedCreateWithoutPengaduansInput>
+  connectOrCreate?: Prisma.LayananCreateOrConnectWithoutPengaduansInput
+  upsert?: Prisma.LayananUpsertWithoutPengaduansInput
+  connect?: Prisma.LayananWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LayananUpdateToOneWithWhereWithoutPengaduansInput, Prisma.LayananUpdateWithoutPengaduansInput>, Prisma.LayananUncheckedUpdateWithoutPengaduansInput>
+}
+
 export type LayananCreateWithoutTiketsInput = {
   nama_layanan: string
   biaya: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -424,6 +445,7 @@ export type LayananCreateWithoutTiketsInput = {
   form_schema: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  pengaduans?: Prisma.PengaduanCreateNestedManyWithoutLayananInput
 }
 
 export type LayananUncheckedCreateWithoutTiketsInput = {
@@ -434,6 +456,7 @@ export type LayananUncheckedCreateWithoutTiketsInput = {
   form_schema: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  pengaduans?: Prisma.PengaduanUncheckedCreateNestedManyWithoutLayananInput
 }
 
 export type LayananCreateOrConnectWithoutTiketsInput = {
@@ -459,6 +482,7 @@ export type LayananUpdateWithoutTiketsInput = {
   form_schema?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pengaduans?: Prisma.PengaduanUpdateManyWithoutLayananNestedInput
 }
 
 export type LayananUncheckedUpdateWithoutTiketsInput = {
@@ -469,6 +493,65 @@ export type LayananUncheckedUpdateWithoutTiketsInput = {
   form_schema?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pengaduans?: Prisma.PengaduanUncheckedUpdateManyWithoutLayananNestedInput
+}
+
+export type LayananCreateWithoutPengaduansInput = {
+  nama_layanan: string
+  biaya: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  sla_hari?: number | null
+  form_schema: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tikets?: Prisma.TiketCreateNestedManyWithoutLayananInput
+}
+
+export type LayananUncheckedCreateWithoutPengaduansInput = {
+  id?: number
+  nama_layanan: string
+  biaya: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  sla_hari?: number | null
+  form_schema: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutLayananInput
+}
+
+export type LayananCreateOrConnectWithoutPengaduansInput = {
+  where: Prisma.LayananWhereUniqueInput
+  create: Prisma.XOR<Prisma.LayananCreateWithoutPengaduansInput, Prisma.LayananUncheckedCreateWithoutPengaduansInput>
+}
+
+export type LayananUpsertWithoutPengaduansInput = {
+  update: Prisma.XOR<Prisma.LayananUpdateWithoutPengaduansInput, Prisma.LayananUncheckedUpdateWithoutPengaduansInput>
+  create: Prisma.XOR<Prisma.LayananCreateWithoutPengaduansInput, Prisma.LayananUncheckedCreateWithoutPengaduansInput>
+  where?: Prisma.LayananWhereInput
+}
+
+export type LayananUpdateToOneWithWhereWithoutPengaduansInput = {
+  where?: Prisma.LayananWhereInput
+  data: Prisma.XOR<Prisma.LayananUpdateWithoutPengaduansInput, Prisma.LayananUncheckedUpdateWithoutPengaduansInput>
+}
+
+export type LayananUpdateWithoutPengaduansInput = {
+  nama_layanan?: Prisma.StringFieldUpdateOperationsInput | string
+  biaya?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  sla_hari?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  form_schema?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tikets?: Prisma.TiketUpdateManyWithoutLayananNestedInput
+}
+
+export type LayananUncheckedUpdateWithoutPengaduansInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nama_layanan?: Prisma.StringFieldUpdateOperationsInput | string
+  biaya?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  sla_hari?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  form_schema?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tikets?: Prisma.TiketUncheckedUpdateManyWithoutLayananNestedInput
 }
 
 
@@ -478,10 +561,12 @@ export type LayananUncheckedUpdateWithoutTiketsInput = {
 
 export type LayananCountOutputType = {
   tikets: number
+  pengaduans: number
 }
 
 export type LayananCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tikets?: boolean | LayananCountOutputTypeCountTiketsArgs
+  pengaduans?: boolean | LayananCountOutputTypeCountPengaduansArgs
 }
 
 /**
@@ -501,6 +586,13 @@ export type LayananCountOutputTypeCountTiketsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.TiketWhereInput
 }
 
+/**
+ * LayananCountOutputType without action
+ */
+export type LayananCountOutputTypeCountPengaduansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PengaduanWhereInput
+}
+
 
 export type LayananSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -511,6 +603,7 @@ export type LayananSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   createdAt?: boolean
   updatedAt?: boolean
   tikets?: boolean | Prisma.Layanan$tiketsArgs<ExtArgs>
+  pengaduans?: boolean | Prisma.Layanan$pengaduansArgs<ExtArgs>
   _count?: boolean | Prisma.LayananCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["layanan"]>
 
@@ -529,6 +622,7 @@ export type LayananSelectScalar = {
 export type LayananOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama_layanan" | "biaya" | "sla_hari" | "form_schema" | "createdAt" | "updatedAt", ExtArgs["result"]["layanan"]>
 export type LayananInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tikets?: boolean | Prisma.Layanan$tiketsArgs<ExtArgs>
+  pengaduans?: boolean | Prisma.Layanan$pengaduansArgs<ExtArgs>
   _count?: boolean | Prisma.LayananCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -536,6 +630,7 @@ export type $LayananPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Layanan"
   objects: {
     tikets: Prisma.$TiketPayload<ExtArgs>[]
+    pengaduans: Prisma.$PengaduanPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -886,6 +981,7 @@ readonly fields: LayananFieldRefs;
 export interface Prisma__LayananClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tikets<T extends Prisma.Layanan$tiketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Layanan$tiketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TiketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pengaduans<T extends Prisma.Layanan$pengaduansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Layanan$pengaduansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PengaduanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1291,6 +1387,30 @@ export type Layanan$tiketsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.TiketScalarFieldEnum | Prisma.TiketScalarFieldEnum[]
+}
+
+/**
+ * Layanan.pengaduans
+ */
+export type Layanan$pengaduansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Pengaduan
+   */
+  select?: Prisma.PengaduanSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Pengaduan
+   */
+  omit?: Prisma.PengaduanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaduanInclude<ExtArgs> | null
+  where?: Prisma.PengaduanWhereInput
+  orderBy?: Prisma.PengaduanOrderByWithRelationInput | Prisma.PengaduanOrderByWithRelationInput[]
+  cursor?: Prisma.PengaduanWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PengaduanScalarFieldEnum | Prisma.PengaduanScalarFieldEnum[]
 }
 
 /**

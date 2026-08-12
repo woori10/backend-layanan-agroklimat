@@ -48,6 +48,18 @@ export class UsersService {
         };
     }
 
+    getUnitTeknis() {
+        return this.prisma.unitTeknis.findMany({
+            select: {
+                id: true,
+                nama: true,
+            },
+            orderBy: {
+                id: 'asc',
+            },
+        });
+    }
+
     findAll() {
         return this.prisma.user.findMany({
             select: {

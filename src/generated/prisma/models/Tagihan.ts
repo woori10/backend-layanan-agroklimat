@@ -45,6 +45,9 @@ export type TagihanMinAggregateOutputType = {
   status_bayar: $Enums.StatusBayar | null
   bukti_bayar: string | null
   tanggal_lunas: Date | null
+  bank_pengirim: string | null
+  nama_pengirim: string | null
+  tanggal_transfer: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +59,9 @@ export type TagihanMaxAggregateOutputType = {
   status_bayar: $Enums.StatusBayar | null
   bukti_bayar: string | null
   tanggal_lunas: Date | null
+  bank_pengirim: string | null
+  nama_pengirim: string | null
+  tanggal_transfer: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -67,6 +73,9 @@ export type TagihanCountAggregateOutputType = {
   status_bayar: number
   bukti_bayar: number
   tanggal_lunas: number
+  bank_pengirim: number
+  nama_pengirim: number
+  tanggal_transfer: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -92,6 +101,9 @@ export type TagihanMinAggregateInputType = {
   status_bayar?: true
   bukti_bayar?: true
   tanggal_lunas?: true
+  bank_pengirim?: true
+  nama_pengirim?: true
+  tanggal_transfer?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -103,6 +115,9 @@ export type TagihanMaxAggregateInputType = {
   status_bayar?: true
   bukti_bayar?: true
   tanggal_lunas?: true
+  bank_pengirim?: true
+  nama_pengirim?: true
+  tanggal_transfer?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -114,6 +129,9 @@ export type TagihanCountAggregateInputType = {
   status_bayar?: true
   bukti_bayar?: true
   tanggal_lunas?: true
+  bank_pengirim?: true
+  nama_pengirim?: true
+  tanggal_transfer?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -212,6 +230,9 @@ export type TagihanGroupByOutputType = {
   status_bayar: $Enums.StatusBayar
   bukti_bayar: string | null
   tanggal_lunas: Date | null
+  bank_pengirim: string | null
+  nama_pengirim: string | null
+  tanggal_transfer: Date | null
   createdAt: Date
   updatedAt: Date
   _count: TagihanCountAggregateOutputType | null
@@ -246,6 +267,9 @@ export type TagihanWhereInput = {
   status_bayar?: Prisma.EnumStatusBayarFilter<"Tagihan"> | $Enums.StatusBayar
   bukti_bayar?: Prisma.StringNullableFilter<"Tagihan"> | string | null
   tanggal_lunas?: Prisma.DateTimeNullableFilter<"Tagihan"> | Date | string | null
+  bank_pengirim?: Prisma.StringNullableFilter<"Tagihan"> | string | null
+  nama_pengirim?: Prisma.StringNullableFilter<"Tagihan"> | string | null
+  tanggal_transfer?: Prisma.DateTimeNullableFilter<"Tagihan"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Tagihan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tagihan"> | Date | string
   tiket?: Prisma.XOR<Prisma.TiketScalarRelationFilter, Prisma.TiketWhereInput>
@@ -258,6 +282,9 @@ export type TagihanOrderByWithRelationInput = {
   status_bayar?: Prisma.SortOrder
   bukti_bayar?: Prisma.SortOrderInput | Prisma.SortOrder
   tanggal_lunas?: Prisma.SortOrderInput | Prisma.SortOrder
+  bank_pengirim?: Prisma.SortOrderInput | Prisma.SortOrder
+  nama_pengirim?: Prisma.SortOrderInput | Prisma.SortOrder
+  tanggal_transfer?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   tiket?: Prisma.TiketOrderByWithRelationInput
@@ -274,6 +301,9 @@ export type TagihanWhereUniqueInput = Prisma.AtLeast<{
   status_bayar?: Prisma.EnumStatusBayarFilter<"Tagihan"> | $Enums.StatusBayar
   bukti_bayar?: Prisma.StringNullableFilter<"Tagihan"> | string | null
   tanggal_lunas?: Prisma.DateTimeNullableFilter<"Tagihan"> | Date | string | null
+  bank_pengirim?: Prisma.StringNullableFilter<"Tagihan"> | string | null
+  nama_pengirim?: Prisma.StringNullableFilter<"Tagihan"> | string | null
+  tanggal_transfer?: Prisma.DateTimeNullableFilter<"Tagihan"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Tagihan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tagihan"> | Date | string
   tiket?: Prisma.XOR<Prisma.TiketScalarRelationFilter, Prisma.TiketWhereInput>
@@ -286,6 +316,9 @@ export type TagihanOrderByWithAggregationInput = {
   status_bayar?: Prisma.SortOrder
   bukti_bayar?: Prisma.SortOrderInput | Prisma.SortOrder
   tanggal_lunas?: Prisma.SortOrderInput | Prisma.SortOrder
+  bank_pengirim?: Prisma.SortOrderInput | Prisma.SortOrder
+  nama_pengirim?: Prisma.SortOrderInput | Prisma.SortOrder
+  tanggal_transfer?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TagihanCountOrderByAggregateInput
@@ -305,6 +338,9 @@ export type TagihanScalarWhereWithAggregatesInput = {
   status_bayar?: Prisma.EnumStatusBayarWithAggregatesFilter<"Tagihan"> | $Enums.StatusBayar
   bukti_bayar?: Prisma.StringNullableWithAggregatesFilter<"Tagihan"> | string | null
   tanggal_lunas?: Prisma.DateTimeNullableWithAggregatesFilter<"Tagihan"> | Date | string | null
+  bank_pengirim?: Prisma.StringNullableWithAggregatesFilter<"Tagihan"> | string | null
+  nama_pengirim?: Prisma.StringNullableWithAggregatesFilter<"Tagihan"> | string | null
+  tanggal_transfer?: Prisma.DateTimeNullableWithAggregatesFilter<"Tagihan"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Tagihan"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Tagihan"> | Date | string
 }
@@ -314,6 +350,9 @@ export type TagihanCreateInput = {
   status_bayar?: $Enums.StatusBayar
   bukti_bayar?: string | null
   tanggal_lunas?: Date | string | null
+  bank_pengirim?: string | null
+  nama_pengirim?: string | null
+  tanggal_transfer?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tiket: Prisma.TiketCreateNestedOneWithoutTagihanInput
@@ -326,6 +365,9 @@ export type TagihanUncheckedCreateInput = {
   status_bayar?: $Enums.StatusBayar
   bukti_bayar?: string | null
   tanggal_lunas?: Date | string | null
+  bank_pengirim?: string | null
+  nama_pengirim?: string | null
+  tanggal_transfer?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -335,6 +377,9 @@ export type TagihanUpdateInput = {
   status_bayar?: Prisma.EnumStatusBayarFieldUpdateOperationsInput | $Enums.StatusBayar
   bukti_bayar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggal_lunas?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bank_pengirim?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nama_pengirim?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggal_transfer?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tiket?: Prisma.TiketUpdateOneRequiredWithoutTagihanNestedInput
@@ -347,6 +392,9 @@ export type TagihanUncheckedUpdateInput = {
   status_bayar?: Prisma.EnumStatusBayarFieldUpdateOperationsInput | $Enums.StatusBayar
   bukti_bayar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggal_lunas?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bank_pengirim?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nama_pengirim?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggal_transfer?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -358,6 +406,9 @@ export type TagihanCreateManyInput = {
   status_bayar?: $Enums.StatusBayar
   bukti_bayar?: string | null
   tanggal_lunas?: Date | string | null
+  bank_pengirim?: string | null
+  nama_pengirim?: string | null
+  tanggal_transfer?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -367,6 +418,9 @@ export type TagihanUpdateManyMutationInput = {
   status_bayar?: Prisma.EnumStatusBayarFieldUpdateOperationsInput | $Enums.StatusBayar
   bukti_bayar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggal_lunas?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bank_pengirim?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nama_pengirim?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggal_transfer?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -378,6 +432,9 @@ export type TagihanUncheckedUpdateManyInput = {
   status_bayar?: Prisma.EnumStatusBayarFieldUpdateOperationsInput | $Enums.StatusBayar
   bukti_bayar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggal_lunas?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bank_pengirim?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nama_pengirim?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggal_transfer?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -400,6 +457,9 @@ export type TagihanCountOrderByAggregateInput = {
   status_bayar?: Prisma.SortOrder
   bukti_bayar?: Prisma.SortOrder
   tanggal_lunas?: Prisma.SortOrder
+  bank_pengirim?: Prisma.SortOrder
+  nama_pengirim?: Prisma.SortOrder
+  tanggal_transfer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -417,6 +477,9 @@ export type TagihanMaxOrderByAggregateInput = {
   status_bayar?: Prisma.SortOrder
   bukti_bayar?: Prisma.SortOrder
   tanggal_lunas?: Prisma.SortOrder
+  bank_pengirim?: Prisma.SortOrder
+  nama_pengirim?: Prisma.SortOrder
+  tanggal_transfer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -428,6 +491,9 @@ export type TagihanMinOrderByAggregateInput = {
   status_bayar?: Prisma.SortOrder
   bukti_bayar?: Prisma.SortOrder
   tanggal_lunas?: Prisma.SortOrder
+  bank_pengirim?: Prisma.SortOrder
+  nama_pengirim?: Prisma.SortOrder
+  tanggal_transfer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -479,6 +545,9 @@ export type TagihanCreateWithoutTiketInput = {
   status_bayar?: $Enums.StatusBayar
   bukti_bayar?: string | null
   tanggal_lunas?: Date | string | null
+  bank_pengirim?: string | null
+  nama_pengirim?: string | null
+  tanggal_transfer?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -489,6 +558,9 @@ export type TagihanUncheckedCreateWithoutTiketInput = {
   status_bayar?: $Enums.StatusBayar
   bukti_bayar?: string | null
   tanggal_lunas?: Date | string | null
+  bank_pengirim?: string | null
+  nama_pengirim?: string | null
+  tanggal_transfer?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -514,6 +586,9 @@ export type TagihanUpdateWithoutTiketInput = {
   status_bayar?: Prisma.EnumStatusBayarFieldUpdateOperationsInput | $Enums.StatusBayar
   bukti_bayar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggal_lunas?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bank_pengirim?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nama_pengirim?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggal_transfer?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -524,6 +599,9 @@ export type TagihanUncheckedUpdateWithoutTiketInput = {
   status_bayar?: Prisma.EnumStatusBayarFieldUpdateOperationsInput | $Enums.StatusBayar
   bukti_bayar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggal_lunas?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bank_pengirim?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nama_pengirim?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggal_transfer?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -537,6 +615,9 @@ export type TagihanSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   status_bayar?: boolean
   bukti_bayar?: boolean
   tanggal_lunas?: boolean
+  bank_pengirim?: boolean
+  nama_pengirim?: boolean
+  tanggal_transfer?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tiket?: boolean | Prisma.TiketDefaultArgs<ExtArgs>
@@ -551,11 +632,14 @@ export type TagihanSelectScalar = {
   status_bayar?: boolean
   bukti_bayar?: boolean
   tanggal_lunas?: boolean
+  bank_pengirim?: boolean
+  nama_pengirim?: boolean
+  tanggal_transfer?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TagihanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tiket_id" | "jumlah" | "status_bayar" | "bukti_bayar" | "tanggal_lunas" | "createdAt" | "updatedAt", ExtArgs["result"]["tagihan"]>
+export type TagihanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tiket_id" | "jumlah" | "status_bayar" | "bukti_bayar" | "tanggal_lunas" | "bank_pengirim" | "nama_pengirim" | "tanggal_transfer" | "createdAt" | "updatedAt", ExtArgs["result"]["tagihan"]>
 export type TagihanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tiket?: boolean | Prisma.TiketDefaultArgs<ExtArgs>
 }
@@ -572,6 +656,9 @@ export type $TagihanPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     status_bayar: $Enums.StatusBayar
     bukti_bayar: string | null
     tanggal_lunas: Date | null
+    bank_pengirim: string | null
+    nama_pengirim: string | null
+    tanggal_transfer: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["tagihan"]>
@@ -950,6 +1037,9 @@ export interface TagihanFieldRefs {
   readonly status_bayar: Prisma.FieldRef<"Tagihan", 'StatusBayar'>
   readonly bukti_bayar: Prisma.FieldRef<"Tagihan", 'String'>
   readonly tanggal_lunas: Prisma.FieldRef<"Tagihan", 'DateTime'>
+  readonly bank_pengirim: Prisma.FieldRef<"Tagihan", 'String'>
+  readonly nama_pengirim: Prisma.FieldRef<"Tagihan", 'String'>
+  readonly tanggal_transfer: Prisma.FieldRef<"Tagihan", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Tagihan", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Tagihan", 'DateTime'>
 }

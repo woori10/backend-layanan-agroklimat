@@ -66,26 +66,42 @@ export class TiketService {
         });
     }
 
-    async findOneByUser(userId: number, id: number) {
+    async findOneByUser(userId: number, identifier: string) {
+        const isNumeric = !isNaN(Number(identifier));
         const tiket = await this.prisma.tiket.findUnique({
-            where: { id },
-            include: { layanan: true, unit_teknis: true, dokumen: true, tagihan: true },
+            where: isNumeric ? { id: Number(identifier) } : { no_tiket: identifier },
+            include: { layanan: true, unit_teknis: true, dokumen: true, tagihan: true, auditLog: true },
         });
         if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
         if (tiket.user_id !== userId) throw new ForbiddenException('Bukan tiket milik Anda');
         return tiket;
     }
 
-    findAllForAdmin(status?: string) {
+    findAllForAdmin(status?: string, layananId?: number) {
         return this.prisma.tiket.findMany({
-            where: status ? { status: status as any } : undefined,
-            include: { layanan: true, user: true, unit_teknis: true },
+            where: {
+                ...(status && { status: status as any }),
+                ...(layananId && { layanan_id: layananId }),
+            },
+            include: { layanan: true, user: true, unit_teknis: true, tagihan: true },
             orderBy: { createdAt: 'desc' },
         });
     }
 
+    async findOneForAdmin(id: number) {
+        const tiket = await this.prisma.tiket.findUnique({
+            where: { id },
+            include: { layanan: true, user: true, unit_teknis: true, dokumen: true, tagihan: true },
+        });
+        if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
+        return tiket;
+    }
+
     async verifikasi(adminUserId: number, tiketId: number, dto: VerifikasiTiketDto) {
-        const tiket = await this.prisma.tiket.findUnique({ where: { id: tiketId } });
+        const tiket = await this.prisma.tiket.findUnique({
+            where: { id: tiketId },
+            include: { layanan: true },
+        });
         if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
         if (tiket.status !== 'menunggu_verifikasi') {
             throw new BadRequestException('Tiket ini bukan dalam status menunggu verifikasi');
@@ -133,17 +149,41 @@ export class TiketService {
         });
         if (!unitTeknis) throw new NotFoundException('Unit teknis tidak ditemukan');
 
+        let targetStatus: any = 'diproses';
+        let detailMsg = `Didisposisikan ke unit teknis: ${unitTeknis.nama}`;
+
+        if ([17, 20, 21].includes(tiket.layanan_id)) {
+            targetStatus = 'menunggu_persetujuan_kepala_balai';
+            detailMsg = `Disetujui admin, menunggu persetujuan dari Kepala Balai sebelum disposisi ke unit teknis: ${unitTeknis.nama}`;
+        }
+
+        if (tiket.layanan_id === 19) {
+            targetStatus = 'menunggu_pembayaran';
+            const jawabanForm: any = tiket.jawaban_form || {};
+            const jumlah = jawabanForm.total_estimasi ? parseInt(jawabanForm.total_estimasi, 10) : 150000;
+
+            // Create tagihan
+            await this.prisma.tagihan.create({
+                data: {
+                    tiket_id: tiketId,
+                    jumlah: jumlah,
+                    status_bayar: 'menunggu',
+                },
+            });
+            detailMsg = `Disetujui, tagihan dibuat sebesar Rp${jumlah.toLocaleString('id-ID')}, didisposisikan ke unit teknis: ${unitTeknis.nama}`;
+        }
+
         const updated = await this.prisma.tiket.update({
             where: { id: tiketId },
-            data: { status: 'diproses', unit_teknis_id: dto.unit_teknis_id },
+            data: { status: targetStatus, unit_teknis_id: dto.unit_teknis_id },
         });
 
         await this.prisma.auditLog.create({
             data: {
                 user_id: adminUserId,
                 tiket_id: tiketId,
-                aksi: 'diproses',
-                detail_perubahan: `Didisposisikan ke unit teknis: ${unitTeknis.nama}`,
+                aksi: targetStatus,
+                detail_perubahan: detailMsg,
             },
         });
 
@@ -269,4 +309,107 @@ export class TiketService {
         return updated;
     }
 
+    async findAllForUnitTeknis(userId: number, status?: string) {
+        const staff = await this.prisma.user.findUnique({
+            where: { id: userId },
+            select: { unit_teknis_id: true }
+        });
+        if (!staff || !staff.unit_teknis_id) {
+            throw new BadRequestException('User ini tidak termasuk dalam unit teknis manapun');
+        }
+
+        return this.prisma.tiket.findMany({
+            where: {
+                unit_teknis_id: staff.unit_teknis_id,
+                ...(status && { status: status as any }),
+            },
+            include: { layanan: true, user: true, unit_teknis: true, dokumen: true },
+            orderBy: { createdAt: 'desc' },
+        });
+    }
+
+    async konfirmasiPembayaran(userId: number, tiketId: number) {
+        const ticket = await this.prisma.tiket.findUnique({
+            where: { id: tiketId },
+            include: { tagihan: true }
+        });
+        if (!ticket) throw new NotFoundException('Tiket tidak ditemukan');
+        if (!ticket.tagihan) throw new BadRequestException('Tiket ini tidak memiliki tagihan');
+
+        // Update tagihan status to lunas, and set tanggal_lunas to now
+        await this.prisma.tagihan.update({
+            where: { tiket_id: tiketId },
+            data: {
+                status_bayar: 'lunas',
+                tanggal_lunas: new Date()
+            }
+        });
+
+        // Update ticket status to diproses so the unit teknis can start working on it
+        const updated = await this.prisma.tiket.update({
+            where: { id: tiketId },
+            data: { status: 'diproses' }
+        });
+
+        await this.prisma.auditLog.create({
+            data: {
+                user_id: userId,
+                tiket_id: tiketId,
+                aksi: 'diproses',
+                detail_perubahan: 'Pembayaran dikonfirmasi lunas oleh Admin, status permohonan berubah menjadi diproses.',
+            },
+        });
+
+        return updated;
+    }
+
+    async setujuiOlehKepalaBalai(id: number, kepalaBalaiId: number) {
+        const tiket = await this.prisma.tiket.findUnique({
+            where: { id },
+            include: { layanan: true, unit_teknis: true },
+        });
+        if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
+        if (tiket.status !== 'menunggu_persetujuan_kepala_balai') {
+            throw new BadRequestException('Tiket ini tidak sedang menunggu persetujuan Kepala Balai');
+        }
+
+        const updated = await this.prisma.tiket.update({
+            where: { id },
+            data: {
+                status: 'diproses',
+            },
+        });
+
+        await this.prisma.auditLog.create({
+            data: {
+                user_id: kepalaBalaiId,
+                tiket_id: tiket.id,
+                aksi: 'diproses',
+                detail_perubahan: `Disetujui oleh Kepala Balai, didisposisikan ke unit teknis: ${tiket.unit_teknis?.nama || 'Unit Teknis tidak ditemukan'}`,
+            },
+        });
+
+        return updated;
+    }
+
+    async findAllForKepalaBalai(status?: string) {
+        return this.prisma.tiket.findMany({
+            where: {
+                layanan_id: { in: [17, 20, 21] },
+                status: status ? (status as any) : {
+                    in: [
+                        'menunggu_persetujuan_kepala_balai',
+                        'diproses',
+                        'selesai_diproses',
+                        'menunggu_konfirmasi',
+                        'selesai'
+                    ]
+                }
+            },
+            include: { layanan: true, user: true, unit_teknis: true, tagihan: true },
+            orderBy: { createdAt: 'desc' },
+        });
+    }
+
 }
+
