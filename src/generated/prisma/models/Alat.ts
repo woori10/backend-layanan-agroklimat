@@ -29,17 +29,20 @@ export type AggregateAlat = {
 export type AlatAvgAggregateOutputType = {
   id: number | null
   harga_peminjaman: number | null
+  stok: number | null
 }
 
 export type AlatSumAggregateOutputType = {
   id: number | null
   harga_peminjaman: number | null
+  stok: number | null
 }
 
 export type AlatMinAggregateOutputType = {
   id: number | null
   nama_alat: string | null
   harga_peminjaman: number | null
+  stok: number | null
   is_active: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -49,6 +52,7 @@ export type AlatMaxAggregateOutputType = {
   id: number | null
   nama_alat: string | null
   harga_peminjaman: number | null
+  stok: number | null
   is_active: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -58,6 +62,7 @@ export type AlatCountAggregateOutputType = {
   id: number
   nama_alat: number
   harga_peminjaman: number
+  stok: number
   is_active: number
   createdAt: number
   updatedAt: number
@@ -68,17 +73,20 @@ export type AlatCountAggregateOutputType = {
 export type AlatAvgAggregateInputType = {
   id?: true
   harga_peminjaman?: true
+  stok?: true
 }
 
 export type AlatSumAggregateInputType = {
   id?: true
   harga_peminjaman?: true
+  stok?: true
 }
 
 export type AlatMinAggregateInputType = {
   id?: true
   nama_alat?: true
   harga_peminjaman?: true
+  stok?: true
   is_active?: true
   createdAt?: true
   updatedAt?: true
@@ -88,6 +96,7 @@ export type AlatMaxAggregateInputType = {
   id?: true
   nama_alat?: true
   harga_peminjaman?: true
+  stok?: true
   is_active?: true
   createdAt?: true
   updatedAt?: true
@@ -97,6 +106,7 @@ export type AlatCountAggregateInputType = {
   id?: true
   nama_alat?: true
   harga_peminjaman?: true
+  stok?: true
   is_active?: true
   createdAt?: true
   updatedAt?: true
@@ -193,6 +203,7 @@ export type AlatGroupByOutputType = {
   id: number
   nama_alat: string
   harga_peminjaman: number
+  stok: number
   is_active: boolean
   createdAt: Date
   updatedAt: Date
@@ -225,6 +236,7 @@ export type AlatWhereInput = {
   id?: Prisma.IntFilter<"Alat"> | number
   nama_alat?: Prisma.StringFilter<"Alat"> | string
   harga_peminjaman?: Prisma.IntFilter<"Alat"> | number
+  stok?: Prisma.IntFilter<"Alat"> | number
   is_active?: Prisma.BoolFilter<"Alat"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Alat"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Alat"> | Date | string
@@ -234,6 +246,7 @@ export type AlatOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   nama_alat?: Prisma.SortOrder
   harga_peminjaman?: Prisma.SortOrder
+  stok?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -247,6 +260,7 @@ export type AlatWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AlatWhereInput | Prisma.AlatWhereInput[]
   nama_alat?: Prisma.StringFilter<"Alat"> | string
   harga_peminjaman?: Prisma.IntFilter<"Alat"> | number
+  stok?: Prisma.IntFilter<"Alat"> | number
   is_active?: Prisma.BoolFilter<"Alat"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Alat"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Alat"> | Date | string
@@ -256,6 +270,7 @@ export type AlatOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   nama_alat?: Prisma.SortOrder
   harga_peminjaman?: Prisma.SortOrder
+  stok?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -273,6 +288,7 @@ export type AlatScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Alat"> | number
   nama_alat?: Prisma.StringWithAggregatesFilter<"Alat"> | string
   harga_peminjaman?: Prisma.IntWithAggregatesFilter<"Alat"> | number
+  stok?: Prisma.IntWithAggregatesFilter<"Alat"> | number
   is_active?: Prisma.BoolWithAggregatesFilter<"Alat"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Alat"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Alat"> | Date | string
@@ -281,6 +297,7 @@ export type AlatScalarWhereWithAggregatesInput = {
 export type AlatCreateInput = {
   nama_alat: string
   harga_peminjaman: number
+  stok?: number
   is_active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -290,6 +307,7 @@ export type AlatUncheckedCreateInput = {
   id?: number
   nama_alat: string
   harga_peminjaman: number
+  stok?: number
   is_active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -298,6 +316,7 @@ export type AlatUncheckedCreateInput = {
 export type AlatUpdateInput = {
   nama_alat?: Prisma.StringFieldUpdateOperationsInput | string
   harga_peminjaman?: Prisma.IntFieldUpdateOperationsInput | number
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -307,6 +326,7 @@ export type AlatUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nama_alat?: Prisma.StringFieldUpdateOperationsInput | string
   harga_peminjaman?: Prisma.IntFieldUpdateOperationsInput | number
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -316,6 +336,7 @@ export type AlatCreateManyInput = {
   id?: number
   nama_alat: string
   harga_peminjaman: number
+  stok?: number
   is_active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -324,6 +345,7 @@ export type AlatCreateManyInput = {
 export type AlatUpdateManyMutationInput = {
   nama_alat?: Prisma.StringFieldUpdateOperationsInput | string
   harga_peminjaman?: Prisma.IntFieldUpdateOperationsInput | number
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -333,6 +355,7 @@ export type AlatUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nama_alat?: Prisma.StringFieldUpdateOperationsInput | string
   harga_peminjaman?: Prisma.IntFieldUpdateOperationsInput | number
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -348,6 +371,7 @@ export type AlatCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nama_alat?: Prisma.SortOrder
   harga_peminjaman?: Prisma.SortOrder
+  stok?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -356,12 +380,14 @@ export type AlatCountOrderByAggregateInput = {
 export type AlatAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   harga_peminjaman?: Prisma.SortOrder
+  stok?: Prisma.SortOrder
 }
 
 export type AlatMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nama_alat?: Prisma.SortOrder
   harga_peminjaman?: Prisma.SortOrder
+  stok?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -371,6 +397,7 @@ export type AlatMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nama_alat?: Prisma.SortOrder
   harga_peminjaman?: Prisma.SortOrder
+  stok?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -379,6 +406,7 @@ export type AlatMinOrderByAggregateInput = {
 export type AlatSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   harga_peminjaman?: Prisma.SortOrder
+  stok?: Prisma.SortOrder
 }
 
 
@@ -387,6 +415,7 @@ export type AlatSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   nama_alat?: boolean
   harga_peminjaman?: boolean
+  stok?: boolean
   is_active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -398,12 +427,13 @@ export type AlatSelectScalar = {
   id?: boolean
   nama_alat?: boolean
   harga_peminjaman?: boolean
+  stok?: boolean
   is_active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AlatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama_alat" | "harga_peminjaman" | "is_active" | "createdAt" | "updatedAt", ExtArgs["result"]["alat"]>
+export type AlatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama_alat" | "harga_peminjaman" | "stok" | "is_active" | "createdAt" | "updatedAt", ExtArgs["result"]["alat"]>
 
 export type $AlatPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Alat"
@@ -412,6 +442,7 @@ export type $AlatPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: number
     nama_alat: string
     harga_peminjaman: number
+    stok: number
     is_active: boolean
     createdAt: Date
     updatedAt: Date
@@ -787,6 +818,7 @@ export interface AlatFieldRefs {
   readonly id: Prisma.FieldRef<"Alat", 'Int'>
   readonly nama_alat: Prisma.FieldRef<"Alat", 'String'>
   readonly harga_peminjaman: Prisma.FieldRef<"Alat", 'Int'>
+  readonly stok: Prisma.FieldRef<"Alat", 'Int'>
   readonly is_active: Prisma.FieldRef<"Alat", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Alat", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Alat", 'DateTime'>

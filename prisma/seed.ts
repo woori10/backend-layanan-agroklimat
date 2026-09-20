@@ -23,18 +23,19 @@ async function main() {
     await seedUnitTeknis();
     await seedLayanan();
     await seedAlat();
+    await seedFaq();
 
     const existingSuperAdmin = await prisma.user.findUnique({
         where: { email: 'superadmin@agroklimat.go.id' },
     });
 
     if (!existingSuperAdmin) {
-        const hashedPassword = await bcrypt.hash('199603082005031008', 10);
+        const hashedPassword = await bcrypt.hash('2005031020050310', 10);
 
         await prisma.user.create({
             data: {
                 email: 'superadmin@agroklimat.go.id',
-                nip: '199603082005031008',
+                nip: '2005031020050310',
                 password: hashedPassword,
                 nama: 'Super Admin',
                 no_hp: '08123456789',
@@ -44,10 +45,12 @@ async function main() {
 
         console.log('Super admin berhasil dibuat');
     } else {
+        const hashedPassword = await bcrypt.hash('2005031020050310', 10);
         await prisma.user.update({
             where: { email: 'superadmin@agroklimat.go.id' },
             data: {
-                nip: '199603082005031008',
+                nip: '2005031020050310',
+                password: hashedPassword,
             },
         });
         console.log('Super admin sudah ada, NIP diperbarui');
@@ -78,79 +81,94 @@ async function seedUnitTeknis() {
 async function seedLayanan() {
     const layananList = [
         {
+            nama_layanan: 'Rekomendasi Kalender Tanam',
+            slug: 'rekomendasi-siap-tanam',
+            biaya: { tipe: 'gratis' },
+            sla_hari: 5,
+            form_schema: {},
+            unit_teknis_id: 4, // Tim Siap Tanam
+        },
+        {
             nama_layanan: 'Rekomendasi & Penilaian Kesesuaian Agroklimat/Hidrologi (SNI)',
+            slug: 'rekomendasi-sni',
             biaya: { tipe: 'gratis' },
             sla_hari: 5,
-            form_schema: { fields: [], dokumen_wajib: [] },
-        },
-        {
-            nama_layanan: 'Konsultasi Rekomendasi & Penilaian Kesesuaian',
-            biaya: { tipe: 'gratis' },
-            sla_hari: 5,
-            form_schema: { fields: [], dokumen_wajib: [] },
-        },
-        {
-            nama_layanan: 'Rekomendasi Siap Tanam',
-            biaya: { tipe: 'gratis' },
-            sla_hari: 5,
-            form_schema: { fields: [], dokumen_wajib: [] },
-        },
-        {
-            nama_layanan: 'Bimbingan Teknis & Narasumber',
-            biaya: { tipe: 'gratis' },
-            sla_hari: null,
-            form_schema: { fields: [], dokumen_wajib: [] },
+            form_schema: {},
+            unit_teknis_id: 1, // Tim Teknis Agroklimat / Hidrologi
         },
         {
             nama_layanan: 'Permohonan Data',
-            biaya: { tipe: 'tetap', catatan: 'Tarif PNBP, nominal menyusul' },
+            slug: 'permohonan-data',
+            biaya: { tipe: 'gratis' },
             sla_hari: 5,
-            form_schema: { fields: [], dokumen_wajib: [] },
+            form_schema: {},
+            unit_teknis_id: 1, // Tim Teknis Agroklimat / Hidrologi
         },
         {
             nama_layanan: 'Peminjaman Alat',
+            slug: 'peminjaman-alat',
             biaya: { tipe: 'tetap', catatan: 'Tarif PNBP, nominal menyusul' },
             sla_hari: 5,
-            form_schema: { fields: [], dokumen_wajib: [] },
+            form_schema: {},
+            unit_teknis_id: 2, // Koordinator Laboratorium
+        },
+        {
+            nama_layanan: 'Konsultasi Rekomendasi & Penilaian Kesesuaian',
+            slug: 'konsultasi-rekomendasi',
+            biaya: { tipe: 'gratis' },
+            sla_hari: 5,
+            form_schema: {},
+            unit_teknis_id: 1, // Tim Teknis Agroklimat / Hidrologi
+        },
+        {
+            nama_layanan: 'Bimbingan Teknis & Narasumber',
+            slug: 'bimbingan-teknis',
+            biaya: { tipe: 'gratis' },
+            sla_hari: null,
+            form_schema: {},
+            unit_teknis_id: 3, // Tim Kerja Layanan dan Pendayagunaan Hasil
         },
         {
             nama_layanan: 'Magang Teknis / PKL',
+            slug: 'magang-pkl',
             biaya: { tipe: 'gratis' },
             sla_hari: null,
-            form_schema: { fields: [], dokumen_wajib: [] },
-        },
-        {
-            nama_layanan: 'Agroedukasi / Kunjungan Edukasi',
-            biaya: { tipe: 'gratis' },
-            sla_hari: 5,
-            form_schema: { fields: [], dokumen_wajib: [] },
+            form_schema: {},
+            unit_teknis_id: 3, // Tim Kerja Layanan dan Pendayagunaan Hasil
         },
         {
             nama_layanan: 'Layanan Perpustakaan',
+            slug: 'layanan-perpustakaan',
             biaya: { tipe: 'gratis' },
             sla_hari: null,
-            form_schema: { fields: [], dokumen_wajib: [] },
+            form_schema: {},
+            unit_teknis_id: 3, // Tim Kerja Layanan dan Pendayagunaan Hasil
         },
-
+        {
+            nama_layanan: 'Agroedukasi / Kunjungan Edukasi',
+            slug: 'agroedukasi',
+            biaya: { tipe: 'gratis' },
+            sla_hari: 5,
+            form_schema: {},
+            unit_teknis_id: 3, // Tim Kerja Layanan dan Pendayagunaan Hasil
+        },
         {
             nama_layanan: 'Layanan Mess',
-            biaya: { tipe: '100.000 / per kamar / malam' },
-            sla_hari: null,
-            form_schema: { fields: [], dokumen_wajib: [] },
+            slug: 'layanan-mess',
+            biaya: { tipe: 'per_satuan', nominal: 100000, satuan: 'kamar/malam' },
+            sla_hari: 1,
+            form_schema: {},
+            unit_teknis_id: 5, // Petugas Mess
         },
     ];
 
     for (const layanan of layananList) {
-        const existing = await prisma.layanan.findFirst({
+        await prisma.layanan.upsert({
             where: { nama_layanan: layanan.nama_layanan },
+            update: { slug: layanan.slug, unit_teknis_id: layanan.unit_teknis_id },
+            create: layanan,
         });
-
-        if (!existing) {
-            await prisma.layanan.create({ data: layanan });
-            console.log(`Layanan "${layanan.nama_layanan}" berhasil dibuat`);
-        } else {
-            console.log(`Layanan "${layanan.nama_layanan}" sudah ada, dilewati`);
-        }
+        console.log(`Layanan "${layanan.nama_layanan}" siap dengan slug "${layanan.slug}"`);
     }
 }
 
@@ -173,6 +191,42 @@ async function seedAlat() {
             console.log(`Alat "${alat.nama_alat}" berhasil dibuat`);
         } else {
             console.log(`Alat "${alat.nama_alat}" sudah ada, dilewati`);
+        }
+    }
+}
+
+async function seedFaq() {
+    const faqList = [
+        {
+            pertanyaan: "Bagaimana cara mengajukan peminjaman alat?",
+            jawaban: "Anda dapat mengajukan peminjaman alat dengan mendaftar akun terlebih dahulu, memilih menu Layanan Peminjaman Alat, mengisi formulir pengajuan, dan menunggu verifikasi dari petugas kami.",
+            urutan: 1,
+            is_active: true,
+        },
+        {
+            pertanyaan: "Apakah layanan konsultasi dikenakan biaya?",
+            jawaban: "Layanan konsultasi dasar tidak dikenakan biaya. Namun, untuk konsultasi khusus yang memerlukan pengkajian mendalam atau survei lapangan, biaya akan disesuaikan dengan ketentuan tarif PNBP yang berlaku.",
+            urutan: 2,
+            is_active: true,
+        },
+        {
+            pertanyaan: "Berapa lama waktu pengolahan data agroklimat?",
+            jawaban: "Waktu pengolahan data bervariasi antara 3 hingga 7 hari kerja tergantung pada cakupan wilayah, kompleksitas parameter data, serta kelengkapan dokumen pengajuan Anda.",
+            urutan: 3,
+            is_active: true,
+        },
+    ];
+
+    for (const faq of faqList) {
+        const existing = await prisma.faq.findFirst({
+            where: { pertanyaan: faq.pertanyaan },
+        });
+
+        if (!existing) {
+            await prisma.faq.create({ data: faq });
+            console.log(`FAQ "${faq.pertanyaan.substring(0, 30)}..." berhasil dibuat`);
+        } else {
+            console.log(`FAQ "${faq.pertanyaan.substring(0, 30)}..." sudah ada, dilewati`);
         }
     }
 }

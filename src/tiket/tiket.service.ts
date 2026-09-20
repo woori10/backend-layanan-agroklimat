@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException, BadRequestException, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTiketDto } from './dto/create-tiket.dto';
 import { generateNomorTiket, hitungTanggalSla } from '../common/utils/tiket-helper';
@@ -6,12 +6,20 @@ import { validateJawabanForm } from '../common/utils/form-validator';
 import { VerifikasiTiketDto, AksiVerifikasi } from './dto/verifikasi-tiket.dto';
 import { SubmitUlangTiketDto } from './dto/submit-ulang-tiket.dto';
 import { ProsesTiketDto } from './dto/proses-tiket.dto';
+import { MailService } from '../mail/mail.service';
+import { NotifikasiService } from '../notifikasi/notifikasi.service';
 
 @Injectable()
 export class TiketService {
-    constructor(private prisma: PrismaService) { }
+    private readonly logger = new Logger(TiketService.name);
 
-    async create(userId: number, dto: CreateTiketDto) {
+    constructor(
+        private prisma: PrismaService,
+        private mailService: MailService,
+        private notifikasiService: NotifikasiService,
+    ) { }
+
+    async create(userId: number, dto: CreateTiketDto, clientUrl?: string) {
         const layanan = await this.prisma.layanan.findUnique({
             where: { id: dto.layanan_id },
         });
@@ -20,19 +28,27 @@ export class TiketService {
         validateJawabanForm(layanan.form_schema, dto.jawaban_form);
 
         const tahunIni = new Date().getFullYear();
-        const jumlahTiketTahunIni = await this.prisma.tiket.count({
+        let urutan = (await this.prisma.tiket.count({
             where: {
+                user_id: userId,
                 createdAt: {
                     gte: new Date(`${tahunIni}-01-01`),
                     lt: new Date(`${tahunIni + 1}-01-01`),
                 },
             },
-        });
+        })) + 1;
 
-        const noTiket = generateNomorTiket(jumlahTiketTahunIni + 1);
+        let noTiket = generateNomorTiket(userId, urutan, layanan.slug || layanan.nama_layanan);
+        // Pastikan nomor tiket benar-benar unik dan tidak bentrok dengan tiket yang sudah ada
+        while (await this.prisma.tiket.findUnique({ where: { no_tiket: noTiket } })) {
+            urutan++;
+            noTiket = generateNomorTiket(userId, urutan, layanan.slug || layanan.nama_layanan);
+        }
+
         const tanggalSla = layanan.sla_hari
             ? hitungTanggalSla(new Date(), layanan.sla_hari)
             : null;
+
 
         const tiket = await this.prisma.tiket.create({
             data: {
@@ -51,17 +67,52 @@ export class TiketService {
                 user_id: userId,
                 tiket_id: tiket.id,
                 aksi: 'tiket_dibuat',
-                detail_perubahan: `Tiket ${noTiket} diajukan untuk layanan ${layanan.nama_layanan}`,
+                detail_perubahan: `Tiket diajukan untuk layanan ${layanan.nama_layanan}`,
             },
         });
+
+        // Simpan notifikasi dashboard untuk pemohon
+        this.notifikasiService.create({
+            userId,
+            tiketId: tiket.id,
+            judul: 'Layanan Berhasil Di Ajukan',
+            pesan: `Permohonan layanan ${layanan.nama_layanan} (${tiket.no_tiket}) berhasil diajukan dan sedang menunggu verifikasi.`,
+        }).catch((err) => this.logger.warn(`Gagal buat notifikasi pemohon tiket ${tiket.no_tiket}: ${err.message}`));
+
+        // Kirim email konfirmasi ke user pemohon (fire-and-forget)
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            select: { email: true, nama: true },
+        });
+        if (user?.email) {
+            this.mailService
+                .sendTiketSubmittedEmail(
+                    user.email,
+                    user.nama,
+                    tiket.no_tiket,
+                    layanan.nama_layanan,
+                    tiket.createdAt,
+                    tiket.tanggal_sla,
+                    clientUrl,
+                )
+                .catch((err) =>
+                    this.logger.warn(`Gagal kirim email konfirmasi tiket ${tiket.no_tiket}: ${err.message}`),
+                );
+        }
+
+        // Kirim notifikasi email ke semua Admin aktif bahwa ada tiket baru masuk
+        this.notifyAdminsNewTiket(layanan.slug, tiket.no_tiket, user?.nama || 'Pengguna', layanan.nama_layanan, tiket.createdAt, clientUrl, tiket.id)
+            .catch((err) => this.logger.warn(`Gagal notifikasi admin tiket ${tiket.no_tiket}: ${err.message}`));
+
 
         return tiket;
     }
 
+
     findAllByUser(userId: number) {
         return this.prisma.tiket.findMany({
             where: { user_id: userId },
-            include: { layanan: true, unit_teknis: true },
+            include: { layanan: true, unit_teknis: true, auditLog: true },
             orderBy: { createdAt: 'desc' },
         });
     }
@@ -70,10 +121,33 @@ export class TiketService {
         const isNumeric = !isNaN(Number(identifier));
         const tiket = await this.prisma.tiket.findUnique({
             where: isNumeric ? { id: Number(identifier) } : { no_tiket: identifier },
-            include: { layanan: true, unit_teknis: true, dokumen: true, tagihan: true, auditLog: true },
+            include: { layanan: { include: { unit_teknis: true } }, unit_teknis: true, dokumen: true, tagihan: true, auditLog: true },
         });
         if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
         if (tiket.user_id !== userId) throw new ForbiddenException('Bukan tiket milik Anda');
+
+        // Sembunyikan Laporan Hasil dan Sertifikat dari pemohon publik jika layanan belum selesai
+        if (tiket.status !== 'selesai' && tiket.dokumen) {
+            tiket.dokumen = tiket.dokumen.filter((d) => {
+                const tipe = (d.tipe || '').toLowerCase();
+                return tipe !== 'laporan hasil' && tipe !== 'laporan_hasil' && !tipe.includes('sertifikat');
+            });
+        }
+
+        // Auto-heal jika tiket peminjaman-alat sudah menunggu_pembayaran namun belum ada record tagihan
+        if (tiket.status === 'menunggu_pembayaran' && !tiket.tagihan && tiket.layanan?.slug === 'peminjaman-alat') {
+            const jForm: any = tiket.jawaban_form || {};
+            const nominal = Number(jForm.total_estimasi) || 0;
+            const newTagihan = await this.prisma.tagihan.create({
+                data: {
+                    tiket_id: tiket.id,
+                    jumlah: nominal,
+                    status_bayar: 'menunggu',
+                },
+            });
+            tiket.tagihan = newTagihan;
+        }
+
         return tiket;
     }
 
@@ -88,19 +162,35 @@ export class TiketService {
         });
     }
 
-    async findOneForAdmin(id: number) {
+    async findAllTagihan() {
+        return this.prisma.tagihan.findMany({
+            include: {
+                tiket: {
+                    include: {
+                        user: true,
+                        layanan: true,
+                        unit_teknis: true,
+                    },
+                },
+            },
+            orderBy: { createdAt: 'desc' },
+        });
+    }
+
+    async findOneForAdmin(identifier: string) {
+        const isNumeric = !isNaN(Number(identifier));
         const tiket = await this.prisma.tiket.findUnique({
-            where: { id },
-            include: { layanan: true, user: true, unit_teknis: true, dokumen: true, tagihan: true },
+            where: isNumeric ? { id: Number(identifier) } : { no_tiket: identifier },
+            include: { layanan: { include: { unit_teknis: true } }, user: true, unit_teknis: true, dokumen: true, tagihan: true },
         });
         if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
         return tiket;
     }
 
-    async verifikasi(adminUserId: number, tiketId: number, dto: VerifikasiTiketDto) {
+    async verifikasi(adminUserId: number, tiketId: number, dto: VerifikasiTiketDto, clientUrl?: string) {
         const tiket = await this.prisma.tiket.findUnique({
             where: { id: tiketId },
-            include: { layanan: true },
+            include: { layanan: { include: { unit_teknis: true } } },
         });
         if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
         if (tiket.status !== 'menunggu_verifikasi') {
@@ -122,6 +212,25 @@ export class TiketService {
                 },
             });
 
+            // Kirim notifikasi email perlu revisi
+            const userRevisi = await this.prisma.user.findUnique({
+                where: { id: tiket.user_id },
+                select: { email: true, nama: true },
+            });
+
+            this.notifikasiService.create({
+                userId: tiket.user_id,
+                tiketId: tiket.id,
+                judul: 'Permohonan Memerlukan Revisi',
+                pesan: `Permohonan ${tiket.layanan.nama_layanan} (${tiket.no_tiket}) memerlukan revisi: ${dto.catatan_revisi || dto.catatan || 'Silakan cek catatan admin.'}`,
+            }).catch((err) => this.logger.warn(`Gagal buat notifikasi revisi tiket ${tiket.no_tiket}: ${err.message}`));
+
+            if (userRevisi?.email) {
+                this.mailService
+                    .sendTiketPerluRevisiEmail(userRevisi.email, userRevisi.nama, tiket.no_tiket, tiket.layanan.nama_layanan, dto.catatan_revisi ?? null, clientUrl)
+                    .catch((err) => this.logger.warn(`Gagal kirim email revisi tiket ${tiket.no_tiket}: ${err.message}`));
+            }
+
             return updated;
         }
 
@@ -140,6 +249,25 @@ export class TiketService {
                 },
             });
 
+            // Kirim notifikasi email ditolak
+            const userTolak = await this.prisma.user.findUnique({
+                where: { id: tiket.user_id },
+                select: { email: true, nama: true },
+            });
+
+            this.notifikasiService.create({
+                userId: tiket.user_id,
+                tiketId: tiket.id,
+                judul: 'Permohonan Ditolak',
+                pesan: `Permohonan ${tiket.layanan.nama_layanan} (${tiket.no_tiket}) telah ditolak: ${dto.catatan || 'Tidak memenuhi syarat.'}`,
+            }).catch((err) => this.logger.warn(`Gagal buat notifikasi tolak tiket ${tiket.no_tiket}: ${err.message}`));
+
+            if (userTolak?.email) {
+                this.mailService
+                    .sendTiketDitolakEmail(userTolak.email, userTolak.nama, tiket.no_tiket, tiket.layanan.nama_layanan, dto.catatan ?? null, clientUrl)
+                    .catch((err) => this.logger.warn(`Gagal kirim email ditolak tiket ${tiket.no_tiket}: ${err.message}`));
+            }
+
             return updated;
         }
 
@@ -149,33 +277,87 @@ export class TiketService {
         });
         if (!unitTeknis) throw new NotFoundException('Unit teknis tidak ditemukan');
 
-        let targetStatus: any = 'diproses';
-        let detailMsg = `Didisposisikan ke unit teknis: ${unitTeknis.nama}`;
+        const isPeminjamanAlat = tiket.layanan?.slug === 'peminjaman-alat';
 
-        if ([17, 20, 21].includes(tiket.layanan_id)) {
-            targetStatus = 'menunggu_persetujuan_kepala_balai';
-            detailMsg = `Disetujui admin, menunggu persetujuan dari Kepala Balai sebelum disposisi ke unit teknis: ${unitTeknis.nama}`;
-        }
-
-        if (tiket.layanan_id === 19) {
-            targetStatus = 'menunggu_pembayaran';
-            const jawabanForm: any = tiket.jawaban_form || {};
-            const jumlah = jawabanForm.total_estimasi ? parseInt(jawabanForm.total_estimasi, 10) : 150000;
-
-            // Create tagihan
-            await this.prisma.tagihan.create({
+        if (isPeminjamanAlat) {
+            // Khusus peminjaman alat: diverifikasi status langsung berubah menjadi diproses
+            const updated = await this.prisma.tiket.update({
+                where: { id: tiketId },
                 data: {
-                    tiket_id: tiketId,
-                    jumlah: jumlah,
-                    status_bayar: 'menunggu',
+                    status: 'diproses',
+                    unit_teknis_id: dto.unit_teknis_id,
                 },
             });
-            detailMsg = `Disetujui, tagihan dibuat sebesar Rp${jumlah.toLocaleString('id-ID')}, didisposisikan ke unit teknis: ${unitTeknis.nama}`;
+
+            // Pastikan tagihan tercatat jika ada estimasi biaya pada form
+            const jForm: any = tiket.jawaban_form || {};
+            const nominal = Number(jForm.total_estimasi) || 0;
+            if (nominal > 0) {
+                const existingTagihan = await this.prisma.tagihan.findUnique({ where: { tiket_id: tiketId } });
+                if (!existingTagihan) {
+                    await this.prisma.tagihan.create({
+                        data: {
+                            tiket_id: tiketId,
+                            jumlah: nominal,
+                            status_bayar: 'menunggu',
+                        },
+                    });
+                }
+            }
+
+            await this.prisma.auditLog.create({
+                data: {
+                    user_id: adminUserId,
+                    tiket_id: tiketId,
+                    aksi: 'diproses',
+                    detail_perubahan: `Disetujui Admin, status berubah menjadi diproses (Unit Teknis: ${unitTeknis.nama})`,
+                },
+            });
+
+            const userSetuju = await this.prisma.user.findUnique({
+                where: { id: tiket.user_id },
+                select: { email: true, nama: true },
+            });
+
+            this.notifikasiService.create({
+                userId: tiket.user_id,
+                tiketId: tiket.id,
+                judul: 'Permohonan Disetujui & Diproses',
+                pesan: `Permohonan ${tiket.layanan.nama_layanan} (${tiket.no_tiket}) telah diverifikasi dan sedang diproses oleh ${unitTeknis.nama}.`,
+            }).catch(() => {});
+
+            if (userSetuju?.email) {
+                this.mailService
+                    .sendTiketDisetujuiEmail(userSetuju.email, userSetuju.nama, tiket.no_tiket, tiket.layanan.nama_layanan, 'diproses', clientUrl)
+                    .catch((err) => this.logger.warn(`Gagal kirim email disetujui tiket ${tiket.no_tiket}: ${err.message}`));
+            }
+
+            if (dto.unit_teknis_id) {
+                this.notifyPegawaiDisposisi(
+                    dto.unit_teknis_id,
+                    tiket.layanan.slug,
+                    tiket.no_tiket,
+                    userSetuju?.nama || 'Pengguna',
+                    tiket.layanan.nama_layanan,
+                    unitTeknis.nama,
+                    clientUrl,
+                    tiket.id,
+                ).catch((err) => this.logger.warn(`Gagal notifikasi pegawai tiket ${tiket.no_tiket}: ${err.message}`));
+            }
+
+            return updated;
         }
+
+        // Semua pengajuan layanan lainnya setelah verifikasi admin didisposisikan ke Kepala Balai terlebih dahulu
+        const targetStatus: any = 'menunggu_persetujuan_kepala_balai';
+        const detailMsg = `Disetujui Admin, menunggu persetujuan Kepala Balai (Unit Teknis: ${unitTeknis.nama})`;
 
         const updated = await this.prisma.tiket.update({
             where: { id: tiketId },
-            data: { status: targetStatus, unit_teknis_id: dto.unit_teknis_id },
+            data: {
+                status: targetStatus,
+                unit_teknis_id: dto.unit_teknis_id,
+            },
         });
 
         await this.prisma.auditLog.create({
@@ -186,6 +368,29 @@ export class TiketService {
                 detail_perubahan: detailMsg,
             },
         });
+
+        // Kirim notifikasi email disetujui ke pemohon
+        const userSetuju = await this.prisma.user.findUnique({
+            where: { id: tiket.user_id },
+            select: { email: true, nama: true },
+        });
+
+        this.notifikasiService.create({
+            userId: tiket.user_id,
+            tiketId: tiket.id,
+            judul: 'Pengajuan Diverifikasi Petugas',
+            pesan: `Permohonan ${tiket.layanan.nama_layanan} (${tiket.no_tiket}) telah diverifikasi dan sedang menunggu persetujuan Kepala Balai.`,
+        }).catch(() => {});
+
+        if (userSetuju?.email) {
+            this.mailService
+                .sendTiketDisetujuiEmail(userSetuju.email, userSetuju.nama, tiket.no_tiket, tiket.layanan.nama_layanan, targetStatus, clientUrl)
+                .catch((err) => this.logger.warn(`Gagal kirim email disetujui tiket ${tiket.no_tiket}: ${err.message}`));
+        }
+
+        // Notifikasi ke Kepala Balai untuk persetujuan disposisi
+        this.notifyKepalaBalaiPersetujuan(tiket.layanan.slug, tiket.no_tiket, userSetuju?.nama || 'Pengguna', tiket.layanan.nama_layanan, unitTeknis.nama, clientUrl, tiket.id)
+            .catch((err) => this.logger.warn(`Gagal notifikasi kepala balai tiket ${tiket.no_tiket}: ${err.message}`));
 
         return updated;
     }
@@ -211,6 +416,20 @@ export class TiketService {
                 detail_perubahan: 'Pengguna submit ulang setelah revisi',
             },
         });
+
+        // Notifikasi ke admin bahwa tiket telah disubmit ulang
+        const admins = await this.prisma.user.findMany({
+            where: { role: { in: ['admin', 'super_admin'] }, status_akun: 'active' },
+            select: { id: true },
+        });
+        for (const adm of admins) {
+            this.notifikasiService.create({
+                userId: adm.id,
+                tiketId: tiket.id,
+                judul: 'Revisi Permohonan Diajukan Ulang',
+                pesan: `Pemohon telah mengirimkan revisi untuk tiket #${tiket.no_tiket}. Silakan periksa kembali.`,
+            }).catch(() => {});
+        }
 
         return updated;
     }
@@ -277,34 +496,185 @@ export class TiketService {
             },
         });
 
+        // Notifikasi ke pemohon bahwa tagihan telah diterbitkan
+        this.notifikasiService.create({
+            userId: tiket.user_id,
+            tiketId: tiket.id,
+            judul: 'Tagihan Pembayaran Diterbitkan',
+            pesan: `Tagihan permohonan ${tiket.layanan.nama_layanan} (${tiket.no_tiket}) sebesar Rp ${jumlah.toLocaleString('id-ID')} telah dibuat. Silakan lakukan pembayaran.`,
+        }).catch(() => {});
+
         return { tiket: updated, tagihan };
     }
 
-    async selesaiProses(userId: number, tiketId: number) {
+    async terimaMagang(userId: number, tiketId: number, clientUrl?: string) {
         const staff = await this.prisma.user.findUnique({ where: { id: userId } });
         if (!staff) throw new NotFoundException('User tidak ditemukan');
-        const tiket = await this.prisma.tiket.findUnique({ where: { id: tiketId } });
+        const tiket = await this.prisma.tiket.findUnique({
+            where: { id: tiketId },
+            include: { layanan: true, unit_teknis: true, dokumen: true },
+        });
         if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
         if (tiket.unit_teknis_id !== staff.unit_teknis_id) {
             throw new ForbiddenException('Tiket ini bukan milik unit teknis Anda');
         }
         if (tiket.status !== 'diproses') {
-            throw new BadRequestException('Tiket belum siap diselesaikan (pastikan status "diproses" dan sudah lunas jika berbayar)');
+            throw new BadRequestException('Tiket magang harus dalam status "diproses" untuk dapat diterima');
+        }
+
+        const hasSuratPenerimaan = tiket.dokumen?.some(
+            (d) => d.tipe === 'Surat Penerimaan' || d.tipe?.toLowerCase().includes('surat_penerimaan')
+        );
+        if (!hasSuratPenerimaan) {
+            throw new BadRequestException('Harap unggah Surat Penerimaan terlebih dahulu sebelum menerima permohonan magang');
         }
 
         const updated = await this.prisma.tiket.update({
             where: { id: tiketId },
-            data: { status: 'selesai_diproses' },
+            data: { status: 'diterima' as any },
         });
 
         await this.prisma.auditLog.create({
             data: {
                 user_id: userId,
                 tiket_id: tiketId,
-                aksi: 'selesai_diproses',
-                detail_perubahan: 'Unit teknis menyelesaikan pengerjaan',
+                aksi: 'diterima',
+                detail_perubahan: `${tiket.unit_teknis?.nama || 'Petugas'} menyetujui permohonan magang dan menerbitkan Surat Penerimaan`,
             },
         });
+
+        // Kirim notifikasi email diterima ke pemilik tiket
+        const userTiket = await this.prisma.user.findUnique({
+            where: { id: tiket.user_id },
+            select: { email: true, nama: true },
+        });
+
+        this.notifikasiService.create({
+            userId: tiket.user_id,
+            tiketId: tiket.id,
+            judul: 'Permohonan Magang Diterima',
+            pesan: `Permohonan magang (${tiket.no_tiket}) telah diterima dan Surat Penerimaan telah diterbitkan.`,
+        }).catch(() => {});
+
+        if (userTiket?.email) {
+            this.mailService
+                .sendTiketDiterimaEmail(userTiket.email, userTiket.nama, tiket.no_tiket, tiket.layanan.nama_layanan, clientUrl)
+                .catch((err) => this.logger.warn(`Gagal kirim email diterima tiket ${tiket.no_tiket}: ${err.message}`));
+        }
+
+        return updated;
+    }
+
+    async tandaiDipinjam(userId: number, tiketId: number, clientUrl?: string) {
+        const staff = await this.prisma.user.findUnique({ where: { id: userId } });
+        if (!staff) throw new NotFoundException('User tidak ditemukan');
+        const tiket = await this.prisma.tiket.findUnique({
+            where: { id: tiketId },
+            include: { layanan: true, unit_teknis: true, dokumen: true },
+        });
+        if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
+        if (tiket.unit_teknis_id !== staff.unit_teknis_id) {
+            throw new ForbiddenException('Tiket ini bukan milik unit teknis Anda');
+        }
+        if (tiket.status !== 'diproses') {
+            throw new BadRequestException('Tiket peminjaman alat harus dalam status "diproses" untuk dapat diubah menjadi "dipinjam"');
+        }
+
+        const hasBeritaAcara = tiket.dokumen?.some(
+            (d) => d.tipe === 'Berita Acara' || d.tipe?.toLowerCase().includes('berita_acara') || d.tipe?.toLowerCase().includes('berita acara')
+        );
+        if (!hasBeritaAcara) {
+            throw new BadRequestException('Harap unggah Berita Acara Serah Terima Alat terlebih dahulu sebelum mengubah status menjadi dipinjam');
+        }
+
+        const updated = await this.prisma.tiket.update({
+            where: { id: tiketId },
+            data: { status: 'dipinjam' },
+        });
+
+        await this.prisma.auditLog.create({
+            data: {
+                user_id: userId,
+                tiket_id: tiketId,
+                aksi: 'dipinjam',
+                detail_perubahan: `${tiket.unit_teknis?.nama || 'Petugas'} menyerahkan alat dan mengubah status permohonan menjadi dipinjam.`,
+            },
+        });
+
+        return updated;
+    }
+
+    async selesaiProses(userId: number, tiketId: number, clientUrl?: string) {
+        const staff = await this.prisma.user.findUnique({ where: { id: userId } });
+        if (!staff) throw new NotFoundException('User tidak ditemukan');
+        const tiket = await this.prisma.tiket.findUnique({
+            where: { id: tiketId },
+            include: { layanan: true, unit_teknis: true },
+        });
+        if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
+        if (tiket.unit_teknis_id !== staff.unit_teknis_id) {
+            throw new ForbiddenException('Tiket ini bukan milik unit teknis Anda');
+        }
+
+        const isMagang =
+            tiket.layanan?.slug === 'magang-pkl' ||
+            tiket.layanan?.nama_layanan?.toLowerCase().includes('magang') ||
+            tiket.layanan?.nama_layanan?.toLowerCase().includes('pkl');
+
+        const isPeminjamanAlat =
+            tiket.layanan?.slug === 'peminjaman-alat' ||
+            tiket.layanan?.nama_layanan?.toLowerCase().includes('peminjaman alat');
+
+        if (isMagang) {
+            if (tiket.status !== 'diterima') {
+                throw new BadRequestException('Tiket magang harus berstatus "diterima" terlebih dahulu sebelum dapat diselesaikan');
+            }
+        } else if (isPeminjamanAlat) {
+            if (tiket.status !== 'dipinjam') {
+                throw new BadRequestException('Tiket peminjaman alat harus berstatus "dipinjam" terlebih dahulu sebelum dapat diselesaikan (pastikan Berita Acara telah diunggah dan alat telah diserahterimakan)');
+            }
+        } else {
+            if (tiket.status !== 'diproses') {
+                throw new BadRequestException('Tiket belum siap diselesaikan (pastikan status "diproses" dan sudah lunas jika berbayar)');
+            }
+        }
+
+        const updated = await this.prisma.tiket.update({
+            where: { id: tiketId },
+            data: { status: 'selesai' },
+        });
+
+        const detailMsg = isPeminjamanAlat
+            ? `${tiket.unit_teknis?.nama || 'Petugas'} menyelesaikan peminjaman alat. Seluruh alat telah dikembalikan.`
+            : `${tiket.unit_teknis?.nama || ''} menyelesaikan pengerjaan tiket layanan ${tiket.layanan.nama_layanan}`;
+
+        await this.prisma.auditLog.create({
+            data: {
+                user_id: userId,
+                tiket_id: tiketId,
+                aksi: 'selesai',
+                detail_perubahan: detailMsg,
+            },
+        });
+
+        // Kirim notifikasi email selesai ke pemilik tiket
+        const userTiket = await this.prisma.user.findUnique({
+            where: { id: tiket.user_id },
+            select: { email: true, nama: true },
+        });
+
+        this.notifikasiService.create({
+            userId: tiket.user_id,
+            tiketId: tiket.id,
+            judul: 'Layanan Selesai Diproses',
+            pesan: `Permohonan layanan ${tiket.layanan.nama_layanan} (${tiket.no_tiket}) telah selesai. Silakan cek dokumen hasil layanan Anda.`,
+        }).catch(() => {});
+
+        if (userTiket?.email) {
+            this.mailService
+                .sendTiketSelesaiEmail(userTiket.email, userTiket.nama, tiket.no_tiket, tiket.layanan.nama_layanan, clientUrl)
+                .catch((err) => this.logger.warn(`Gagal kirim email selesai tiket ${tiket.no_tiket}: ${err.message}`));
+        }
 
         return updated;
     }
@@ -331,7 +701,7 @@ export class TiketService {
     async konfirmasiPembayaran(userId: number, tiketId: number) {
         const ticket = await this.prisma.tiket.findUnique({
             where: { id: tiketId },
-            include: { tagihan: true }
+            include: { tagihan: true, layanan: true, unit_teknis: true, user: true }
         });
         if (!ticket) throw new NotFoundException('Tiket tidak ditemukan');
         if (!ticket.tagihan) throw new BadRequestException('Tiket ini tidak memiliki tagihan');
@@ -360,19 +730,99 @@ export class TiketService {
             },
         });
 
+        // Notifikasi ke pemohon bahwa pembayaran lunas
+        this.notifikasiService.create({
+            userId: ticket.user_id,
+            tiketId: ticket.id,
+            judul: 'Pembayaran Telah Terverifikasi',
+            pesan: `Pembayaran tiket #${ticket.no_tiket} telah dikonfirmasi lunas. Permohonan Anda saat ini sedang dikerjakan oleh unit teknis.`,
+        }).catch(() => {});
+
+        // Notifikasi ke pegawai unit teknis bahwa tiket sudah lunas dan siap diproses
+        if (ticket.unit_teknis_id && ticket.unit_teknis) {
+            this.notifyPegawaiDisposisi(
+                ticket.unit_teknis_id,
+                ticket.layanan.slug,
+                ticket.no_tiket,
+                ticket.user?.nama || 'Pengguna',
+                ticket.layanan.nama_layanan,
+                ticket.unit_teknis.nama,
+                undefined,
+                ticket.id,
+            ).catch((err) => this.logger.warn(`Gagal notifikasi pegawai setelah pembayaran tiket ${ticket.no_tiket}: ${err.message}`));
+        }
+
         return updated;
     }
 
-    async setujuiOlehKepalaBalai(id: number, kepalaBalaiId: number) {
+    async setujuiOlehKepalaBalai(id: number, kepalaBalaiId: number, clientUrl?: string) {
         const tiket = await this.prisma.tiket.findUnique({
             where: { id },
-            include: { layanan: true, unit_teknis: true },
+            include: { layanan: true, unit_teknis: true, user: true },
         });
         if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
         if (tiket.status !== 'menunggu_persetujuan_kepala_balai') {
             throw new BadRequestException('Tiket ini tidak sedang menunggu persetujuan Kepala Balai');
         }
 
+        const isPeminjamanAlat = tiket.layanan.slug === 'peminjaman-alat';
+
+        if (isPeminjamanAlat) {
+            // Khusus peminjaman alat: setelah disposisi Kepala Balai, langsung diproses ke petugas unit teknis
+            const jForm: any = tiket.jawaban_form || {};
+            const nominal = Number(jForm.total_estimasi) || 0;
+            if (nominal > 0) {
+                const existingTagihan = await this.prisma.tagihan.findUnique({ where: { tiket_id: id } });
+                if (!existingTagihan) {
+                    await this.prisma.tagihan.create({
+                        data: {
+                            tiket_id: id,
+                            jumlah: nominal,
+                            status_bayar: 'menunggu',
+                        },
+                    });
+                }
+            }
+
+            const updated = await this.prisma.tiket.update({
+                where: { id },
+                data: {
+                    status: 'diproses',
+                },
+            });
+
+            await this.prisma.auditLog.create({
+                data: {
+                    user_id: kepalaBalaiId,
+                    tiket_id: tiket.id,
+                    aksi: 'diproses',
+                    detail_perubahan: `Disetujui oleh Kepala Balai, didisposisikan ke ${tiket.unit_teknis?.nama || 'Unit Teknis Terkait'} untuk penyiapan alat`,
+                },
+            });
+
+            if (tiket.user?.email) {
+                this.mailService
+                    .sendTiketDisetujuiEmail(tiket.user.email, tiket.user.nama, tiket.no_tiket, tiket.layanan.nama_layanan, 'diproses', clientUrl)
+                    .catch((err) => this.logger.warn(`Gagal kirim email disetujui kepala balai ke pemohon ${tiket.no_tiket}: ${err.message}`));
+            }
+
+            if (tiket.unit_teknis_id && tiket.unit_teknis) {
+                this.notifyPegawaiDisposisi(
+                    tiket.unit_teknis_id,
+                    tiket.layanan.slug,
+                    tiket.no_tiket,
+                    tiket.user?.nama || 'Pengguna',
+                    tiket.layanan.nama_layanan,
+                    tiket.unit_teknis.nama,
+                    clientUrl,
+                    tiket.id,
+                ).catch((err) => this.logger.warn(`Gagal notifikasi pegawai setelah persetujuan kepala balai tiket ${tiket.no_tiket}: ${err.message}`));
+            }
+
+            return updated;
+        }
+
+        // Untuk semua layanan lainnya: langsung didisposisikan ke pegawai unit teknis (status: diproses)
         const updated = await this.prisma.tiket.update({
             where: { id },
             data: {
@@ -385,9 +835,37 @@ export class TiketService {
                 user_id: kepalaBalaiId,
                 tiket_id: tiket.id,
                 aksi: 'diproses',
-                detail_perubahan: `Disetujui oleh Kepala Balai, didisposisikan ke unit teknis: ${tiket.unit_teknis?.nama || 'Unit Teknis tidak ditemukan'}`,
+                detail_perubahan: `Disetujui oleh Kepala Balai, didisposisikan ke ${tiket.unit_teknis?.nama || 'Unit Teknis tidak ditemukan'}`,
             },
         });
+
+        // Notifikasi ke pemohon bahwa permohonan disetujui Kepala Balai & sedang diproses
+        this.notifikasiService.create({
+            userId: tiket.user_id,
+            tiketId: tiket.id,
+            judul: 'Pengajuan Disetujui oleh Kepala Balai',
+            pesan: `Permohonan ${tiket.layanan.nama_layanan} (${tiket.no_tiket}) telah disetujui oleh Kepala Balai dan sedang diproses oleh ${tiket.unit_teknis?.nama || 'Unit Teknis'}.`,
+        }).catch(() => {});
+
+        if (tiket.user?.email) {
+            this.mailService
+                .sendTiketDisetujuiEmail(tiket.user.email, tiket.user.nama, tiket.no_tiket, tiket.layanan.nama_layanan, 'diproses', clientUrl)
+                .catch((err) => this.logger.warn(`Gagal kirim email disetujui kepala balai ke pemohon ${tiket.no_tiket}: ${err.message}`));
+        }
+
+        // Notifikasi ke pegawai unit teknis setelah disetujui Kepala Balai
+        if (tiket.unit_teknis_id && tiket.unit_teknis) {
+            this.notifyPegawaiDisposisi(
+                tiket.unit_teknis_id,
+                tiket.layanan.slug,
+                tiket.no_tiket,
+                tiket.user?.nama || 'Pengguna',
+                tiket.layanan.nama_layanan,
+                tiket.unit_teknis.nama,
+                clientUrl,
+                tiket.id,
+            ).catch((err) => this.logger.warn(`Gagal notifikasi pegawai setelah persetujuan kepala balai tiket ${tiket.no_tiket}: ${err.message}`));
+        }
 
         return updated;
     }
@@ -395,21 +873,120 @@ export class TiketService {
     async findAllForKepalaBalai(status?: string) {
         return this.prisma.tiket.findMany({
             where: {
-                layanan_id: { in: [17, 20, 21] },
                 status: status ? (status as any) : {
                     in: [
                         'menunggu_persetujuan_kepala_balai',
+                        'menunggu_pembayaran',
                         'diproses',
-                        'selesai_diproses',
                         'menunggu_konfirmasi',
                         'selesai'
                     ]
                 }
             },
-            include: { layanan: true, user: true, unit_teknis: true, tagihan: true },
+            include: { layanan: { include: { unit_teknis: true } }, user: true, unit_teknis: true, tagihan: true },
             orderBy: { createdAt: 'desc' },
         });
     }
 
+    // ─── Internal Helper Methods for Email Notifications ─────────────────────
+
+    private async notifyAdminsNewTiket(
+        layananSlug: string,
+        noTiket: string,
+        namaPemohon: string,
+        namaLayanan: string,
+        tanggalSubmit: Date,
+        clientUrl?: string,
+        tiketId?: number,
+    ) {
+        const admins = await this.prisma.user.findMany({
+            where: { role: { in: ['admin', 'super_admin'] }, status_akun: 'active' },
+            select: { id: true, email: true, nama: true },
+        });
+
+        for (const admin of admins) {
+            this.notifikasiService.create({
+                userId: admin.id,
+                tiketId,
+                judul: 'Tiket Baru Menunggu Verifikasi',
+                pesan: `Permohonan baru ${namaLayanan} (${noTiket}) dari ${namaPemohon} menunggu verifikasi Anda.`,
+            }).catch(() => {});
+
+            if (admin.email) {
+                this.mailService
+                    .sendAdminNotifTiketBaruEmail(admin.email, admin.nama, layananSlug, noTiket, namaPemohon, namaLayanan, tanggalSubmit, clientUrl)
+                    .catch((err) => this.logger.warn(`Gagal kirim notif ke admin ${admin.email}: ${err.message}`));
+            }
+        }
+    }
+
+
+    private async notifyKepalaBalaiPersetujuan(
+        layananSlug: string,
+        noTiket: string,
+        namaPemohon: string,
+        namaLayanan: string,
+        unitTeknisNama: string,
+        clientUrl?: string,
+        tiketId?: number,
+    ) {
+        const kepalaBalais = await this.prisma.user.findMany({
+            where: {
+                role: 'kepala_balai',
+                status_akun: 'active',
+            },
+            select: { id: true, email: true, nama: true },
+        });
+
+        for (const kb of kepalaBalais) {
+            this.notifikasiService.create({
+                userId: kb.id,
+                tiketId,
+                judul: 'Persetujuan Disposisi Layanan',
+                pesan: `Tiket #${noTiket} (${namaLayanan}) menunggu persetujuan disposisi Kepala Balai.`,
+            }).catch(() => {});
+
+            if (kb.email) {
+                this.mailService
+                    .sendKepalaBalaiNotifPersetujuanEmail(kb.email, kb.nama, layananSlug, noTiket, namaPemohon, namaLayanan, unitTeknisNama, clientUrl)
+                    .catch((err) => this.logger.warn(`Gagal kirim notif ke kepala balai ${kb.email}: ${err.message}`));
+            }
+        }
+    }
+
+    private async notifyPegawaiDisposisi(
+        unitTeknisId: number,
+        slug: string,
+        noTiket: string,
+        namaPemohon: string,
+        namaLayanan: string,
+        unitTeknisNama: string,
+        clientUrl?: string,
+        tiketId?: number,
+    ) {
+        const pegawais = await this.prisma.user.findMany({
+            where: {
+                role: 'pegawai',
+                unit_teknis_id: unitTeknisId,
+                status_akun: 'active',
+            },
+            select: { id: true, email: true, nama: true },
+        });
+
+        for (const staff of pegawais) {
+            this.notifikasiService.create({
+                userId: staff.id,
+                tiketId,
+                judul: 'Penugasan Layanan Baru',
+                pesan: `Anda telah ditugaskan untuk mengerjakan tiket #${noTiket} (${namaLayanan}).`,
+            }).catch(() => {});
+
+            if (staff.email) {
+                this.mailService
+                    .sendPegawaiNotifDisposisiEmail(staff.email, staff.nama, noTiket, slug, namaPemohon, namaLayanan, unitTeknisNama, clientUrl)
+                    .catch((err) => this.logger.warn(`Gagal kirim notif ke pegawai ${staff.email}: ${err.message}`));
+            }
+        }
+    }
 }
 

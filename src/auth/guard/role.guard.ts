@@ -24,6 +24,10 @@ export class RoleGuard implements CanActivate {
             role === 'admin_petugas_layanan' ? ['admin', 'pegawai'] : [role]
         );
 
+        if (user.role === 'super_admin') {
+            return true;
+        }
+
         if (!resolvedRoles.includes(user.role)) {
             throw new ForbiddenException('Anda tidak memiliki akses');
         }

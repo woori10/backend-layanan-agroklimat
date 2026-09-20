@@ -1,4 +1,4 @@
-import { IsString, IsEnum, IsOptional, IsInt, ValidateIf } from 'class-validator';
+import { IsString, IsEnum, IsOptional, IsInt, ValidateIf, IsEmail } from 'class-validator';
 import { Role } from '../../generated/prisma/client';
 
 export class CreateUserDto {
@@ -7,6 +7,14 @@ export class CreateUserDto {
 
     @IsString()
     nip: string;
+
+    @IsOptional()
+    @IsEmail({}, { message: 'Format email tidak valid' })
+    email?: string;
+
+    @IsOptional()
+    @IsString()
+    no_hp?: string;
 
     @IsEnum(Role)
     role: Role;

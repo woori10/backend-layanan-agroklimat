@@ -28,7 +28,8 @@ enum StatusTiket {
   perlu_revisi
   menunggu_pembayaran
   diproses
-  selesai_diproses
+  dipinjam
+  diterima
   menunggu_konfirmasi
   selesai
   ditolak
@@ -57,37 +58,60 @@ model User {
   status_akun    StatusAkun  @default(active)
   unit_teknis_id Int?
   unit_teknis    UnitTeknis? @relation(fields: [unit_teknis_id], references: [id])
+  instansi       String?
+  alamat         String?     @db.Text
+  email_verified             Boolean   @default(false)
+  verification_token         String?   @unique
+  verification_token_expires DateTime?
+  reset_token                String?   @unique
+  reset_token_expires        DateTime?
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
 
-  tikets      Tiket[]
-  notifikasis Notifikasi[]
-  auditLogs   AuditLog[]
+  tikets            Tiket[]
+  notifikasis       Notifikasi[]
+  auditLogs         AuditLog[]
+  passwordHistories PasswordHistory[]
 
   @@map("users")
 }
 
-model UnitTeknis {
+model PasswordHistory {
   id        Int      @id @default(autoincrement())
+  user_id   Int
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  password  String
+  createdAt DateTime @default(now())
+
+  @@map("password_history")
+}
+
+model UnitTeknis {
+  id        Int       @id @default(autoincrement())
   nama      String
   users     User[]
   tikets    Tiket[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  layanan   Layanan[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@map("unit_teknis")
 }
 
 model Layanan {
-  id           Int      @id @default(autoincrement())
-  nama_layanan String
-  biaya        Json
-  sla_hari     Int?
-  form_schema  Json
-  tikets       Tiket[]
-  pengaduans   Pengaduan[]
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id             Int         @id @default(autoincrement())
+  nama_layanan   String      @unique
+  slug           String      @unique
+  biaya          Json
+  sla_hari       Int?
+  form_schema    Json
+  is_active      Boolean     @default(true)
+  unit_teknis_id Int?
+  unit_teknis    UnitTeknis? @relation(fields: [unit_teknis_id], references: [id])
+  tikets         Tiket[]
+  pengaduans     Pengaduan[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 
   @@map("layanan")
 }
@@ -153,8 +177,10 @@ model Notifikasi {
   user         User            @relation(fields: [user_id], references: [id])
   tiket_id     Int?
   tiket        Tiket?          @relation(fields: [tiket_id], references: [id])
-  kanal        KanalNotifikasi
+  kanal        KanalNotifikasi @default(dashboard)
+  judul        String?
   pesan        String          @db.Text
+  dibaca       Boolean         @default(false)
   status_kirim Boolean         @default(false)
   timestamp    DateTime        @default(now())
 
@@ -199,9 +225,22 @@ model Alat {
   id               Int      @id @default(autoincrement())
   nama_alat        String
   harga_peminjaman Int
+  stok             Int      @default(1)
   is_active        Boolean  @default(true)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
   @@map("alat")
+}
+
+model Faq {
+  id          Int      @id @default(autoincrement())
+  pertanyaan  String   @db.Text
+  jawaban     String   @db.Text
+  urutan      Int      @default(0)
+  is_active   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("faq")
 }

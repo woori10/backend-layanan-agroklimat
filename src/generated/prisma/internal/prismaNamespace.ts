@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  PasswordHistory: 'PasswordHistory',
   UnitTeknis: 'UnitTeknis',
   Layanan: 'Layanan',
   Tiket: 'Tiket',
@@ -393,7 +394,8 @@ export const ModelName = {
   Notifikasi: 'Notifikasi',
   AuditLog: 'AuditLog',
   Pengaduan: 'Pengaduan',
-  Alat: 'Alat'
+  Alat: 'Alat',
+  Faq: 'Faq'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -409,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "unitTeknis" | "layanan" | "tiket" | "dokumen" | "tagihan" | "notifikasi" | "auditLog" | "pengaduan" | "alat"
+    modelProps: "user" | "passwordHistory" | "unitTeknis" | "layanan" | "tiket" | "dokumen" | "tagihan" | "notifikasi" | "auditLog" | "pengaduan" | "alat" | "faq"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -476,6 +478,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    PasswordHistory: {
+      payload: Prisma.$PasswordHistoryPayload<ExtArgs>
+      fields: Prisma.PasswordHistoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PasswordHistoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordHistoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PasswordHistoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordHistoryPayload>
+        }
+        findFirst: {
+          args: Prisma.PasswordHistoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordHistoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PasswordHistoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordHistoryPayload>
+        }
+        findMany: {
+          args: Prisma.PasswordHistoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordHistoryPayload>[]
+        }
+        create: {
+          args: Prisma.PasswordHistoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordHistoryPayload>
+        }
+        createMany: {
+          args: Prisma.PasswordHistoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.PasswordHistoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordHistoryPayload>
+        }
+        update: {
+          args: Prisma.PasswordHistoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordHistoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.PasswordHistoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PasswordHistoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.PasswordHistoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordHistoryPayload>
+        }
+        aggregate: {
+          args: Prisma.PasswordHistoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePasswordHistory>
+        }
+        groupBy: {
+          args: Prisma.PasswordHistoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PasswordHistoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PasswordHistoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PasswordHistoryCountAggregateOutputType> | number
         }
       }
     }
@@ -1073,6 +1141,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Faq: {
+      payload: Prisma.$FaqPayload<ExtArgs>
+      fields: Prisma.FaqFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FaqFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaqPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FaqFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaqPayload>
+        }
+        findFirst: {
+          args: Prisma.FaqFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaqPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FaqFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaqPayload>
+        }
+        findMany: {
+          args: Prisma.FaqFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaqPayload>[]
+        }
+        create: {
+          args: Prisma.FaqCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaqPayload>
+        }
+        createMany: {
+          args: Prisma.FaqCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.FaqDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaqPayload>
+        }
+        update: {
+          args: Prisma.FaqUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaqPayload>
+        }
+        deleteMany: {
+          args: Prisma.FaqDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FaqUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.FaqUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaqPayload>
+        }
+        aggregate: {
+          args: Prisma.FaqAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFaq>
+        }
+        groupBy: {
+          args: Prisma.FaqGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FaqGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FaqCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FaqCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1122,11 +1256,28 @@ export const UserScalarFieldEnum = {
   role: 'role',
   status_akun: 'status_akun',
   unit_teknis_id: 'unit_teknis_id',
+  instansi: 'instansi',
+  alamat: 'alamat',
+  email_verified: 'email_verified',
+  verification_token: 'verification_token',
+  verification_token_expires: 'verification_token_expires',
+  reset_token: 'reset_token',
+  reset_token_expires: 'reset_token_expires',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const PasswordHistoryScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  password: 'password',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordHistoryScalarFieldEnum = (typeof PasswordHistoryScalarFieldEnum)[keyof typeof PasswordHistoryScalarFieldEnum]
 
 
 export const UnitTeknisScalarFieldEnum = {
@@ -1142,9 +1293,12 @@ export type UnitTeknisScalarFieldEnum = (typeof UnitTeknisScalarFieldEnum)[keyof
 export const LayananScalarFieldEnum = {
   id: 'id',
   nama_layanan: 'nama_layanan',
+  slug: 'slug',
   biaya: 'biaya',
   sla_hari: 'sla_hari',
   form_schema: 'form_schema',
+  is_active: 'is_active',
+  unit_teknis_id: 'unit_teknis_id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1203,7 +1357,9 @@ export const NotifikasiScalarFieldEnum = {
   user_id: 'user_id',
   tiket_id: 'tiket_id',
   kanal: 'kanal',
+  judul: 'judul',
   pesan: 'pesan',
+  dibaca: 'dibaca',
   status_kirim: 'status_kirim',
   timestamp: 'timestamp'
 } as const
@@ -1247,12 +1403,26 @@ export const AlatScalarFieldEnum = {
   id: 'id',
   nama_alat: 'nama_alat',
   harga_peminjaman: 'harga_peminjaman',
+  stok: 'stok',
   is_active: 'is_active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type AlatScalarFieldEnum = (typeof AlatScalarFieldEnum)[keyof typeof AlatScalarFieldEnum]
+
+
+export const FaqScalarFieldEnum = {
+  id: 'id',
+  pertanyaan: 'pertanyaan',
+  jawaban: 'jawaban',
+  urutan: 'urutan',
+  is_active: 'is_active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FaqScalarFieldEnum = (typeof FaqScalarFieldEnum)[keyof typeof FaqScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1291,10 +1461,21 @@ export const UserOrderByRelevanceFieldEnum = {
   password: 'password',
   nama: 'nama',
   nip: 'nip',
-  no_hp: 'no_hp'
+  no_hp: 'no_hp',
+  instansi: 'instansi',
+  alamat: 'alamat',
+  verification_token: 'verification_token',
+  reset_token: 'reset_token'
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
+
+
+export const PasswordHistoryOrderByRelevanceFieldEnum = {
+  password: 'password'
+} as const
+
+export type PasswordHistoryOrderByRelevanceFieldEnum = (typeof PasswordHistoryOrderByRelevanceFieldEnum)[keyof typeof PasswordHistoryOrderByRelevanceFieldEnum]
 
 
 export const UnitTeknisOrderByRelevanceFieldEnum = {
@@ -1322,7 +1503,8 @@ export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
 export const LayananOrderByRelevanceFieldEnum = {
-  nama_layanan: 'nama_layanan'
+  nama_layanan: 'nama_layanan',
+  slug: 'slug'
 } as const
 
 export type LayananOrderByRelevanceFieldEnum = (typeof LayananOrderByRelevanceFieldEnum)[keyof typeof LayananOrderByRelevanceFieldEnum]
@@ -1354,6 +1536,7 @@ export type TagihanOrderByRelevanceFieldEnum = (typeof TagihanOrderByRelevanceFi
 
 
 export const NotifikasiOrderByRelevanceFieldEnum = {
+  judul: 'judul',
   pesan: 'pesan'
 } as const
 
@@ -1389,6 +1572,14 @@ export const AlatOrderByRelevanceFieldEnum = {
 export type AlatOrderByRelevanceFieldEnum = (typeof AlatOrderByRelevanceFieldEnum)[keyof typeof AlatOrderByRelevanceFieldEnum]
 
 
+export const FaqOrderByRelevanceFieldEnum = {
+  pertanyaan: 'pertanyaan',
+  jawaban: 'jawaban'
+} as const
+
+export type FaqOrderByRelevanceFieldEnum = (typeof FaqOrderByRelevanceFieldEnum)[keyof typeof FaqOrderByRelevanceFieldEnum]
+
+
 
 /**
  * Field references
@@ -1420,6 +1611,13 @@ export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'StatusAkun'
  */
 export type EnumStatusAkunFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusAkun'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1462,13 +1660,6 @@ export type EnumStatusBayarFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'KanalNotifikasi'
  */
 export type EnumKanalNotifikasiFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KanalNotifikasi'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1589,6 +1780,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  passwordHistory?: Prisma.PasswordHistoryOmit
   unitTeknis?: Prisma.UnitTeknisOmit
   layanan?: Prisma.LayananOmit
   tiket?: Prisma.TiketOmit
@@ -1598,6 +1790,7 @@ export type GlobalOmitConfig = {
   auditLog?: Prisma.AuditLogOmit
   pengaduan?: Prisma.PengaduanOmit
   alat?: Prisma.AlatOmit
+  faq?: Prisma.FaqOmit
 }
 
 /* Types for Logging */

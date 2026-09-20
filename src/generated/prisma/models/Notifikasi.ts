@@ -43,7 +43,9 @@ export type NotifikasiMinAggregateOutputType = {
   user_id: number | null
   tiket_id: number | null
   kanal: $Enums.KanalNotifikasi | null
+  judul: string | null
   pesan: string | null
+  dibaca: boolean | null
   status_kirim: boolean | null
   timestamp: Date | null
 }
@@ -53,7 +55,9 @@ export type NotifikasiMaxAggregateOutputType = {
   user_id: number | null
   tiket_id: number | null
   kanal: $Enums.KanalNotifikasi | null
+  judul: string | null
   pesan: string | null
+  dibaca: boolean | null
   status_kirim: boolean | null
   timestamp: Date | null
 }
@@ -63,7 +67,9 @@ export type NotifikasiCountAggregateOutputType = {
   user_id: number
   tiket_id: number
   kanal: number
+  judul: number
   pesan: number
+  dibaca: number
   status_kirim: number
   timestamp: number
   _all: number
@@ -87,7 +93,9 @@ export type NotifikasiMinAggregateInputType = {
   user_id?: true
   tiket_id?: true
   kanal?: true
+  judul?: true
   pesan?: true
+  dibaca?: true
   status_kirim?: true
   timestamp?: true
 }
@@ -97,7 +105,9 @@ export type NotifikasiMaxAggregateInputType = {
   user_id?: true
   tiket_id?: true
   kanal?: true
+  judul?: true
   pesan?: true
+  dibaca?: true
   status_kirim?: true
   timestamp?: true
 }
@@ -107,7 +117,9 @@ export type NotifikasiCountAggregateInputType = {
   user_id?: true
   tiket_id?: true
   kanal?: true
+  judul?: true
   pesan?: true
+  dibaca?: true
   status_kirim?: true
   timestamp?: true
   _all?: true
@@ -204,7 +216,9 @@ export type NotifikasiGroupByOutputType = {
   user_id: number
   tiket_id: number | null
   kanal: $Enums.KanalNotifikasi
+  judul: string | null
   pesan: string
+  dibaca: boolean
   status_kirim: boolean
   timestamp: Date
   _count: NotifikasiCountAggregateOutputType | null
@@ -237,7 +251,9 @@ export type NotifikasiWhereInput = {
   user_id?: Prisma.IntFilter<"Notifikasi"> | number
   tiket_id?: Prisma.IntNullableFilter<"Notifikasi"> | number | null
   kanal?: Prisma.EnumKanalNotifikasiFilter<"Notifikasi"> | $Enums.KanalNotifikasi
+  judul?: Prisma.StringNullableFilter<"Notifikasi"> | string | null
   pesan?: Prisma.StringFilter<"Notifikasi"> | string
+  dibaca?: Prisma.BoolFilter<"Notifikasi"> | boolean
   status_kirim?: Prisma.BoolFilter<"Notifikasi"> | boolean
   timestamp?: Prisma.DateTimeFilter<"Notifikasi"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -249,7 +265,9 @@ export type NotifikasiOrderByWithRelationInput = {
   user_id?: Prisma.SortOrder
   tiket_id?: Prisma.SortOrderInput | Prisma.SortOrder
   kanal?: Prisma.SortOrder
+  judul?: Prisma.SortOrderInput | Prisma.SortOrder
   pesan?: Prisma.SortOrder
+  dibaca?: Prisma.SortOrder
   status_kirim?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -265,7 +283,9 @@ export type NotifikasiWhereUniqueInput = Prisma.AtLeast<{
   user_id?: Prisma.IntFilter<"Notifikasi"> | number
   tiket_id?: Prisma.IntNullableFilter<"Notifikasi"> | number | null
   kanal?: Prisma.EnumKanalNotifikasiFilter<"Notifikasi"> | $Enums.KanalNotifikasi
+  judul?: Prisma.StringNullableFilter<"Notifikasi"> | string | null
   pesan?: Prisma.StringFilter<"Notifikasi"> | string
+  dibaca?: Prisma.BoolFilter<"Notifikasi"> | boolean
   status_kirim?: Prisma.BoolFilter<"Notifikasi"> | boolean
   timestamp?: Prisma.DateTimeFilter<"Notifikasi"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -277,7 +297,9 @@ export type NotifikasiOrderByWithAggregationInput = {
   user_id?: Prisma.SortOrder
   tiket_id?: Prisma.SortOrderInput | Prisma.SortOrder
   kanal?: Prisma.SortOrder
+  judul?: Prisma.SortOrderInput | Prisma.SortOrder
   pesan?: Prisma.SortOrder
+  dibaca?: Prisma.SortOrder
   status_kirim?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   _count?: Prisma.NotifikasiCountOrderByAggregateInput
@@ -295,14 +317,18 @@ export type NotifikasiScalarWhereWithAggregatesInput = {
   user_id?: Prisma.IntWithAggregatesFilter<"Notifikasi"> | number
   tiket_id?: Prisma.IntNullableWithAggregatesFilter<"Notifikasi"> | number | null
   kanal?: Prisma.EnumKanalNotifikasiWithAggregatesFilter<"Notifikasi"> | $Enums.KanalNotifikasi
+  judul?: Prisma.StringNullableWithAggregatesFilter<"Notifikasi"> | string | null
   pesan?: Prisma.StringWithAggregatesFilter<"Notifikasi"> | string
+  dibaca?: Prisma.BoolWithAggregatesFilter<"Notifikasi"> | boolean
   status_kirim?: Prisma.BoolWithAggregatesFilter<"Notifikasi"> | boolean
   timestamp?: Prisma.DateTimeWithAggregatesFilter<"Notifikasi"> | Date | string
 }
 
 export type NotifikasiCreateInput = {
-  kanal: $Enums.KanalNotifikasi
+  kanal?: $Enums.KanalNotifikasi
+  judul?: string | null
   pesan: string
+  dibaca?: boolean
   status_kirim?: boolean
   timestamp?: Date | string
   user: Prisma.UserCreateNestedOneWithoutNotifikasisInput
@@ -313,15 +339,19 @@ export type NotifikasiUncheckedCreateInput = {
   id?: number
   user_id: number
   tiket_id?: number | null
-  kanal: $Enums.KanalNotifikasi
+  kanal?: $Enums.KanalNotifikasi
+  judul?: string | null
   pesan: string
+  dibaca?: boolean
   status_kirim?: boolean
   timestamp?: Date | string
 }
 
 export type NotifikasiUpdateInput = {
   kanal?: Prisma.EnumKanalNotifikasiFieldUpdateOperationsInput | $Enums.KanalNotifikasi
+  judul?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pesan?: Prisma.StringFieldUpdateOperationsInput | string
+  dibaca?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_kirim?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutNotifikasisNestedInput
@@ -333,7 +363,9 @@ export type NotifikasiUncheckedUpdateInput = {
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   tiket_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   kanal?: Prisma.EnumKanalNotifikasiFieldUpdateOperationsInput | $Enums.KanalNotifikasi
+  judul?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pesan?: Prisma.StringFieldUpdateOperationsInput | string
+  dibaca?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_kirim?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -342,15 +374,19 @@ export type NotifikasiCreateManyInput = {
   id?: number
   user_id: number
   tiket_id?: number | null
-  kanal: $Enums.KanalNotifikasi
+  kanal?: $Enums.KanalNotifikasi
+  judul?: string | null
   pesan: string
+  dibaca?: boolean
   status_kirim?: boolean
   timestamp?: Date | string
 }
 
 export type NotifikasiUpdateManyMutationInput = {
   kanal?: Prisma.EnumKanalNotifikasiFieldUpdateOperationsInput | $Enums.KanalNotifikasi
+  judul?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pesan?: Prisma.StringFieldUpdateOperationsInput | string
+  dibaca?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_kirim?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -360,7 +396,9 @@ export type NotifikasiUncheckedUpdateManyInput = {
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   tiket_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   kanal?: Prisma.EnumKanalNotifikasiFieldUpdateOperationsInput | $Enums.KanalNotifikasi
+  judul?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pesan?: Prisma.StringFieldUpdateOperationsInput | string
+  dibaca?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_kirim?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -386,7 +424,9 @@ export type NotifikasiCountOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   tiket_id?: Prisma.SortOrder
   kanal?: Prisma.SortOrder
+  judul?: Prisma.SortOrder
   pesan?: Prisma.SortOrder
+  dibaca?: Prisma.SortOrder
   status_kirim?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
@@ -402,7 +442,9 @@ export type NotifikasiMaxOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   tiket_id?: Prisma.SortOrder
   kanal?: Prisma.SortOrder
+  judul?: Prisma.SortOrder
   pesan?: Prisma.SortOrder
+  dibaca?: Prisma.SortOrder
   status_kirim?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
@@ -412,7 +454,9 @@ export type NotifikasiMinOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   tiket_id?: Prisma.SortOrder
   kanal?: Prisma.SortOrder
+  judul?: Prisma.SortOrder
   pesan?: Prisma.SortOrder
+  dibaca?: Prisma.SortOrder
   status_kirim?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
@@ -511,13 +555,11 @@ export type EnumKanalNotifikasiFieldUpdateOperationsInput = {
   set?: $Enums.KanalNotifikasi
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type NotifikasiCreateWithoutUserInput = {
-  kanal: $Enums.KanalNotifikasi
+  kanal?: $Enums.KanalNotifikasi
+  judul?: string | null
   pesan: string
+  dibaca?: boolean
   status_kirim?: boolean
   timestamp?: Date | string
   tiket?: Prisma.TiketCreateNestedOneWithoutNotifikasiInput
@@ -526,8 +568,10 @@ export type NotifikasiCreateWithoutUserInput = {
 export type NotifikasiUncheckedCreateWithoutUserInput = {
   id?: number
   tiket_id?: number | null
-  kanal: $Enums.KanalNotifikasi
+  kanal?: $Enums.KanalNotifikasi
+  judul?: string | null
   pesan: string
+  dibaca?: boolean
   status_kirim?: boolean
   timestamp?: Date | string
 }
@@ -566,14 +610,18 @@ export type NotifikasiScalarWhereInput = {
   user_id?: Prisma.IntFilter<"Notifikasi"> | number
   tiket_id?: Prisma.IntNullableFilter<"Notifikasi"> | number | null
   kanal?: Prisma.EnumKanalNotifikasiFilter<"Notifikasi"> | $Enums.KanalNotifikasi
+  judul?: Prisma.StringNullableFilter<"Notifikasi"> | string | null
   pesan?: Prisma.StringFilter<"Notifikasi"> | string
+  dibaca?: Prisma.BoolFilter<"Notifikasi"> | boolean
   status_kirim?: Prisma.BoolFilter<"Notifikasi"> | boolean
   timestamp?: Prisma.DateTimeFilter<"Notifikasi"> | Date | string
 }
 
 export type NotifikasiCreateWithoutTiketInput = {
-  kanal: $Enums.KanalNotifikasi
+  kanal?: $Enums.KanalNotifikasi
+  judul?: string | null
   pesan: string
+  dibaca?: boolean
   status_kirim?: boolean
   timestamp?: Date | string
   user: Prisma.UserCreateNestedOneWithoutNotifikasisInput
@@ -582,8 +630,10 @@ export type NotifikasiCreateWithoutTiketInput = {
 export type NotifikasiUncheckedCreateWithoutTiketInput = {
   id?: number
   user_id: number
-  kanal: $Enums.KanalNotifikasi
+  kanal?: $Enums.KanalNotifikasi
+  judul?: string | null
   pesan: string
+  dibaca?: boolean
   status_kirim?: boolean
   timestamp?: Date | string
 }
@@ -617,15 +667,19 @@ export type NotifikasiUpdateManyWithWhereWithoutTiketInput = {
 export type NotifikasiCreateManyUserInput = {
   id?: number
   tiket_id?: number | null
-  kanal: $Enums.KanalNotifikasi
+  kanal?: $Enums.KanalNotifikasi
+  judul?: string | null
   pesan: string
+  dibaca?: boolean
   status_kirim?: boolean
   timestamp?: Date | string
 }
 
 export type NotifikasiUpdateWithoutUserInput = {
   kanal?: Prisma.EnumKanalNotifikasiFieldUpdateOperationsInput | $Enums.KanalNotifikasi
+  judul?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pesan?: Prisma.StringFieldUpdateOperationsInput | string
+  dibaca?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_kirim?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tiket?: Prisma.TiketUpdateOneWithoutNotifikasiNestedInput
@@ -635,7 +689,9 @@ export type NotifikasiUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   tiket_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   kanal?: Prisma.EnumKanalNotifikasiFieldUpdateOperationsInput | $Enums.KanalNotifikasi
+  judul?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pesan?: Prisma.StringFieldUpdateOperationsInput | string
+  dibaca?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_kirim?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -644,7 +700,9 @@ export type NotifikasiUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   tiket_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   kanal?: Prisma.EnumKanalNotifikasiFieldUpdateOperationsInput | $Enums.KanalNotifikasi
+  judul?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pesan?: Prisma.StringFieldUpdateOperationsInput | string
+  dibaca?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_kirim?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -652,15 +710,19 @@ export type NotifikasiUncheckedUpdateManyWithoutUserInput = {
 export type NotifikasiCreateManyTiketInput = {
   id?: number
   user_id: number
-  kanal: $Enums.KanalNotifikasi
+  kanal?: $Enums.KanalNotifikasi
+  judul?: string | null
   pesan: string
+  dibaca?: boolean
   status_kirim?: boolean
   timestamp?: Date | string
 }
 
 export type NotifikasiUpdateWithoutTiketInput = {
   kanal?: Prisma.EnumKanalNotifikasiFieldUpdateOperationsInput | $Enums.KanalNotifikasi
+  judul?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pesan?: Prisma.StringFieldUpdateOperationsInput | string
+  dibaca?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_kirim?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutNotifikasisNestedInput
@@ -670,7 +732,9 @@ export type NotifikasiUncheckedUpdateWithoutTiketInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   kanal?: Prisma.EnumKanalNotifikasiFieldUpdateOperationsInput | $Enums.KanalNotifikasi
+  judul?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pesan?: Prisma.StringFieldUpdateOperationsInput | string
+  dibaca?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_kirim?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -679,7 +743,9 @@ export type NotifikasiUncheckedUpdateManyWithoutTiketInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   kanal?: Prisma.EnumKanalNotifikasiFieldUpdateOperationsInput | $Enums.KanalNotifikasi
+  judul?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pesan?: Prisma.StringFieldUpdateOperationsInput | string
+  dibaca?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_kirim?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -691,7 +757,9 @@ export type NotifikasiSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   user_id?: boolean
   tiket_id?: boolean
   kanal?: boolean
+  judul?: boolean
   pesan?: boolean
+  dibaca?: boolean
   status_kirim?: boolean
   timestamp?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -705,12 +773,14 @@ export type NotifikasiSelectScalar = {
   user_id?: boolean
   tiket_id?: boolean
   kanal?: boolean
+  judul?: boolean
   pesan?: boolean
+  dibaca?: boolean
   status_kirim?: boolean
   timestamp?: boolean
 }
 
-export type NotifikasiOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tiket_id" | "kanal" | "pesan" | "status_kirim" | "timestamp", ExtArgs["result"]["notifikasi"]>
+export type NotifikasiOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tiket_id" | "kanal" | "judul" | "pesan" | "dibaca" | "status_kirim" | "timestamp", ExtArgs["result"]["notifikasi"]>
 export type NotifikasiInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tiket?: boolean | Prisma.Notifikasi$tiketArgs<ExtArgs>
@@ -727,7 +797,9 @@ export type $NotifikasiPayload<ExtArgs extends runtime.Types.Extensions.Internal
     user_id: number
     tiket_id: number | null
     kanal: $Enums.KanalNotifikasi
+    judul: string | null
     pesan: string
+    dibaca: boolean
     status_kirim: boolean
     timestamp: Date
   }, ExtArgs["result"]["notifikasi"]>
@@ -1105,7 +1177,9 @@ export interface NotifikasiFieldRefs {
   readonly user_id: Prisma.FieldRef<"Notifikasi", 'Int'>
   readonly tiket_id: Prisma.FieldRef<"Notifikasi", 'Int'>
   readonly kanal: Prisma.FieldRef<"Notifikasi", 'KanalNotifikasi'>
+  readonly judul: Prisma.FieldRef<"Notifikasi", 'String'>
   readonly pesan: Prisma.FieldRef<"Notifikasi", 'String'>
+  readonly dibaca: Prisma.FieldRef<"Notifikasi", 'Boolean'>
   readonly status_kirim: Prisma.FieldRef<"Notifikasi", 'Boolean'>
   readonly timestamp: Prisma.FieldRef<"Notifikasi", 'DateTime'>
 }

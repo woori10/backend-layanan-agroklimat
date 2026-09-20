@@ -11,6 +11,22 @@ import { RoleGuard } from '../auth/guard/role.guard';
 import { Roles } from '../auth/decorators/role.decorators';
 import { ProsesTiketDto } from './dto/proses-tiket.dto';
 
+function extractClientUrl(req: any): string | undefined {
+    if (req.headers?.origin && req.headers.origin !== 'null') {
+        return req.headers.origin;
+    }
+    if (req.headers?.['x-forwarded-host']) {
+        const proto = req.headers['x-forwarded-proto'] || 'http';
+        return `${proto}://${req.headers['x-forwarded-host']}`;
+    }
+    if (req.headers?.referer) {
+        try {
+            return new URL(req.headers.referer).origin;
+        } catch {}
+    }
+    return undefined;
+}
+
 @UseGuards(JwtAuthGuard)
 @Controller('tiket')
 export class TiketController {
@@ -18,7 +34,7 @@ export class TiketController {
 
     @Post()
     create(@Request() req, @Body() dto: CreateTiketDto) {
-        return this.tiketService.create(req.user.userId, dto);
+        return this.tiketService.create(req.user.userId, dto, extractClientUrl(req));
     }
 
     @Get()
@@ -48,7 +64,7 @@ export class TiketController {
     }
 
     @UseGuards(RoleGuard)
-    @Roles('admin', 'kepala_balai')
+    @Roles('admin', 'kepala_balai', 'super_admin')
     @Get('admin')
     findAllForAdminRole(
         @Query('status') status?: string,
@@ -61,10 +77,17 @@ export class TiketController {
     }
 
     @UseGuards(RoleGuard)
+    @Roles('admin', 'super_admin', 'kepala_balai')
+    @Get('tagihan/semua')
+    findAllTagihan() {
+        return this.tiketService.findAllTagihan();
+    }
+
+    @UseGuards(RoleGuard)
     @Roles('admin_petugas_layanan', 'kepala_balai')
-    @Get('admin/:id')
-    findOneForAdmin(@Param('id', ParseIntPipe) id: number) {
-        return this.tiketService.findOneForAdmin(id);
+    @Get('admin/:identifier')
+    findOneForAdmin(@Param('identifier') identifier: string) {
+        return this.tiketService.findOneForAdmin(identifier);
     }
 
     @Get(':id')
@@ -80,7 +103,7 @@ export class TiketController {
         @Param('id', ParseIntPipe) id: number,
         @Body() dto: VerifikasiTiketDto,
     ) {
-        return this.tiketService.verifikasi(req.user.userId, id, dto);
+        return this.tiketService.verifikasi(req.user.userId, id, dto, extractClientUrl(req));
     }
 
     @Patch(':id/submit-ulang')
@@ -105,9 +128,23 @@ export class TiketController {
 
     @UseGuards(RoleGuard)
     @Roles('admin_petugas_layanan')
+    @Patch(':id/terima')
+    terimaMagang(@Request() req, @Param('id', ParseIntPipe) id: number) {
+        return this.tiketService.terimaMagang(req.user.userId, id, extractClientUrl(req));
+    }
+
+    @UseGuards(RoleGuard)
+    @Roles('admin_petugas_layanan')
+    @Patch(':id/pinjam')
+    tandaiDipinjam(@Request() req, @Param('id', ParseIntPipe) id: number) {
+        return this.tiketService.tandaiDipinjam(req.user.userId, id, extractClientUrl(req));
+    }
+
+    @UseGuards(RoleGuard)
+    @Roles('admin_petugas_layanan')
     @Patch(':id/selesai')
     selesaiProses(@Request() req, @Param('id', ParseIntPipe) id: number) {
-        return this.tiketService.selesaiProses(req.user.userId, id);
+        return this.tiketService.selesaiProses(req.user.userId, id, extractClientUrl(req));
     }
 
     @UseGuards(RoleGuard)
@@ -121,7 +158,7 @@ export class TiketController {
     @UseGuards(RoleGuard)
     @Roles('kepala_balai')
     async setujuiKepala(@Param('id', ParseIntPipe) id: number, @Request() req) {
-        return this.tiketService.setujuiOlehKepalaBalai(id, req.user.userId);
+        return this.tiketService.setujuiOlehKepalaBalai(id, req.user.userId, extractClientUrl(req));
     }
 
 }

@@ -9,6 +9,7 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User.js'
+export type * from './models/PasswordHistory.js'
 export type * from './models/UnitTeknis.js'
 export type * from './models/Layanan.js'
 export type * from './models/Tiket.js'
@@ -18,4 +19,5 @@ export type * from './models/Notifikasi.js'
 export type * from './models/AuditLog.js'
 export type * from './models/Pengaduan.js'
 export type * from './models/Alat.js'
+export type * from './models/Faq.js'
 export type * from './commonInputTypes.js'

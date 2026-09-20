@@ -681,10 +681,6 @@ export type EnumStatusTiketFieldUpdateOperationsInput = {
   set?: $Enums.StatusTiket
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type TiketCreateNestedOneWithoutDokumenInput = {
   create?: Prisma.XOR<Prisma.TiketCreateWithoutDokumenInput, Prisma.TiketUncheckedCreateWithoutDokumenInput>
   connectOrCreate?: Prisma.TiketCreateOrConnectWithoutDokumenInput

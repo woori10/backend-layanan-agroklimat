@@ -12,6 +12,10 @@ export class CreateAlatDto {
     @IsNumber()
     harga_peminjaman: number;
 
+    @IsNumber()
+    @IsOptional()
+    stok?: number;
+
     @IsBoolean()
     @IsOptional()
     is_active?: boolean;
@@ -26,12 +30,15 @@ export class UpdateAlatDto {
     @IsOptional()
     harga_peminjaman?: number;
 
+    @IsNumber()
+    @IsOptional()
+    stok?: number;
+
     @IsBoolean()
     @IsOptional()
     is_active?: boolean;
 }
 
-@UseGuards(JwtAuthGuard)
 @Controller('alat')
 export class AlatController {
     constructor(private readonly alatService: AlatService) {}
@@ -46,22 +53,22 @@ export class AlatController {
         return this.alatService.findOne(id);
     }
 
-    @UseGuards(RoleGuard)
-    @Roles('super_admin')
+    @UseGuards(JwtAuthGuard, RoleGuard)
+    @Roles('super_admin', 'pegawai')
     @Post()
     create(@Body() dto: CreateAlatDto) {
         return this.alatService.create(dto);
     }
 
-    @UseGuards(RoleGuard)
-    @Roles('super_admin')
+    @UseGuards(JwtAuthGuard, RoleGuard)
+    @Roles('super_admin', 'pegawai')
     @Patch(':id')
     update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateAlatDto) {
         return this.alatService.update(id, dto);
     }
 
-    @UseGuards(RoleGuard)
-    @Roles('super_admin')
+    @UseGuards(JwtAuthGuard, RoleGuard)
+    @Roles('super_admin', 'pegawai')
     @Delete(':id')
     remove(@Param('id', ParseIntPipe) id: number) {
         return this.alatService.remove(id);

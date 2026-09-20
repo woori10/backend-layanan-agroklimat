@@ -45,6 +45,11 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
+ * Model PasswordHistory
+ * 
+ */
+export type PasswordHistory = Prisma.PasswordHistoryModel
+/**
  * Model UnitTeknis
  * 
  */
@@ -89,3 +94,8 @@ export type Pengaduan = Prisma.PengaduanModel
  * 
  */
 export type Alat = Prisma.AlatModel
+/**
+ * Model Faq
+ * 
+ */
+export type Faq = Prisma.FaqModel

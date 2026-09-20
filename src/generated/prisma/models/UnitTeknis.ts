@@ -210,6 +210,7 @@ export type UnitTeknisWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"UnitTeknis"> | Date | string
   users?: Prisma.UserListRelationFilter
   tikets?: Prisma.TiketListRelationFilter
+  layanan?: Prisma.LayananListRelationFilter
 }
 
 export type UnitTeknisOrderByWithRelationInput = {
@@ -219,6 +220,7 @@ export type UnitTeknisOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   users?: Prisma.UserOrderByRelationAggregateInput
   tikets?: Prisma.TiketOrderByRelationAggregateInput
+  layanan?: Prisma.LayananOrderByRelationAggregateInput
   _relevance?: Prisma.UnitTeknisOrderByRelevanceInput
 }
 
@@ -232,6 +234,7 @@ export type UnitTeknisWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"UnitTeknis"> | Date | string
   users?: Prisma.UserListRelationFilter
   tikets?: Prisma.TiketListRelationFilter
+  layanan?: Prisma.LayananListRelationFilter
 }, "id">
 
 export type UnitTeknisOrderByWithAggregationInput = {
@@ -262,6 +265,7 @@ export type UnitTeknisCreateInput = {
   updatedAt?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutUnit_teknisInput
   tikets?: Prisma.TiketCreateNestedManyWithoutUnit_teknisInput
+  layanan?: Prisma.LayananCreateNestedManyWithoutUnit_teknisInput
 }
 
 export type UnitTeknisUncheckedCreateInput = {
@@ -271,6 +275,7 @@ export type UnitTeknisUncheckedCreateInput = {
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutUnit_teknisInput
   tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutUnit_teknisInput
+  layanan?: Prisma.LayananUncheckedCreateNestedManyWithoutUnit_teknisInput
 }
 
 export type UnitTeknisUpdateInput = {
@@ -279,6 +284,7 @@ export type UnitTeknisUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutUnit_teknisNestedInput
   tikets?: Prisma.TiketUpdateManyWithoutUnit_teknisNestedInput
+  layanan?: Prisma.LayananUpdateManyWithoutUnit_teknisNestedInput
 }
 
 export type UnitTeknisUncheckedUpdateInput = {
@@ -288,6 +294,7 @@ export type UnitTeknisUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutUnit_teknisNestedInput
   tikets?: Prisma.TiketUncheckedUpdateManyWithoutUnit_teknisNestedInput
+  layanan?: Prisma.LayananUncheckedUpdateManyWithoutUnit_teknisNestedInput
 }
 
 export type UnitTeknisCreateManyInput = {
@@ -366,6 +373,22 @@ export type UnitTeknisUpdateOneWithoutUsersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UnitTeknisUpdateToOneWithWhereWithoutUsersInput, Prisma.UnitTeknisUpdateWithoutUsersInput>, Prisma.UnitTeknisUncheckedUpdateWithoutUsersInput>
 }
 
+export type UnitTeknisCreateNestedOneWithoutLayananInput = {
+  create?: Prisma.XOR<Prisma.UnitTeknisCreateWithoutLayananInput, Prisma.UnitTeknisUncheckedCreateWithoutLayananInput>
+  connectOrCreate?: Prisma.UnitTeknisCreateOrConnectWithoutLayananInput
+  connect?: Prisma.UnitTeknisWhereUniqueInput
+}
+
+export type UnitTeknisUpdateOneWithoutLayananNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitTeknisCreateWithoutLayananInput, Prisma.UnitTeknisUncheckedCreateWithoutLayananInput>
+  connectOrCreate?: Prisma.UnitTeknisCreateOrConnectWithoutLayananInput
+  upsert?: Prisma.UnitTeknisUpsertWithoutLayananInput
+  disconnect?: Prisma.UnitTeknisWhereInput | boolean
+  delete?: Prisma.UnitTeknisWhereInput | boolean
+  connect?: Prisma.UnitTeknisWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UnitTeknisUpdateToOneWithWhereWithoutLayananInput, Prisma.UnitTeknisUpdateWithoutLayananInput>, Prisma.UnitTeknisUncheckedUpdateWithoutLayananInput>
+}
+
 export type UnitTeknisCreateNestedOneWithoutTiketsInput = {
   create?: Prisma.XOR<Prisma.UnitTeknisCreateWithoutTiketsInput, Prisma.UnitTeknisUncheckedCreateWithoutTiketsInput>
   connectOrCreate?: Prisma.UnitTeknisCreateOrConnectWithoutTiketsInput
@@ -387,6 +410,7 @@ export type UnitTeknisCreateWithoutUsersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tikets?: Prisma.TiketCreateNestedManyWithoutUnit_teknisInput
+  layanan?: Prisma.LayananCreateNestedManyWithoutUnit_teknisInput
 }
 
 export type UnitTeknisUncheckedCreateWithoutUsersInput = {
@@ -395,6 +419,7 @@ export type UnitTeknisUncheckedCreateWithoutUsersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutUnit_teknisInput
+  layanan?: Prisma.LayananUncheckedCreateNestedManyWithoutUnit_teknisInput
 }
 
 export type UnitTeknisCreateOrConnectWithoutUsersInput = {
@@ -418,6 +443,7 @@ export type UnitTeknisUpdateWithoutUsersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tikets?: Prisma.TiketUpdateManyWithoutUnit_teknisNestedInput
+  layanan?: Prisma.LayananUpdateManyWithoutUnit_teknisNestedInput
 }
 
 export type UnitTeknisUncheckedUpdateWithoutUsersInput = {
@@ -426,6 +452,57 @@ export type UnitTeknisUncheckedUpdateWithoutUsersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tikets?: Prisma.TiketUncheckedUpdateManyWithoutUnit_teknisNestedInput
+  layanan?: Prisma.LayananUncheckedUpdateManyWithoutUnit_teknisNestedInput
+}
+
+export type UnitTeknisCreateWithoutLayananInput = {
+  nama: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutUnit_teknisInput
+  tikets?: Prisma.TiketCreateNestedManyWithoutUnit_teknisInput
+}
+
+export type UnitTeknisUncheckedCreateWithoutLayananInput = {
+  id?: number
+  nama: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutUnit_teknisInput
+  tikets?: Prisma.TiketUncheckedCreateNestedManyWithoutUnit_teknisInput
+}
+
+export type UnitTeknisCreateOrConnectWithoutLayananInput = {
+  where: Prisma.UnitTeknisWhereUniqueInput
+  create: Prisma.XOR<Prisma.UnitTeknisCreateWithoutLayananInput, Prisma.UnitTeknisUncheckedCreateWithoutLayananInput>
+}
+
+export type UnitTeknisUpsertWithoutLayananInput = {
+  update: Prisma.XOR<Prisma.UnitTeknisUpdateWithoutLayananInput, Prisma.UnitTeknisUncheckedUpdateWithoutLayananInput>
+  create: Prisma.XOR<Prisma.UnitTeknisCreateWithoutLayananInput, Prisma.UnitTeknisUncheckedCreateWithoutLayananInput>
+  where?: Prisma.UnitTeknisWhereInput
+}
+
+export type UnitTeknisUpdateToOneWithWhereWithoutLayananInput = {
+  where?: Prisma.UnitTeknisWhereInput
+  data: Prisma.XOR<Prisma.UnitTeknisUpdateWithoutLayananInput, Prisma.UnitTeknisUncheckedUpdateWithoutLayananInput>
+}
+
+export type UnitTeknisUpdateWithoutLayananInput = {
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutUnit_teknisNestedInput
+  tikets?: Prisma.TiketUpdateManyWithoutUnit_teknisNestedInput
+}
+
+export type UnitTeknisUncheckedUpdateWithoutLayananInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutUnit_teknisNestedInput
+  tikets?: Prisma.TiketUncheckedUpdateManyWithoutUnit_teknisNestedInput
 }
 
 export type UnitTeknisCreateWithoutTiketsInput = {
@@ -433,6 +510,7 @@ export type UnitTeknisCreateWithoutTiketsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutUnit_teknisInput
+  layanan?: Prisma.LayananCreateNestedManyWithoutUnit_teknisInput
 }
 
 export type UnitTeknisUncheckedCreateWithoutTiketsInput = {
@@ -441,6 +519,7 @@ export type UnitTeknisUncheckedCreateWithoutTiketsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutUnit_teknisInput
+  layanan?: Prisma.LayananUncheckedCreateNestedManyWithoutUnit_teknisInput
 }
 
 export type UnitTeknisCreateOrConnectWithoutTiketsInput = {
@@ -464,6 +543,7 @@ export type UnitTeknisUpdateWithoutTiketsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutUnit_teknisNestedInput
+  layanan?: Prisma.LayananUpdateManyWithoutUnit_teknisNestedInput
 }
 
 export type UnitTeknisUncheckedUpdateWithoutTiketsInput = {
@@ -472,6 +552,7 @@ export type UnitTeknisUncheckedUpdateWithoutTiketsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutUnit_teknisNestedInput
+  layanan?: Prisma.LayananUncheckedUpdateManyWithoutUnit_teknisNestedInput
 }
 
 
@@ -482,11 +563,13 @@ export type UnitTeknisUncheckedUpdateWithoutTiketsInput = {
 export type UnitTeknisCountOutputType = {
   users: number
   tikets: number
+  layanan: number
 }
 
 export type UnitTeknisCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | UnitTeknisCountOutputTypeCountUsersArgs
   tikets?: boolean | UnitTeknisCountOutputTypeCountTiketsArgs
+  layanan?: boolean | UnitTeknisCountOutputTypeCountLayananArgs
 }
 
 /**
@@ -513,6 +596,13 @@ export type UnitTeknisCountOutputTypeCountTiketsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.TiketWhereInput
 }
 
+/**
+ * UnitTeknisCountOutputType without action
+ */
+export type UnitTeknisCountOutputTypeCountLayananArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LayananWhereInput
+}
+
 
 export type UnitTeknisSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -521,6 +611,7 @@ export type UnitTeknisSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   updatedAt?: boolean
   users?: boolean | Prisma.UnitTeknis$usersArgs<ExtArgs>
   tikets?: boolean | Prisma.UnitTeknis$tiketsArgs<ExtArgs>
+  layanan?: boolean | Prisma.UnitTeknis$layananArgs<ExtArgs>
   _count?: boolean | Prisma.UnitTeknisCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["unitTeknis"]>
 
@@ -537,6 +628,7 @@ export type UnitTeknisOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type UnitTeknisInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.UnitTeknis$usersArgs<ExtArgs>
   tikets?: boolean | Prisma.UnitTeknis$tiketsArgs<ExtArgs>
+  layanan?: boolean | Prisma.UnitTeknis$layananArgs<ExtArgs>
   _count?: boolean | Prisma.UnitTeknisCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -545,6 +637,7 @@ export type $UnitTeknisPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     users: Prisma.$UserPayload<ExtArgs>[]
     tikets: Prisma.$TiketPayload<ExtArgs>[]
+    layanan: Prisma.$LayananPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -893,6 +986,7 @@ export interface Prisma__UnitTeknisClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   users<T extends Prisma.UnitTeknis$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitTeknis$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tikets<T extends Prisma.UnitTeknis$tiketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitTeknis$tiketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TiketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  layanan<T extends Prisma.UnitTeknis$layananArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitTeknis$layananArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LayananPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1319,6 +1413,30 @@ export type UnitTeknis$tiketsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.TiketScalarFieldEnum | Prisma.TiketScalarFieldEnum[]
+}
+
+/**
+ * UnitTeknis.layanan
+ */
+export type UnitTeknis$layananArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Layanan
+   */
+  select?: Prisma.LayananSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Layanan
+   */
+  omit?: Prisma.LayananOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LayananInclude<ExtArgs> | null
+  where?: Prisma.LayananWhereInput
+  orderBy?: Prisma.LayananOrderByWithRelationInput | Prisma.LayananOrderByWithRelationInput[]
+  cursor?: Prisma.LayananWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LayananScalarFieldEnum | Prisma.LayananScalarFieldEnum[]
 }
 
 /**

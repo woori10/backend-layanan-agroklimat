@@ -2,6 +2,7 @@ import {
     Controller,
     Post,
     Get,
+    Delete,
     Param,
     ParseIntPipe,
     UseGuards,
@@ -58,5 +59,50 @@ export class DokumenController {
         @UploadedFile() file: Express.Multer.File,
     ) {
         return this.dokumenService.uploadLaporanHasil(req.user.userId, tiketId, file);
+    }
+
+    @UseGuards(RoleGuard)
+    @Roles('admin_petugas_layanan')
+    @Post('sertifikat')
+    @UseInterceptors(FileInterceptor('file'))
+    uploadSertifikat(
+        @Request() req,
+        @Param('tiketId', ParseIntPipe) tiketId: number,
+        @UploadedFile() file: Express.Multer.File,
+    ) {
+        return this.dokumenService.uploadSertifikat(req.user.userId, tiketId, file);
+    }
+
+    @UseGuards(RoleGuard)
+    @Roles('admin_petugas_layanan')
+    @Post('surat-penerimaan')
+    @UseInterceptors(FileInterceptor('file'))
+    uploadSuratPenerimaan(
+        @Request() req,
+        @Param('tiketId', ParseIntPipe) tiketId: number,
+        @UploadedFile() file: Express.Multer.File,
+    ) {
+        return this.dokumenService.uploadSuratPenerimaan(req.user.userId, tiketId, file);
+    }
+
+    @UseGuards(RoleGuard)
+    @Roles('admin_petugas_layanan')
+    @Post('berita-acara')
+    @UseInterceptors(FileInterceptor('file'))
+    uploadBeritaAcara(
+        @Request() req,
+        @Param('tiketId', ParseIntPipe) tiketId: number,
+        @UploadedFile() file: Express.Multer.File,
+    ) {
+        return this.dokumenService.uploadBeritaAcara(req.user.userId, tiketId, file);
+    }
+
+    @Delete(':dokumenId')
+    deleteDokumen(
+        @Request() req,
+        @Param('tiketId', ParseIntPipe) tiketId: number,
+        @Param('dokumenId', ParseIntPipe) dokumenId: number,
+    ) {
+        return this.dokumenService.deleteDokumen(req.user.userId, req.user.role, tiketId, dokumenId);
     }
 }

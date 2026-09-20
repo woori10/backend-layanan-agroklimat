@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsInt, MinLength, IsOptional } from 'class-validator';
+import { IsEmail, IsString, IsInt, MinLength, IsOptional, Matches } from 'class-validator';
 
 export class RegisterDto {
     @IsEmail()
@@ -34,3 +34,36 @@ export class LoginPegawaiDto {
     @IsString()
     password: string;
 }
+
+export class ForgotPasswordDto {
+    @IsEmail()
+    email: string;
+}
+
+export class ResetPasswordDto {
+    @IsString()
+    token: string;
+
+    @IsString()
+    @MinLength(6)
+    password: string;
+
+    @IsString()
+    @MinLength(6)
+    confirmPassword: string;
+}
+
+export class VerifyCurrentPasswordDto {
+    @IsString()
+    password: string;
+}
+
+export class ChangePasswordDto {
+    @IsString()
+    @MinLength(6)
+    newPassword: string;
+
+    @IsString()
+    @MinLength(6)
+    confirmPassword: string;
+}

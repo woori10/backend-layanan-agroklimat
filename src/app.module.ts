@@ -10,13 +10,17 @@ import { TiketModule } from './tiket/tiket.module';
 import { DokumenModule } from './dokumen/dokumen.module';
 import { PengaduanModule } from './pengaduan/pengaduan.module';
 import { AlatModule } from './alat/alat.module';
+import { AuditLogModule } from './audit-log/audit-log.module';
+import { MailModule } from './mail/mail.module';
+import { FaqModule } from './faq/faq.module';
+import { NotifikasiModule } from './notifikasi/notifikasi.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    AuthModule, PrismaModule, UsersModule, LayananModule, TiketModule, DokumenModule, PengaduanModule, AlatModule],
+    AuthModule, PrismaModule, UsersModule, LayananModule, TiketModule, DokumenModule, PengaduanModule, AlatModule, AuditLogModule, MailModule, FaqModule, NotifikasiModule],
   controllers: [AppController],
   providers: [AppService],
 })
