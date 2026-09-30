@@ -32,6 +32,7 @@ export class DokumenController {
         @Body('bank_pengirim') bankPengirim?: string,
         @Body('nama_pengirim') namaPengirim?: string,
         @Body('tanggal_transfer') tanggalTransfer?: string,
+        @Body('ntpn') ntpn?: string,
     ) {
         return this.dokumenService.uploadDokumen(
             req.user.userId,
@@ -41,6 +42,7 @@ export class DokumenController {
             bankPengirim,
             namaPengirim,
             tanggalTransfer,
+            ntpn,
         );
     }
 

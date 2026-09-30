@@ -26,6 +26,7 @@ enum StatusTiket {
   menunggu_verifikasi
   menunggu_persetujuan_kepala_balai
   perlu_revisi
+  menunggu_ebilling
   menunggu_pembayaran
   diproses
   dipinjam
@@ -51,8 +52,10 @@ model User {
   id             Int         @id @default(autoincrement())
   email          String?     @unique
   password       String
+  initial_password String?
   nama           String
   nip            String?     @unique
+  username       String?     @unique
   no_hp          String?
   role           Role        @default(publik)
   status_akun    StatusAkun  @default(active)
@@ -73,6 +76,8 @@ model User {
   auditLogs         AuditLog[]
   passwordHistories PasswordHistory[]
 
+  @@index([role])
+  @@index([createdAt])
   @@map("users")
 }
 
@@ -138,6 +143,9 @@ model Tiket {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([status])
+  @@index([createdAt])
+  @@index([unit_teknis_id, status])
   @@map("tiket")
 }
 
@@ -158,6 +166,8 @@ model Tagihan {
   tiket_id         Int         @unique
   tiket            Tiket       @relation(fields: [tiket_id], references: [id])
   jumlah           Int
+  kode_ebilling    String?
+  ntpn             String?
   status_bayar     StatusBayar @default(menunggu)
   bukti_bayar      String?
   tanggal_lunas    DateTime?

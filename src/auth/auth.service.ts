@@ -87,17 +87,18 @@ export class AuthService {
   }
 
   async loginPegawai(dto: LoginPegawaiDto) {
+    const cleanUsername = dto.username.trim().toLowerCase();
     const user = await this.prisma.user.findUnique({
-      where: { nip: dto.nip },
+      where: { username: cleanUsername },
     });
-    if (!user) throw new UnauthorizedException('NIP atau password salah');
+    if (!user) throw new UnauthorizedException('Username atau password salah');
 
     if (user.status_akun === 'inactive') {
       throw new UnauthorizedException('Akun Anda dinonaktifkan. Silakan hubungi Super Admin.');
     }
 
     const isPasswordValid = await bcrypt.compare(dto.password, user.password);
-    if (!isPasswordValid) throw new UnauthorizedException('NIP atau password salah');
+    if (!isPasswordValid) throw new UnauthorizedException('Username atau password salah');
 
     return this.buildLoginResponse(user);
   }
@@ -105,7 +106,8 @@ export class AuthService {
   private buildLoginResponse(user: {
     id: number;
     email: string | null;
-    nip: string | null;
+    username?: string | null;
+    nip?: string | null;
     role: string;
     nama: string;
     unit_teknis_id?: number | null;
@@ -113,6 +115,7 @@ export class AuthService {
     const payload = {
       sub: user.id,
       email: user.email,
+      username: user.username,
       nip: user.nip,
       role: user.role,
       nama: user.nama,
@@ -133,6 +136,7 @@ export class AuthService {
       select: {
         id: true,
         nama: true,
+        username: true,
         email: true,
         nip: true,
         no_hp: true,
@@ -176,6 +180,7 @@ export class AuthService {
       user: {
         id: updated.id,
         nama: updated.nama,
+        username: updated.username,
         email: updated.email,
         nip: updated.nip,
         no_hp: updated.no_hp,

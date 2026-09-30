@@ -45,6 +45,16 @@ export class UsersController {
         return this.usersService.updateStatus(id, status_akun);
     }
 
+    @Get(':id/credential')
+    getCredential(@Param('id', ParseIntPipe) id: number) {
+        return this.usersService.getCredential(id);
+    }
+
+    @Post(':id/generate-credential')
+    generateCredential(@Param('id', ParseIntPipe) id: number) {
+        return this.usersService.generateCredential(id);
+    }
+
     @Delete(':id')
     remove(@Param('id', ParseIntPipe) id: number) {
         return this.usersService.remove(id);

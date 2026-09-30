@@ -3,17 +3,34 @@ import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { generatePasswordFromName } from '../common/utils/password-generator';
+import { generatePasswordFromRole, generateUsernameFromName } from '../common/utils/password-generator';
 
 @Injectable()
 export class UsersService {
     constructor(private prisma: PrismaService) { }
 
     async create(dto: CreateUserDto) {
-        const existingNip = await this.prisma.user.findUnique({
-            where: { nip: dto.nip },
+        const cleanUsername = dto.username?.trim()
+            ? dto.username.trim().toLowerCase()
+            : generateUsernameFromName(dto.nama || '');
+
+        if (!cleanUsername) {
+            throw new BadRequestException('Username wajib diisi');
+        }
+
+        const existingUsername = await this.prisma.user.findUnique({
+            where: { username: cleanUsername },
         });
-        if (existingNip) throw new ConflictException('NIP sudah terdaftar');
+        if (existingUsername) {
+            throw new ConflictException(`Username "${cleanUsername}" sudah digunakan`);
+        }
+
+        if (dto.nip?.trim()) {
+            const existingNip = await this.prisma.user.findUnique({
+                where: { nip: dto.nip.trim() },
+            });
+            if (existingNip) throw new ConflictException('NIP sudah terdaftar');
+        }
 
         if ((dto.role === 'pegawai') && !dto.unit_teknis_id) {
             throw new BadRequestException('Unit teknis wajib diisi untuk role pegawai');
@@ -36,27 +53,88 @@ export class UsersService {
             if (conflictEmail) throw new ConflictException('Email sudah digunakan oleh user lain');
         }
 
-        const plainPassword = dto.nip;
+        const plainPassword = generatePasswordFromRole(dto.role);
         const hashedPassword = await bcrypt.hash(plainPassword, 10);
+        const finalNama = dto.nama?.trim() || cleanUsername;
 
         const user = await this.prisma.user.create({
             data: {
-                nama: dto.nama,
-                nip: dto.nip,
+                nama: finalNama,
+                username: cleanUsername,
+                nip: dto.nip?.trim() ? dto.nip.trim() : null,
                 email: cleanEmail,
                 no_hp: cleanNoHp,
                 role: dto.role,
                 password: hashedPassword,
+                initial_password: plainPassword,
                 unit_teknis_id:
                     dto.role === 'pegawai' ? dto.unit_teknis_id : null,
             },
+            include: {
+                unit_teknis: true,
+            },
         });
 
-        // Password asli cuma ditampilkan sekali di sini, gak pernah disimpan plain di DB
         return {
             ...user,
             password: undefined,
             generated_password: plainPassword,
+        };
+    }
+
+    async getCredential(id: number) {
+        const user = await this.prisma.user.findUnique({
+            where: { id },
+            include: { unit_teknis: true },
+        });
+        if (!user) throw new NotFoundException('User tidak ditemukan');
+
+        let initialPassword = user.initial_password;
+        if (!initialPassword) {
+            initialPassword = generatePasswordFromRole(user.role);
+            const hashedPassword = await bcrypt.hash(initialPassword, 10);
+            await this.prisma.user.update({
+                where: { id },
+                data: { initial_password: initialPassword, password: hashedPassword },
+            });
+        }
+
+        return {
+            id: user.id,
+            nama: user.nama,
+            username: user.username || user.nama,
+            role: user.role,
+            unit_teknis: user.unit_teknis ? user.unit_teknis.nama : null,
+            password: initialPassword,
+        };
+    }
+
+    async generateCredential(id: number) {
+        const user = await this.prisma.user.findUnique({
+            where: { id },
+            include: { unit_teknis: true },
+        });
+        if (!user) throw new NotFoundException('User tidak ditemukan');
+
+        const plainPassword = generatePasswordFromRole(user.role);
+        const hashedPassword = await bcrypt.hash(plainPassword, 10);
+
+        const updated = await this.prisma.user.update({
+            where: { id },
+            data: {
+                password: hashedPassword,
+                initial_password: plainPassword,
+            },
+            include: { unit_teknis: true },
+        });
+
+        return {
+            id: updated.id,
+            nama: updated.nama,
+            username: updated.username || updated.nama,
+            role: updated.role,
+            unit_teknis: updated.unit_teknis ? updated.unit_teknis.nama : null,
+            password: plainPassword,
         };
     }
 
@@ -77,6 +155,7 @@ export class UsersService {
             select: {
                 id: true,
                 nama: true,
+                username: true,
                 nip: true,
                 email: true,
                 no_hp: true,
@@ -87,6 +166,9 @@ export class UsersService {
                 unit_teknis: true,
                 createdAt: true,
             },
+            orderBy: {
+                id: 'desc',
+            },
         });
     }
 
@@ -96,6 +178,7 @@ export class UsersService {
             select: {
                 id: true,
                 nama: true,
+                username: true,
                 nip: true,
                 email: true,
                 no_hp: true,
@@ -114,6 +197,19 @@ export class UsersService {
 
     async update(id: number, dto: UpdateUserDto) {
         const existing = await this.findOne(id);
+
+        let cleanUsername: string | null | undefined = undefined;
+        if (dto.username !== undefined) {
+            cleanUsername = dto.username?.trim() ? dto.username.trim().toLowerCase() : null;
+            if (cleanUsername && cleanUsername !== existing.username) {
+                const conflictUsername = await this.prisma.user.findUnique({
+                    where: { username: cleanUsername },
+                });
+                if (conflictUsername && conflictUsername.id !== id) {
+                    throw new ConflictException(`Username "${cleanUsername}" sudah digunakan oleh user lain`);
+                }
+            }
+        }
 
         if (dto.nip && dto.nip !== existing.nip) {
             const conflictNip = await this.prisma.user.findUnique({
@@ -150,17 +246,22 @@ export class UsersService {
             finalUnitTeknisId = null;
         }
 
+        const finalNama = dto.nama !== undefined
+            ? (dto.nama.trim() || cleanUsername || existing.nama)
+            : (cleanUsername && existing.nama === existing.username ? cleanUsername : undefined);
+
         return this.prisma.user.update({
             where: { id },
             data: {
                 ...dto,
+                ...(finalNama !== undefined ? { nama: finalNama } : {}),
+                ...(cleanUsername !== undefined ? { username: cleanUsername } : {}),
                 ...(cleanEmail !== undefined ? { email: cleanEmail } : {}),
                 ...(cleanNoHp !== undefined ? { no_hp: cleanNoHp } : {}),
                 unit_teknis_id: finalUnitTeknisId,
             },
         });
     }
-
 
     async remove(id: number) {
         const user = await this.prisma.user.findUnique({
@@ -225,6 +326,7 @@ export class UsersService {
             select: {
                 id: true,
                 nama: true,
+                username: true,
                 nip: true,
                 email: true,
                 no_hp: true,

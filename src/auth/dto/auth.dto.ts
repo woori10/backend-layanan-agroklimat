@@ -29,7 +29,7 @@ export class LoginDto {
 
 export class LoginPegawaiDto {
     @IsString()
-    nip: string;
+    username: string;
 
     @IsString()
     password: string;

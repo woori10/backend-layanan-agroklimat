@@ -35,6 +35,7 @@ async function main() {
         await prisma.user.create({
             data: {
                 email: 'superadmin@agroklimat.go.id',
+                username: 'super_admin',
                 nip: '2005031020050310',
                 password: hashedPassword,
                 nama: 'Super Admin',
@@ -49,11 +50,12 @@ async function main() {
         await prisma.user.update({
             where: { email: 'superadmin@agroklimat.go.id' },
             data: {
+                username: 'super_admin',
                 nip: '2005031020050310',
                 password: hashedPassword,
             },
         });
-        console.log('Super admin sudah ada, NIP diperbarui');
+        console.log('Super admin sudah ada, NIP & Username diperbarui');
     }
 }
 

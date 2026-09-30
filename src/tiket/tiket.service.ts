@@ -6,6 +6,7 @@ import { validateJawabanForm } from '../common/utils/form-validator';
 import { VerifikasiTiketDto, AksiVerifikasi } from './dto/verifikasi-tiket.dto';
 import { SubmitUlangTiketDto } from './dto/submit-ulang-tiket.dto';
 import { ProsesTiketDto } from './dto/proses-tiket.dto';
+import { TerbitkanEbillingDto } from './dto/terbitkan-ebilling.dto';
 import { MailService } from '../mail/mail.service';
 import { NotifikasiService } from '../notifikasi/notifikasi.service';
 
@@ -280,11 +281,12 @@ export class TiketService {
         const isPeminjamanAlat = tiket.layanan?.slug === 'peminjaman-alat';
 
         if (isPeminjamanAlat) {
-            // Khusus peminjaman alat: diverifikasi status langsung berubah menjadi diproses
+            // Khusus peminjaman alat: diverifikasi status berubah menjadi menunggu_ebilling
+            // Tagihan disiapkan, namun belum diterbitkan ke user hingga admin memasukkan kode e-billing di menu tagihan.
             const updated = await this.prisma.tiket.update({
                 where: { id: tiketId },
                 data: {
-                    status: 'diproses',
+                    status: 'menunggu_ebilling',
                     unit_teknis_id: dto.unit_teknis_id,
                 },
             });
@@ -309,8 +311,8 @@ export class TiketService {
                 data: {
                     user_id: adminUserId,
                     tiket_id: tiketId,
-                    aksi: 'diproses',
-                    detail_perubahan: `Disetujui Admin, status berubah menjadi diproses (Unit Teknis: ${unitTeknis.nama})`,
+                    aksi: 'menunggu_ebilling',
+                    detail_perubahan: `Disetujui Admin, status berubah menjadi Menunggu Kode E-Billing (Unit Teknis: ${unitTeknis.nama})`,
                 },
             });
 
@@ -322,27 +324,14 @@ export class TiketService {
             this.notifikasiService.create({
                 userId: tiket.user_id,
                 tiketId: tiket.id,
-                judul: 'Permohonan Disetujui & Diproses',
-                pesan: `Permohonan ${tiket.layanan.nama_layanan} (${tiket.no_tiket}) telah diverifikasi dan sedang diproses oleh ${unitTeknis.nama}.`,
+                judul: 'Permohonan Diverifikasi Admin',
+                pesan: `Permohonan ${tiket.layanan.nama_layanan} (${tiket.no_tiket}) telah diverifikasi. Tagihan pembayaran e-billing sedang dipersiapkan oleh admin.`,
             }).catch(() => {});
 
             if (userSetuju?.email) {
                 this.mailService
-                    .sendTiketDisetujuiEmail(userSetuju.email, userSetuju.nama, tiket.no_tiket, tiket.layanan.nama_layanan, 'diproses', clientUrl)
+                    .sendTiketDisetujuiEmail(userSetuju.email, userSetuju.nama, tiket.no_tiket, tiket.layanan.nama_layanan, 'menunggu_ebilling', clientUrl)
                     .catch((err) => this.logger.warn(`Gagal kirim email disetujui tiket ${tiket.no_tiket}: ${err.message}`));
-            }
-
-            if (dto.unit_teknis_id) {
-                this.notifyPegawaiDisposisi(
-                    dto.unit_teknis_id,
-                    tiket.layanan.slug,
-                    tiket.no_tiket,
-                    userSetuju?.nama || 'Pengguna',
-                    tiket.layanan.nama_layanan,
-                    unitTeknis.nama,
-                    clientUrl,
-                    tiket.id,
-                ).catch((err) => this.logger.warn(`Gagal notifikasi pegawai tiket ${tiket.no_tiket}: ${err.message}`));
             }
 
             return updated;
@@ -696,6 +685,86 @@ export class TiketService {
             include: { layanan: true, user: true, unit_teknis: true, dokumen: true },
             orderBy: { createdAt: 'desc' },
         });
+    }
+
+    async terbitkanEbilling(
+        adminUserId: number,
+        tiketId: number,
+        dto: TerbitkanEbillingDto,
+        clientUrl?: string,
+    ) {
+        const tiket = await this.prisma.tiket.findUnique({
+            where: { id: tiketId },
+            include: { layanan: true, user: true, unit_teknis: true, tagihan: true },
+        });
+        if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
+
+        const kodeEbilling = dto.kode_ebilling?.trim();
+        if (!kodeEbilling) {
+            throw new BadRequestException('Kode e-billing wajib diisi');
+        }
+
+        // Boleh menerbitkan jika status menunggu_ebilling atau menunggu_pembayaran (misal koreksi kode)
+        if (tiket.status !== 'menunggu_ebilling' && tiket.status !== 'menunggu_pembayaran') {
+            throw new BadRequestException('Tiket tidak dalam status yang dapat menerbitkan e-billing');
+        }
+
+        let tagihan = tiket.tagihan;
+        if (tagihan) {
+            tagihan = await this.prisma.tagihan.update({
+                where: { id: tagihan.id },
+                data: { kode_ebilling: kodeEbilling },
+            });
+        } else {
+            const jForm: any = tiket.jawaban_form || {};
+            const nominal = Number(jForm.total_estimasi) || 0;
+            tagihan = await this.prisma.tagihan.create({
+                data: {
+                    tiket_id: tiketId,
+                    jumlah: nominal,
+                    status_bayar: 'menunggu',
+                    kode_ebilling: kodeEbilling,
+                },
+            });
+        }
+
+        const updated = await this.prisma.tiket.update({
+            where: { id: tiketId },
+            data: { status: 'menunggu_pembayaran' },
+        });
+
+        await this.prisma.auditLog.create({
+            data: {
+                user_id: adminUserId,
+                tiket_id: tiketId,
+                aksi: 'menunggu_pembayaran',
+                detail_perubahan: `Admin menerbitkan tagihan dengan Kode E-Billing: ${kodeEbilling}`,
+            },
+        });
+
+        // Notifikasi ke pemohon bahwa tagihan telah diterbitkan
+        this.notifikasiService.create({
+            userId: tiket.user_id,
+            tiketId: tiket.id,
+            judul: 'Tagihan Pembayaran Diterbitkan',
+            pesan: `Tagihan permohonan ${tiket.layanan.nama_layanan} (${tiket.no_tiket}) sebesar Rp ${tagihan.jumlah.toLocaleString('id-ID')} telah diterbitkan dengan Kode E-Billing ${kodeEbilling}. Silakan lakukan pembayaran.`,
+        }).catch(() => {});
+
+        // Kirim email notifikasi ke pemohon
+        if (tiket.user?.email) {
+            this.mailService
+                .sendTiketDisetujuiEmail(
+                    tiket.user.email,
+                    tiket.user.nama,
+                    tiket.no_tiket,
+                    tiket.layanan.nama_layanan,
+                    'menunggu_pembayaran',
+                    clientUrl,
+                )
+                .catch((err) => this.logger.warn(`Gagal kirim email tagihan ${tiket.no_tiket}: ${err.message}`));
+        }
+
+        return { tiket: updated, tagihan };
     }
 
     async konfirmasiPembayaran(userId: number, tiketId: number) {

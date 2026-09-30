@@ -12,7 +12,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
             user: dbUrl.username,
             password: decodeURIComponent(dbUrl.password),
             database: dbUrl.pathname.replace(/^\//, ''),
-            connectionLimit: 5,
+            connectionLimit: 25,
         });
         super({ adapter });
     }

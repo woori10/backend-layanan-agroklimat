@@ -17,6 +17,7 @@ export class DokumenService {
         bankPengirim?: string,
         namaPengirim?: string,
         tanggalTransfer?: string,
+        ntpn?: string,
     ) {
         if (!file) throw new BadRequestException('File tidak ditemukan');
 
@@ -39,6 +40,7 @@ export class DokumenService {
                     bank_pengirim: bankPengirim || null,
                     nama_pengirim: namaPengirim || null,
                     tanggal_transfer: tanggalTransfer ? new Date(tanggalTransfer) : null,
+                    ntpn: ntpn || null,
                 },
             });
         }

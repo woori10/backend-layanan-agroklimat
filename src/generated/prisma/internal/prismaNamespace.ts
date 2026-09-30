@@ -1250,8 +1250,10 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
+  initial_password: 'initial_password',
   nama: 'nama',
   nip: 'nip',
+  username: 'username',
   no_hp: 'no_hp',
   role: 'role',
   status_akun: 'status_akun',
@@ -1339,6 +1341,8 @@ export const TagihanScalarFieldEnum = {
   id: 'id',
   tiket_id: 'tiket_id',
   jumlah: 'jumlah',
+  kode_ebilling: 'kode_ebilling',
+  ntpn: 'ntpn',
   status_bayar: 'status_bayar',
   bukti_bayar: 'bukti_bayar',
   tanggal_lunas: 'tanggal_lunas',
@@ -1459,8 +1463,10 @@ export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 export const UserOrderByRelevanceFieldEnum = {
   email: 'email',
   password: 'password',
+  initial_password: 'initial_password',
   nama: 'nama',
   nip: 'nip',
+  username: 'username',
   no_hp: 'no_hp',
   instansi: 'instansi',
   alamat: 'alamat',
@@ -1527,6 +1533,8 @@ export type DokumenOrderByRelevanceFieldEnum = (typeof DokumenOrderByRelevanceFi
 
 
 export const TagihanOrderByRelevanceFieldEnum = {
+  kode_ebilling: 'kode_ebilling',
+  ntpn: 'ntpn',
   bukti_bayar: 'bukti_bayar',
   bank_pengirim: 'bank_pengirim',
   nama_pengirim: 'nama_pengirim'

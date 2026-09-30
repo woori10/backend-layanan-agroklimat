@@ -3,10 +3,15 @@ import { Role } from '../../generated/prisma/client';
 
 export class CreateUserDto {
     @IsString()
-    nama: string;
+    username: string;
 
+    @IsOptional()
     @IsString()
-    nip: string;
+    nama?: string;
+
+    @IsOptional()
+    @IsString()
+    nip?: string;
 
     @IsOptional()
     @IsEmail({}, { message: 'Format email tidak valid' })

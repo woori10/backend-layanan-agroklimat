@@ -165,6 +165,11 @@ export function renderTiketDisetujuiEmail(
             warna: '#3b82f6',
             pesan: 'Pengajuan Anda telah disetujui dan sedang dalam proses pengerjaan oleh tim kami.',
         },
+        menunggu_ebilling: {
+            label: 'Menunggu Kode E-Billing',
+            warna: '#f59e0b',
+            pesan: 'Pengajuan Anda telah diverifikasi oleh Admin. Tagihan dengan kode e-billing sedang dipersiapkan dan akan segera diterbitkan.',
+        },
         menunggu_pembayaran: {
             label: 'Menunggu Pembayaran',
             warna: '#f59e0b',

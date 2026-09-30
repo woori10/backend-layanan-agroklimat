@@ -33,6 +33,7 @@ export const StatusTiket = {
   menunggu_verifikasi: 'menunggu_verifikasi',
   menunggu_persetujuan_kepala_balai: 'menunggu_persetujuan_kepala_balai',
   perlu_revisi: 'perlu_revisi',
+  menunggu_ebilling: 'menunggu_ebilling',
   menunggu_pembayaran: 'menunggu_pembayaran',
   diproses: 'diproses',
   dipinjam: 'dipinjam',

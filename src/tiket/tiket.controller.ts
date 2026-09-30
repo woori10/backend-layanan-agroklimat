@@ -10,6 +10,7 @@ import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { RoleGuard } from '../auth/guard/role.guard';
 import { Roles } from '../auth/decorators/role.decorators';
 import { ProsesTiketDto } from './dto/proses-tiket.dto';
+import { TerbitkanEbillingDto } from './dto/terbitkan-ebilling.dto';
 
 function extractClientUrl(req: any): string | undefined {
     if (req.headers?.origin && req.headers.origin !== 'null') {
@@ -145,6 +146,17 @@ export class TiketController {
     @Patch(':id/selesai')
     selesaiProses(@Request() req, @Param('id', ParseIntPipe) id: number) {
         return this.tiketService.selesaiProses(req.user.userId, id, extractClientUrl(req));
+    }
+
+    @UseGuards(RoleGuard)
+    @Roles('admin', 'admin_petugas_layanan')
+    @Patch(':id/terbitkan-ebilling')
+    terbitkanEbilling(
+        @Request() req,
+        @Param('id', ParseIntPipe) id: number,
+        @Body() dto: TerbitkanEbillingDto,
+    ) {
+        return this.tiketService.terbitkanEbilling(req.user.userId, id, dto, extractClientUrl(req));
     }
 
     @UseGuards(RoleGuard)
