@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { GoogleDriveUploadService } from '../common/services/google-drive-upload.service';
+import * as path from 'path';
 
 @Injectable()
 export class DokumenService {
@@ -8,6 +9,32 @@ export class DokumenService {
         private prisma: PrismaService,
         private googleDriveUpload: GoogleDriveUploadService,
     ) { }
+
+    private formatKeteranganDokumen(tipe: string): string {
+        const mapping: Record<string, string> = {
+            surat_pengantar: 'Surat Pengantar',
+            proposal: 'Proposal',
+            bukti_pembayaran: 'Bukti Pembayaran',
+            'Bukti Pembayaran': 'Bukti Pembayaran',
+            'Laporan Hasil': 'Laporan Hasil',
+            laporan_hasil: 'Laporan Hasil',
+            'Sertifikat': 'Sertifikat',
+            sertifikat: 'Sertifikat',
+            'Surat Penerimaan': 'Surat Penerimaan',
+            surat_penerimaan: 'Surat Penerimaan',
+            'Berita Acara': 'Berita Acara',
+            berita_acara: 'Berita Acara',
+        };
+
+        if (mapping[tipe]) {
+            return mapping[tipe];
+        }
+
+        return tipe
+            .replace(/[_-]/g, ' ')
+            .replace(/\b\w/g, (char) => char.toUpperCase())
+            .trim();
+    }
 
     async uploadDokumen(
         userId: number,
@@ -26,11 +53,22 @@ export class DokumenService {
             throw new BadRequestException('Tipe file harus PDF, JPG, atau PNG');
         }
 
-        const tiket = await this.prisma.tiket.findUnique({ where: { id: tiketId } });
+        const tiket = await this.prisma.tiket.findUnique({
+            where: { id: tiketId },
+            include: { layanan: true },
+        });
         if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
         if (tiket.user_id !== userId) throw new ForbiddenException('Bukan tiket milik Anda');
 
-        const url = await this.googleDriveUpload.uploadFile(file);
+        const ext = path.extname(file.originalname) || '';
+        const keterangan = this.formatKeteranganDokumen(tipe);
+        const customFileName = `${tiket.no_tiket}_${keterangan}${ext}`;
+
+        const url = await this.googleDriveUpload.uploadFile(file, {
+            customFileName,
+            folderName: tiket.layanan?.nama_layanan,
+            slug: tiket.layanan?.slug,
+        });
 
         if (tipe === 'Bukti Pembayaran') {
             await this.prisma.tagihan.updateMany({
@@ -48,7 +86,7 @@ export class DokumenService {
         return this.prisma.dokumen.create({
             data: {
                 tiket_id: tiketId,
-                nama_file: file.originalname,
+                nama_file: customFileName,
                 tipe,
                 url_storage: url,
             },
@@ -77,18 +115,28 @@ export class DokumenService {
 
         const staff = await this.prisma.user.findUnique({ where: { id: staffUserId } });
         if (!staff) throw new NotFoundException('User tidak ditemukan');
-        const tiket = await this.prisma.tiket.findUnique({ where: { id: tiketId } });
+        const tiket = await this.prisma.tiket.findUnique({
+            where: { id: tiketId },
+            include: { layanan: true },
+        });
         if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
         if (tiket.unit_teknis_id !== staff.unit_teknis_id) {
             throw new ForbiddenException('Tiket ini bukan milik unit teknis Anda');
         }
 
-        const url = await this.googleDriveUpload.uploadFile(file);
+        const ext = path.extname(file.originalname) || '';
+        const customFileName = `${tiket.no_tiket}_Laporan Hasil${ext}`;
+
+        const url = await this.googleDriveUpload.uploadFile(file, {
+            customFileName,
+            folderName: tiket.layanan?.nama_layanan,
+            slug: tiket.layanan?.slug,
+        });
 
         return this.prisma.dokumen.create({
             data: {
                 tiket_id: tiketId,
-                nama_file: file.originalname,
+                nama_file: customFileName,
                 tipe: 'Laporan Hasil',
                 url_storage: url,
             },
@@ -109,18 +157,28 @@ export class DokumenService {
 
         const staff = await this.prisma.user.findUnique({ where: { id: staffUserId } });
         if (!staff) throw new NotFoundException('User tidak ditemukan');
-        const tiket = await this.prisma.tiket.findUnique({ where: { id: tiketId } });
+        const tiket = await this.prisma.tiket.findUnique({
+            where: { id: tiketId },
+            include: { layanan: true },
+        });
         if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
         if (tiket.unit_teknis_id !== staff.unit_teknis_id) {
             throw new ForbiddenException('Tiket ini bukan milik unit teknis Anda');
         }
 
-        const url = await this.googleDriveUpload.uploadFile(file);
+        const ext = path.extname(file.originalname) || '';
+        const customFileName = `${tiket.no_tiket}_Sertifikat${ext}`;
+
+        const url = await this.googleDriveUpload.uploadFile(file, {
+            customFileName,
+            folderName: tiket.layanan?.nama_layanan,
+            slug: tiket.layanan?.slug,
+        });
 
         return this.prisma.dokumen.create({
             data: {
                 tiket_id: tiketId,
-                nama_file: file.originalname,
+                nama_file: customFileName,
                 tipe: 'Sertifikat',
                 url_storage: url,
             },
@@ -141,18 +199,28 @@ export class DokumenService {
 
         const staff = await this.prisma.user.findUnique({ where: { id: staffUserId } });
         if (!staff) throw new NotFoundException('User tidak ditemukan');
-        const tiket = await this.prisma.tiket.findUnique({ where: { id: tiketId } });
+        const tiket = await this.prisma.tiket.findUnique({
+            where: { id: tiketId },
+            include: { layanan: true },
+        });
         if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
         if (tiket.unit_teknis_id !== staff.unit_teknis_id) {
             throw new ForbiddenException('Tiket ini bukan milik unit teknis Anda');
         }
 
-        const url = await this.googleDriveUpload.uploadFile(file);
+        const ext = path.extname(file.originalname) || '';
+        const customFileName = `${tiket.no_tiket}_Surat Penerimaan${ext}`;
+
+        const url = await this.googleDriveUpload.uploadFile(file, {
+            customFileName,
+            folderName: tiket.layanan?.nama_layanan,
+            slug: tiket.layanan?.slug,
+        });
 
         return this.prisma.dokumen.create({
             data: {
                 tiket_id: tiketId,
-                nama_file: file.originalname,
+                nama_file: customFileName,
                 tipe: 'Surat Penerimaan',
                 url_storage: url,
             },
@@ -182,12 +250,19 @@ export class DokumenService {
             throw new ForbiddenException('Tiket ini bukan milik unit teknis Anda');
         }
 
-        const url = await this.googleDriveUpload.uploadFile(file);
+        const ext = path.extname(file.originalname) || '';
+        const customFileName = `${tiket.no_tiket}_Berita Acara${ext}`;
+
+        const url = await this.googleDriveUpload.uploadFile(file, {
+            customFileName,
+            folderName: tiket.layanan?.nama_layanan,
+            slug: tiket.layanan?.slug,
+        });
 
         const doc = await this.prisma.dokumen.create({
             data: {
                 tiket_id: tiketId,
-                nama_file: file.originalname,
+                nama_file: customFileName,
                 tipe: 'Berita Acara',
                 url_storage: url,
             },
